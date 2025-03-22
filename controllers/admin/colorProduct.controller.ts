@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { colorProductService } from "../../services/admin/index.service";
 
-
 const index = async (req: Request, res: Response) => {
   const listColor = await colorProductService.get(req.query);
 
