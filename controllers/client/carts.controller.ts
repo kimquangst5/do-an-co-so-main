@@ -6,7 +6,7 @@ import ProductItem from "../../models/product-items.model";
 import { ObjectId } from "mongodb";
 import Cart from "../../models/carts.model";
 import ColorProduct from "../../models/colorProduct.model";
-import SizeProduct from "../../models/sizeProduct.model";
+import SizeProduct from "../../models/sizeProduct.model.ts";
 
 const index = async (req: Request, res: Response) => {
   const carts = await Cart.find({

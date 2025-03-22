@@ -11,7 +11,7 @@ import {
 import { ObjectId } from "mongodb";
 import Product from "../../models/products.model";
 import ColorProduct from "../../models/colorProduct.model";
-import SizeProduct from "../../models/sizeProduct.model";
+import SizeProduct from "../../models/sizeProduct.model.ts";
 import ProductCategory from "../../models/productsCategories.model";
 import createTree from "../../helpers/createTree.helper";
 import ProductAssets from "../../models/productAssets.model";
