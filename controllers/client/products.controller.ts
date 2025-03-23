@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Product from "../../models/products.model";
 import ColorProduct from "../../models/colorProduct.model";
 import ProductItem from "../../models/product-items.model";
-import SizeProduct from "../../models/sizeProduct.model.ts";
+import SizeProduct from "../../models/sizeProduct.model";
 import { ObjectId } from "mongodb";
 import ProductAssets from "../../models/productAssets.model";
 import Assets from "../../models/assets.model";

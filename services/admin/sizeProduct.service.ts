@@ -1,5 +1,5 @@
 import ColorProduct from "../../models/colorProduct.model";
-import SizeProduct from "../../models/sizeProduct.model.ts";
+import SizeProduct from "../../models/sizeProduct.model";
 
 const get = async (data: any) => {
   const listSize = await SizeProduct.find(data);

@@ -6,7 +6,7 @@ import ProductItem from "../../models/product-items.model";
 import { ObjectId } from "mongodb";
 import Cart from "../../models/carts.model";
 import ColorProduct from "../../models/colorProduct.model";
-import SizeProduct from "../../models/sizeProduct.model.ts";
+import SizeProduct from "../../models/sizeProduct.model";
 import Order from "../../models/order.model";
 import { it } from "node:test";
 import ROUTERS from "../../constants/routes/index.routes";

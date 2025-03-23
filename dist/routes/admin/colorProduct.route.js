@@ -35,6 +35,7 @@ var __importStar = (this && this.__importStar) || (function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
@@ -42,6 +43,6 @@ const controller = __importStar(require("../../controllers/admin/colorProduct.co
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const router = express_1.default.Router();
 const upload = (0, multer_1.default)();
-router.get(`${index_routes_1.default.ADMIN.COLOR_PRODUCT.INDEX}`, controller.index);
-router.patch(`${index_routes_1.default.ADMIN.COLOR_PRODUCT.UPDATE}`, controller.update);
+router.get(`${(_a = index_routes_1.default.ADMIN.COLOR_PRODUCT) === null || _a === void 0 ? void 0 : _a.INDEX}`, controller.index);
+router.patch(`${(_b = index_routes_1.default.ADMIN.COLOR_PRODUCT) === null || _b === void 0 ? void 0 : _b.UPDATE}`, controller.update);
 exports.default = router;
