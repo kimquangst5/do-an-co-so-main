@@ -62,12 +62,16 @@ block main
                +btnXemThem(`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.INDEX}`)
 
      - if(products && products.length > 0)
-          div(class="container")
-               sl-animation(name="fadeInDown" easing="ease-in-out" duration="1000" play iterations="1")
-                    div(class="w-fit text-[48px] my-[60px] mx-auto text-center") Sản phẩm phổ biến
-          div(class="container")
-               +carouselHome(productsFeatured)
-               +btnXemThem(encodeURI(`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.INDEX}?sapxep=phobien-true`))
+          div(class="") 
+               div(class="container")
+                    sl-animation(name="fadeInDown" easing="ease-in-out" duration="1000" play iterations="1")
+                         div(class="w-fit text-[48px] my-[60px] mx-auto text-center") Sản phẩm phổ biến
+
+     - if(productsFeatured && productsFeatured.length > 0)     
+          div(class="") 
+               div(class="container")
+                    +carouselHome(productsFeatured)
+                    +btnXemThem(encodeURI(`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.INDEX}?sapxep=phobien-true`))
 
      div(class="container")
           div(class="py-[60px] bg-[#F0F0F0] rounded-[40px]")
