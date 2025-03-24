@@ -3,13 +3,13 @@ import multer from "multer";
 import * as controller from "../../controllers/admin/products.controller";
 import * as uploadCloud from "../../middlewares/admin/uploadCloud.middlewares";
 import Path from "../../models/paths.model";
-// import ROUTERS from "../../constants/routes/index.routes";
+import ROUTERS from "../../constants/routes/index.routes";
 const router = express.Router();
 const upload = multer();
 
 const main = async () => {
-  const paths = await Path.find();
-  const ROUTERS = paths[0];
+  // const paths = await Path.find();
+  // const ROUTERS = paths[0];
   router.get(`${ROUTERS.ADMIN.PRODUCT.INDEX}`, controller.index);
   router.get(`${ROUTERS.ADMIN.PRODUCT.CREATE}`, controller.create);
   router.post(

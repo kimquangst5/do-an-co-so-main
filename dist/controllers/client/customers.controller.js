@@ -317,7 +317,6 @@ const infoCustomerUpdateInforPatch = (req, res) => __awaiter(void 0, void 0, voi
         return `${day}/${month}/${year}`;
     }
     req.body.birthday = convertDateFormat(req.body.birthday);
-    console_1.default.log(req.body.birthday);
     (req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "))),
         yield customers_model_1.default.updateOne({
             _id: res.locals.INFOR_CUSTOMER.id,
@@ -344,7 +343,6 @@ const infoCustomerCreateOtp = (req, res) => __awaiter(void 0, void 0, void 0, fu
         return;
     }
     const email = res.locals.INFOR_CUSTOMER.email;
-    console_1.default.log(email);
     const nodemailer = require("nodemailer");
     const otpGenerator = require("otp-generator");
     const transporter = nodemailer.createTransport({

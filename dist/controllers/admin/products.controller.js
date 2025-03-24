@@ -30,7 +30,6 @@ const createTree_helper_1 = __importDefault(require("../../helpers/createTree.he
 const productAssets_model_1 = __importDefault(require("../../models/productAssets.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const unidecode_1 = __importDefault(require("unidecode"));
-const console_1 = __importDefault(require("console"));
 const accounts_model_1 = __importDefault(require("../../models/accounts.model"));
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c, _d, e_2, _e, _f;
@@ -235,7 +234,6 @@ const getImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }).sort({
             position: "asc",
         });
-        console_1.default.log(productAssets);
         const main = productAssets.filter((it) => it.type == "main");
         const sub = productAssets.filter((it) => it.type == "sub");
         const images_main = [];
@@ -296,7 +294,6 @@ exports.getImage = getImage;
 const updatePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_5, _b, _c;
     if (res.locals.ROLE.permission.includes("products-update")) {
-        console_1.default.log(req.body);
         req.body.updatedBy = res.locals.INFOR_USER.id;
         const productAssets = yield productAssets_model_1.default.find({
             productId: new mongodb_1.ObjectId(req.params.id),
@@ -501,7 +498,6 @@ const trash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.trash = trash;
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console_1.default.log(req.params);
     yield products_model_1.default.deleteOne({
         _id: new mongodb_1.ObjectId(req.params.id),
     });

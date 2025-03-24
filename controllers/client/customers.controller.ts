@@ -363,7 +363,6 @@ const infoCustomerUpdateInforPatch = async (req: Request, res: Response) => {
     return `${day}/${month}/${year}`;
   }
   req.body.birthday = convertDateFormat(req.body.birthday);
-  console.log(req.body.birthday);
   (req.body.fullname = capitalizeWords(
     req.body.fullname.trim().replace(/\s+/g, " ")
   )),
@@ -394,7 +393,6 @@ const infoCustomerCreateOtp = async (req: Request, res: Response) => {
   }
 
   const email = res.locals.INFOR_CUSTOMER.email;
-  console.log(email);
 
   const nodemailer = require("nodemailer");
   const otpGenerator = require("otp-generator");

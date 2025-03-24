@@ -9,13 +9,18 @@ block script
     script(type="module" src="/client/js/productCategory/index.js" async) 
 
 block main
+    div(class="py-[20px]")
+        div(class="container") 
+            sl-breadcrumb
+                sl-breadcrumb-item(href="/" onclick="showLoader()")
+                    sl-icon(slot="prefix" name="house")
+                    | Trang chủ
+                - if(listParentCategory && listParentCategory.length > 0)
+                    each it, index in listParentCategory.reverse()
+                        sl-breadcrumb-item(href=`${ROUTERS.CLIENT.PRODUCT_CATEGORY.PATH}/${it.slug}` onclick="showLoader()")
+                            | #{it.name}
     div
         div(class="container")
-            div(class="flex gap-x-[12px] lg:mt-[20px] mt-[20px]")
-                div(class="flex gap-x-[4px] items-center")
-                    div(class="font-[400] text-[16px] text-[#00000099]") Trang chủ
-                    i(class="fa-solid fa-chevron-right text-[16px]")
-                div(class="font-[400] text-[16px] text-[#000000]") #{category.name}
             div(class="container grid grid-cols-4 flex gap-x-[20px] pt-[26px]")
                 div(class="border border-[1px] rounded-[20px] px-[24px] pt-[20px] lg:hidden")
                     div(class="flex justify-between items-center")
@@ -181,7 +186,7 @@ block main
                     div(class="border-[1px] border-[#0000001A] mt-[33px]")
                     - if(pagination && pagination.totalPage >= 2)
                         div(class="flex items-center justify-between mt-[20px] lg:justify-between")
-                            button(class="flex items-center px-[14px] py-[8px] text-[#000000] border border-[#0000001A] rounded-[8px] gap-x-[8px]" btn-pagination-back)
+                            button(onclick="showLoader()" class="flex items-center px-[14px] py-[8px] text-[#000000] border border-[#0000001A] rounded-[8px] gap-x-[8px]" btn-pagination-back)
                                 i(class="fas fa-arrow-left")
                                 | Trước
                             div(class="flex items-center gap-x-[2px]" pagination)
@@ -192,6 +197,6 @@ block main
                                         button(class="w-10 h-10 flex items-center justify-center font-[400] text-[14px] text-[#000000] rounded-[8px]" trang = i) #{i}
                                 //- span(class="w-10 h-10 flex items-center justify-center bg-[#0000000F] font-[400] text-[14px] text-[#000000] rounded-[8px]") #{pagination.totalPage}
 
-                            button(class="flex items-center px-[14px] py-[8px] text-[#000000] border border-[#0000001A] rounded-[8px] gap-x-[8px]" btn-pagination-skip = pagination.totalPage)
+                            button(onclick="showLoader()" class="flex items-center px-[14px] py-[8px] text-[#000000] border border-[#0000001A] rounded-[8px] gap-x-[8px]" btn-pagination-skip = pagination.totalPage)
                                 | Sau
                                 i(class="fas fa-arrow-right")

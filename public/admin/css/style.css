@@ -216,3 +216,8 @@ sl-switch.switch__control {
      color: #FA4F64;
      font-size: larger;
 }
+
+.menu li>:not(ul, .menu-title, details, .btn).active {
+     background-color: #4BC18F !important;
+     color: white;
+}

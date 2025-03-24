@@ -7,6 +7,7 @@ import ProductCategory from "../../models/productsCategories.model";
 import { ObjectId } from "mongodb";
 import ColorProduct from "../../models/colorProduct.model";
 import SizeProduct from "../../models/sizeProduct.model";
+import getParentCategory from "../../helpers/getParentCategory.helper";
 
 const index = async (req: Request, res: Response) => {
   const { khoanggia, mausac, kichthuoc } = req.query;
@@ -17,6 +18,7 @@ const index = async (req: Request, res: Response) => {
     status: "active",
     deleted: false,
   });
+  const listParentCategory = await getParentCategory(category);
   const subCategory = [];
   if (category && category.id) subCategory.push(category.id);
   const getSubCategory = async (id: any) => {
@@ -144,7 +146,7 @@ const index = async (req: Request, res: Response) => {
 
   let pagination: any = {
     current: req.query.trang ? parseInt(req.query.trang as string) : 1,
-    limit: 3,
+    limit: 9,
   };
   pagination["totalProduct"] = listProduct.length;
   pagination["totalPage"] = Math.ceil(
@@ -171,6 +173,7 @@ const index = async (req: Request, res: Response) => {
     listColors,
     listSizes,
     pagination,
+    listParentCategory,
   });
 };
 

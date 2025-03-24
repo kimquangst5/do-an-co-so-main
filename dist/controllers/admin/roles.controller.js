@@ -26,7 +26,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const user = yield accounts_model_1.default.findOne({
                 _id: it.createdBy,
             });
-            it['author'] = user.fullname;
+            it["author"] = user.fullname;
         }
     }
     res.render("admin/pages/roles/index.pug", {
@@ -78,13 +78,12 @@ const permissionPatch = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.permissionPatch = permissionPatch;
 const deletePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield roles_models_1.default.updateOne({
-        _id: new mongodb_1.ObjectId(req.params.id)
+        _id: new mongodb_1.ObjectId(req.params.id),
     }, {
-        deleted: true
+        deleted: true,
     });
-    console.log(req.params);
     res.json({
-        code: 200
+        code: 200,
     });
 });
 exports.deletePatch = deletePatch;

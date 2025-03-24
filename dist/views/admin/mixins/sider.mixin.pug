@@ -1,16 +1,16 @@
 
 mixin sider-mixin(array)
-     ul
+     ul(class="flex flex-col gap-y-[10px]")
           each it in array
                - if(!it.childrent)
-                    li(class=`hover:bg-[#1A1825] flex gap-x-[10px] hover:text-[white] `)
-                         a(class=`active:text-[white] active:bg-[#1A1825] transition duration-150 ease-in-out focus:bg-primary-accent-300 focus:shadow-primary-2` data-twe-ripple-init, href = (it.link ? it.link : '#'))
-                              sl-icon(name=it.icon class=``)
+                    li(class=`hover:bg-[#F3F3F2] flex gap-x-[10px] group`)
+                         a(class=`active:text-[white] active:bg-[#F3F3F2] transition duration-150 ease-in-out focus:bg-primary-accent-300 focus:shadow-primary-2` data-twe-ripple-init, href = (it.link ? it.link : '#') onclick = "showLoader()")
+                              sl-icon(name=it.icon class=`group-hover:ml-[10px] duration-700`)
                               | #{it.name}
                - else
-                    li
+                    li(class="")
                          details()
-                              summary(class=`hover:bg-[#1A1825] hover:text-[white] after:text-[#373641]`)
+                              summary(class=`hover:bg-[#F3F3F2] after:text-[#373641] py-[10px]`)
                                    sl-icon(name='box' class=`active:text-[#5277FF]`)
                                    | #{it.name}
                               +sider-mixin(it.childrent)

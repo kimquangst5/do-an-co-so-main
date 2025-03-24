@@ -55,7 +55,7 @@ const showLoader = () => {
 };
 
 
-const questionYesNo = (icon = "success", title, text, confirmButtonText, confirmButtonColor, cancelButtonText, cancelButtonColor, onConfirm ) => {
+const questionYesNo = (icon = "success", title, text, confirmButtonText, confirmButtonColor, cancelButtonText, cancelButtonColor, onConfirm) => {
   Swal.fire({
     showCancelButton: true,
     title: title,
@@ -96,11 +96,11 @@ const openSider = () => {
       if (location.pathname == path) {
         link.classList.add("active");
         const icon = link.querySelector("sl-icon");
-        icon.classList.add("text-[#5277FF]");
+        icon.classList.add("text-[white]");
         if (ul.parentElement.tagName == "DETAILS") {
           ul.parentElement.open = true;
           const sumary = ul.parentElement.querySelector("summary");
-          sumary.classList.add("text-[white]");
+          sumary.classList.add("text-[black]");
         }
       }
     });

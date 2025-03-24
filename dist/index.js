@@ -19,6 +19,7 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
+app.locals.ROUTERS = index_routes_1.default;
 app.use(express_1.default.static(`${__dirname}/public`));
 const isDist = __dirname.includes("dist");
 const nodeModulesPathTinymce = isDist
@@ -32,6 +33,6 @@ app.use("/node_modules", express_1.default.static(nodeModulesPath));
 (0, index_route_1.default)(app);
 (0, index_route_2.default)(app);
 app.listen(port, () => {
-    var _a;
-    console.log(`Đang lắng nghe cổng ${port} - http://localhost:${port}/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.AUTH}${(_a = index_routes_1.default.ADMIN.PRODUCT) === null || _a === void 0 ? void 0 : _a.INDEX}`);
+    var _a, _b;
+    console.log(`Đang lắng nghe cổng ${port} - http://localhost:${port}/${index_routes_1.default.ADMIN.AUTH}${(_a = index_routes_1.default.ADMIN.PRODUCT) === null || _a === void 0 ? void 0 : _a.PATH}${(_b = index_routes_1.default.ADMIN.PRODUCT) === null || _b === void 0 ? void 0 : _b.INDEX}`);
 });

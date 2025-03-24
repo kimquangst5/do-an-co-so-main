@@ -1,4 +1,6 @@
 extends ../../layouts/layouts.pug
+include ../../mixin/btnXemThemHome.mixin.pug
+include ../../mixin/carouselHome.mixin.pug
 
 block css
      link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" type="text/css")
@@ -9,6 +11,16 @@ block script
      script(type="module" src="/client/js/products/detail.js")
 
 block main
+     div(class="py-[20px]")
+          div(class="container") 
+               sl-breadcrumb
+                    sl-breadcrumb-item(href="/" onclick="showLoader()")
+                         sl-icon(slot="prefix" name="house")
+                         | Trang chủ
+                    - if(listParentCategory && listParentCategory.length > 0)
+                         each it, index in listParentCategory.reverse()
+                              sl-breadcrumb-item(href=`${ROUTERS.CLIENT.PRODUCT_CATEGORY.PATH}/${it.slug}` onclick="showLoader()")
+                                   | #{it.name}
      div(class="" )
           div(class="container flex gap-x-[40px] items-center mt-[24px] lg:justify-between")
                div(class="")
@@ -172,5 +184,11 @@ block main
                          div#tabs-question(class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block" role="tabpanel" aria-labelledby="tabs-question", data-twe-tab-active)
                               | Chưa có câu hỏi nào
 
-
+     div(class="") 
+          div(class="container")
+               - if(products && products.length > 0)
+                    sl-animation(name="fadeInDown" easing="ease-in-out" duration="1000" play iterations="1")
+                         div(class="w-fit text-[48px] my-[60px] mx-auto text-center") Sản phẩm cùng loại
+                    +carouselHome(products)
+                    +btnXemThem(`${ROUTERS.CLIENT.PRODUCT_CATEGORY.PATH}/${listParentCategory.at(-1).slug}`)
 

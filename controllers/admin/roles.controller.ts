@@ -4,7 +4,6 @@ import { rolesService } from "../../services/admin/index.service";
 import { ObjectId } from "mongodb";
 import Account from "../../models/accounts.model";
 
-
 const index = async (req: Request, res: Response) => {
   const roles = await Role.find({
     deleted: false,
@@ -14,7 +13,7 @@ const index = async (req: Request, res: Response) => {
       const user = await Account.findOne({
         _id: it.createdBy,
       });
-      it['author'] = user.fullname
+      it["author"] = user.fullname;
     }
   }
   res.render("admin/pages/roles/index.pug", {
@@ -62,21 +61,23 @@ const updatePatch = async (req: Request, res: Response) => {
     code: 200,
   });
 };
-const permission = async (req: Request, res: Response) => { };
-const permissionPatch = async (req: Request, res: Response) => { };
+const permission = async (req: Request, res: Response) => {};
+const permissionPatch = async (req: Request, res: Response) => {};
 
 const deletePatch = async (req: Request, res: Response) => {
-  await Role.updateOne({
-    _id: new ObjectId(req.params.id)
-  }, {
-    deleted: true
-  })
-  console.log(req.params);
+  await Role.updateOne(
+    {
+      _id: new ObjectId(req.params.id),
+    },
+    {
+      deleted: true,
+    }
+  );
 
   res.json({
-    code: 200
-  })
-}
+    code: 200,
+  });
+};
 export {
   index,
   create,
@@ -85,5 +86,5 @@ export {
   permissionPatch,
   updatePatch,
   update,
-  deletePatch
+  deletePatch,
 };

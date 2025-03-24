@@ -11,6 +11,8 @@ import ROUTERS from "../../constants/routes/index.routes";
 import unidecode from "unidecode";
 import ProductCategory from "../../models/productsCategories.model";
 import { log } from "util";
+import getParentCategory from "../../helpers/getParentCategory.helper";
+import { productNewAnhFeature } from "../../helpers/productNewAndFeatured.helper";
 
 const detail = async (req: Request, res: Response) => {
   const { slug } = req.params;
@@ -53,9 +55,28 @@ const detail = async (req: Request, res: Response) => {
     product["images"].push(assets);
   }
 
+  const listParentCategory = await getParentCategory(product.categoryId[0]);
+  const listIdParentCategory = listParentCategory.map(
+    (it) => new ObjectId(it.id)
+  );
+  const findProduct = {
+    categoryId: {
+      $in: listIdParentCategory,
+    },
+    status: "active",
+    deleted: false,
+  };
+  let sortProduct = {
+    // position: -1,
+  };
+  let products = await Product.find(findProduct).sort(sortProduct).limit(15);
+  await productNewAnhFeature(products);
+
   res.render("client/pages/products/detail.pug", {
     pageTitle: product.name,
     product: product,
+    products,
+    listParentCategory,
   });
 };
 
@@ -212,7 +233,6 @@ const index = async (req: Request, res: Response) => {
       sortProduct["name"] = value === "tangdan" ? 1 : -1;
     } else if (name === "sanpham")
       sortProduct["position"] = value === "moinhat" ? -1 : 1;
-    // else if (name === "sanpham")
   } else {
     sortProduct["position"] = -1;
   }
@@ -251,6 +271,8 @@ const index = async (req: Request, res: Response) => {
           if (name == "danggiam") {
             if (value == "true" && items.discount > 0) listProduct.push(it);
             if (value == "false" && items.discount == 0) listProduct.push(it);
+          } else if (name == "phobien") {
+            if (value == "true" && it["featured"] == true) listProduct.push(it);
           }
         } else {
           listProduct.push(it);

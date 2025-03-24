@@ -219,7 +219,6 @@ const getImage = async (req: Request, res: Response) => {
       position: "asc",
     });
 
-    console.log(productAssets);
     const main = productAssets.filter((it) => it.type == "main");
     const sub = productAssets.filter((it) => it.type == "sub");
 
@@ -257,8 +256,6 @@ const getImage = async (req: Request, res: Response) => {
 
 const updatePatch = async (req: Request, res: Response) => {
   if (res.locals.ROLE.permission.includes("products-update")) {
-    console.log(req.body);
-
     req.body.updatedBy = res.locals.INFOR_USER.id;
 
     const productAssets = await ProductAssets.find({
@@ -453,7 +450,6 @@ const trash = async (req: Request, res: Response) => {
 };
 
 const deleteProduct = async (req: Request, res: Response) => {
-  console.log(req.params);
   await Product.deleteOne({
     _id: new ObjectId(req.params.id),
   });

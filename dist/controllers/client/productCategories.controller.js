@@ -28,6 +28,7 @@ const productsCategories_model_1 = __importDefault(require("../../models/product
 const mongodb_1 = require("mongodb");
 const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
+const getParentCategory_helper_1 = __importDefault(require("../../helpers/getParentCategory.helper"));
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c, _d, e_2, _e, _f, _g, e_3, _h, _j;
     const { khoanggia, mausac, kichthuoc } = req.query;
@@ -37,6 +38,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         status: "active",
         deleted: false,
     });
+    const listParentCategory = yield (0, getParentCategory_helper_1.default)(category);
     const subCategory = [];
     if (category && category.id)
         subCategory.push(category.id);
@@ -195,7 +197,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     let pagination = {
         current: req.query.trang ? parseInt(req.query.trang) : 1,
-        limit: 3,
+        limit: 9,
     };
     pagination["totalProduct"] = listProduct.length;
     pagination["totalPage"] = Math.ceil(pagination["totalProduct"] / pagination.limit);
@@ -216,6 +218,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         listColors,
         listSizes,
         pagination,
+        listParentCategory,
     });
 });
 exports.index = index;

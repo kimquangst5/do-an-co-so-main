@@ -116,9 +116,9 @@ block main
                                         td
                                              div #{it.position}
                                         td
-                                             div(class=`flex items-center justify-center gap-x-[5px] `) 
+                                             div(class=`flex items-center justify-start gap-x-[5px] `) 
                                                   sl-badge(variant="primary" pill) #{it.author}
-                                                  sl-relative-time(date="2020-07-15T09:17:00-04:00" lang="vi-VND")
+                                                  sl-relative-time(date=it.createdAt lang="vi")
                - else
                     +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
 

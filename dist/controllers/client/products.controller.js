@@ -29,6 +29,8 @@ const productAssets_model_1 = __importDefault(require("../../models/productAsset
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const unidecode_1 = __importDefault(require("unidecode"));
+const getParentCategory_helper_1 = __importDefault(require("../../helpers/getParentCategory.helper"));
+const productNewAndFeatured_helper_1 = require("../../helpers/productNewAndFeatured.helper");
 const detail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c, _d, e_2, _e, _f;
     const { slug } = req.params;
@@ -90,9 +92,23 @@ const detail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         finally { if (e_2) throw e_2.error; }
     }
+    const listParentCategory = yield (0, getParentCategory_helper_1.default)(product.categoryId[0]);
+    const listIdParentCategory = listParentCategory.map((it) => new mongodb_1.ObjectId(it.id));
+    const findProduct = {
+        categoryId: {
+            $in: listIdParentCategory,
+        },
+        status: "active",
+        deleted: false,
+    };
+    let sortProduct = {};
+    let products = yield products_model_1.default.find(findProduct).sort(sortProduct).limit(15);
+    yield (0, productNewAndFeatured_helper_1.productNewAnhFeature)(products);
     res.render("client/pages/products/detail.pug", {
         pageTitle: product.name,
         product: product,
+        products,
+        listParentCategory,
     });
 });
 exports.detail = detail;
@@ -291,6 +307,10 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     if (value == "true" && items.discount > 0)
                         listProduct.push(it);
                     if (value == "false" && items.discount == 0)
+                        listProduct.push(it);
+                }
+                else if (name == "phobien") {
+                    if (value == "true" && it["featured"] == true)
                         listProduct.push(it);
                 }
             }

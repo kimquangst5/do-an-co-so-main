@@ -14,7 +14,7 @@ import checkLogin from "../../middlewares/admin/checkLogin.middlewares";
 import checkRoute from "../../middlewares/admin/checkRoute.middlewares";
 
 const index = async (app: Application) => {
-  app.use(checkRoute);
+  // app.use(checkRoute);
   app.use(
     `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}`,
     checkLogin,

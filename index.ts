@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
-// app.locals.ROUTERS = ROUTERS;
+app.locals.ROUTERS = ROUTERS;
 // console.log(ROUTERS);
 
 app.use(express.static(`${__dirname}/public`));
@@ -44,6 +44,6 @@ routeAdmin(app);
 
 app.listen(port, () => {
   console.log(
-    `Đang lắng nghe cổng ${port} - http://localhost:${port}/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT?.INDEX}`
+    `Đang lắng nghe cổng ${port} - http://localhost:${port}/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT?.PATH}${ROUTERS.ADMIN.PRODUCT?.INDEX}`
   );
 });
