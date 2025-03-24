@@ -10,7 +10,7 @@ import "./database/mongodb.connect";
 import Path from "./models/paths.model";
 
 const app: Application = express();
-const port: number = parseInt(process.env.PORT) | 3000;
+const port: number = 3000;
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -44,6 +44,6 @@ routeAdmin(app);
 
 app.listen(port, () => {
   console.log(
-    `Đang lắng nghe cổng ${port} - http://localhost:${port}/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.INDEX}`
+    `Đang lắng nghe cổng ${port} - http://localhost:${port}/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT?.INDEX}`
   );
 });
