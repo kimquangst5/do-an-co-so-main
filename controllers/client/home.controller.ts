@@ -6,14 +6,14 @@ import ProductItem from "../../models/product-items.model";
 import { productNewAnhFeature } from "../../helpers/productNewAndFeatured.helper";
 
 const index = async (req: Request, res: Response) => {
-  const products = await Product.find({
-    deleted: false,
-    status: "active",
-  })
-    .sort({
-      position: -1,
-    })
-    .limit(10);
+  // const products = await Product.find({
+  //   deleted: false,
+  //   status: "active",
+  // })
+  //   .sort({
+  //     position: -1,
+  //   })
+  //   .limit(10);
 
   const productsFeatured = await Product.find({
     deleted: false,
@@ -24,12 +24,12 @@ const index = async (req: Request, res: Response) => {
       position: -1,
     })
     .limit(10);
-  await productNewAnhFeature(products);
+  // await productNewAnhFeature(products);
   await productNewAnhFeature(productsFeatured);
 
   res.render("client/pages/home/index.pug", {
     pageTitle: "Trang chủ",
-    products,
+    // products,
     productsFeatured,
   });
 };
