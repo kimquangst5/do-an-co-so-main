@@ -14,7 +14,6 @@ const index = async (req: Request, res: Response) => {
       position: -1,
     })
     .limit(10);
-  await productNewAnhFeature(products);
 
   const productsFeatured = await Product.find({
     deleted: false,
@@ -25,6 +24,7 @@ const index = async (req: Request, res: Response) => {
       position: -1,
     })
     .limit(10);
+  await productNewAnhFeature(products);
   await productNewAnhFeature(productsFeatured);
 
   res.render("client/pages/home/index.pug", {

@@ -24,7 +24,6 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         position: -1,
     })
         .limit(10);
-    yield (0, productNewAndFeatured_helper_1.productNewAnhFeature)(products);
     const productsFeatured = yield products_model_1.default.find({
         deleted: false,
         status: "active",
@@ -34,6 +33,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         position: -1,
     })
         .limit(10);
+    yield (0, productNewAndFeatured_helper_1.productNewAnhFeature)(products);
     yield (0, productNewAndFeatured_helper_1.productNewAnhFeature)(productsFeatured);
     res.render("client/pages/home/index.pug", {
         pageTitle: "Trang chủ",
