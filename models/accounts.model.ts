@@ -17,6 +17,7 @@ const accountsSchema = new Schema(
       type: String,
       default: STATUS.ACTIVE,
     },
+    deviceInfo: [],
     createdBy: mongoose.SchemaTypes.ObjectId,
   },
   {

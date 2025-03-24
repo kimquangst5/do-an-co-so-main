@@ -34,3 +34,12 @@ block main
             sl-input(label="Tên đăng nhập" size="small" name="username" required value=account.usename)
             sl-input(label="Email" size="small" type='email' name="email" required value=account.email)
 
+    sl-details(summary="Thông tin thiết bị" open)
+        each it in account.deviceInfo
+            div(class="") Tên trình duyệt: #{it.browser}
+            div(class="") Phiên bản trình duyệt: #{it.browserVersion}
+            div(class="") Hệ điều hành: #{it.os} #{it.osVersion}
+            div(class="") Ip:  #{it.ip}
+            div(class="") city: #{it.city}
+            div(class="") city: #{it.region}
+            div(class="") city: #{it.country}

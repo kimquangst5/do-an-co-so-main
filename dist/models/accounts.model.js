@@ -21,6 +21,7 @@ const accountsSchema = new mongoose_1.Schema({
         type: String,
         default: enum_1.STATUS.ACTIVE,
     },
+    deviceInfo: [],
     createdBy: mongoose_2.default.SchemaTypes.ObjectId,
 }, {
     timestamps: true,
