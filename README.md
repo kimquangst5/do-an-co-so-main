@@ -1,8 +1,23 @@
 # Đồ án cơ sở ngành công nghệ thông tin
-
+#FitVAA #Học viện Hàng Không Việt Nam
 ## Tổng quan
+**1. Mở đầu**
 
 Dự án này là một webiste được xây dựng bằng Node.js và Express.js, theo mô hình MVC (Model-View-Controller). Nó bao gồm các tính năng như xác thực người dùng, xác thực đầu vào và các biện pháp bảo mật API.
+
+**2. Thông tin nhóm**
+
+- **Thành viên:**
+
+  Trần Kim Quang - 2331540197 - **Nhóm trưởng**
+
+  Nguyễn Hoàng Minh Anh - 2331540207
+
+  Nguyễn Huy Quang - 2331540315
+
+  Nguyễn Trọng Ngọc Sơn - 2331540223
+
+  Ngô Đặng Anh Thư - 2331540173
 
 ## Hướng dẫn dự án
 
