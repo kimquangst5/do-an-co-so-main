@@ -19,52 +19,47 @@ const checkLogin = async (req: Request, res: Response) => {
     try {
       const user = await authService.verifyToken(checkLogin.token);
       if (user) {
-        console.log(user.id);
-
         res.cookie("token", checkLogin.token);
         const userAgentString = req.headers["user-agent"];
         const parser = new UAParser(userAgentString);
         const uaResult = parser.getResult();
-
-        // Lấy địa chỉ IP chính xác
         const ipAddress =
           (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
           req.ip ||
           req.connection.remoteAddress;
 
-        // Tra cứu vị trí địa lý từ IP
         const geo = geoip.lookup(ipAddress) || {};
 
         const deviceInfo = {
           // Thông tin hiện có
-          browser: uaResult.browser.name || "Unknown", // Tên trình duyệt
-          browserVersion: uaResult.browser.version || "Unknown", // Phiên bản trình duyệt
-          os: uaResult.os.name || "Unknown", // Hệ điều hành
-          osVersion: uaResult.os.version || "Unknown", // Phiên bản hệ điều hành
-          device: uaResult.device.model || "Unknown", // Model thiết bị
-          deviceType: uaResult.device.type || "Desktop", // Loại thiết bị
-          deviceVendor: uaResult.device.vendor || "Unknown", // Nhà sản xuất thiết bị
+          browser: uaResult.browser.name || "Chưa rõ", // Tên trình duyệt
+          browserVersion: uaResult.browser.version || "Chưa rõ", // Phiên bản trình duyệt
+          os: uaResult.os.name || "Chưa rõ", // Hệ điều hành
+          osVersion: uaResult.os.version || "Chưa rõ", // Phiên bản hệ điều hành
+          device: uaResult.device.model || "Chưa rõ", // Model thiết bị
+          deviceType: uaResult.device.type || "Chưa rõ", // Loại thiết bị
+          deviceVendor: uaResult.device.vendor || "Chưa rõ", // Nhà sản xuất thiết bị
           ip: ipAddress, // Địa chỉ IP
 
           // Vị trí địa lý từ IP
-          country: geo.country || "Unknown", // Mã quốc gia (VN, US, ...)
-          region: geo.region || "Unknown", // Khu vực/bang
-          city: geo.city || "Unknown", // Thành phố
-          latitude: geo.ll ? geo.ll[0] : "Unknown", // Vĩ độ
-          longitude: geo.ll ? geo.ll[1] : "Unknown", // Kinh độ
+          country: geo.country || "Chưa rõ", // Mã quốc gia (VN, US, ...)
+          region: geo.region || "Chưa rõ", // Khu vực/bang
+          city: geo.city || "Chưa rõ", // Thành phố
+          latitude: geo.ll ? geo.ll[0] : "Chưa rõ", // Vĩ độ
+          longitude: geo.ll ? geo.ll[1] : "Chưa rõ", // Kinh độ
         };
         console.log(deviceInfo);
-
-        await Account.updateOne(
-          {
-            _id: new ObjectId(user.id),
-          },
-          {
-            deviceInfo: deviceInfo,
-          }
-        );
-
-        console.log("Device Info:", deviceInfo);
+        if (ipAddress != "::1")
+          await Account.updateOne(
+            {
+              _id: new ObjectId(user.id),
+            },
+            {
+              $push: {
+                deviceInfo: deviceInfo,
+              },
+            }
+          );
       }
     } catch (error) {
       const token = await authService.createToken(checkLogin.id);
@@ -87,4 +82,5 @@ const checkLogin = async (req: Request, res: Response) => {
     });
   }
 };
+
 export { index, checkLogin };

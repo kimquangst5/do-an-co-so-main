@@ -219,5 +219,16 @@ sl-switch.switch__control {
 
 .menu li>:not(ul, .menu-title, details, .btn).active {
      background-color: #4BC18F !important;
-     color: white;
+     color: white !important;
+}
+
+
+.menu li>details>summary:active {
+     background-color: transparent;
+     color: black;
+}
+
+.menu li>:not(ul, .menu-title, details, .btn):active {
+     background-color: transparent;
+     color: black;
 }

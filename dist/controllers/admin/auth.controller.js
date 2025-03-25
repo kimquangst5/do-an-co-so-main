@@ -32,7 +32,6 @@ const checkLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         try {
             const user = yield index_service_1.authService.verifyToken(checkLogin.token);
             if (user) {
-                console.log(user.id);
                 res.cookie("token", checkLogin.token);
                 const userAgentString = req.headers["user-agent"];
                 const parser = new ua_parser_js_1.UAParser(userAgentString);
@@ -42,27 +41,29 @@ const checkLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     req.connection.remoteAddress;
                 const geo = geoip_lite_1.default.lookup(ipAddress) || {};
                 const deviceInfo = {
-                    browser: uaResult.browser.name || "Unknown",
-                    browserVersion: uaResult.browser.version || "Unknown",
-                    os: uaResult.os.name || "Unknown",
-                    osVersion: uaResult.os.version || "Unknown",
-                    device: uaResult.device.model || "Unknown",
-                    deviceType: uaResult.device.type || "Desktop",
-                    deviceVendor: uaResult.device.vendor || "Unknown",
+                    browser: uaResult.browser.name || "Chưa rõ",
+                    browserVersion: uaResult.browser.version || "Chưa rõ",
+                    os: uaResult.os.name || "Chưa rõ",
+                    osVersion: uaResult.os.version || "Chưa rõ",
+                    device: uaResult.device.model || "Chưa rõ",
+                    deviceType: uaResult.device.type || "Chưa rõ",
+                    deviceVendor: uaResult.device.vendor || "Chưa rõ",
                     ip: ipAddress,
-                    country: geo.country || "Unknown",
-                    region: geo.region || "Unknown",
-                    city: geo.city || "Unknown",
-                    latitude: geo.ll ? geo.ll[0] : "Unknown",
-                    longitude: geo.ll ? geo.ll[1] : "Unknown",
+                    country: geo.country || "Chưa rõ",
+                    region: geo.region || "Chưa rõ",
+                    city: geo.city || "Chưa rõ",
+                    latitude: geo.ll ? geo.ll[0] : "Chưa rõ",
+                    longitude: geo.ll ? geo.ll[1] : "Chưa rõ",
                 };
                 console.log(deviceInfo);
-                yield accounts_model_1.default.updateOne({
-                    _id: new mongodb_1.ObjectId(user.id),
-                }, {
-                    deviceInfo: deviceInfo,
-                });
-                console.log("Device Info:", deviceInfo);
+                if (ipAddress != "::1")
+                    yield accounts_model_1.default.updateOne({
+                        _id: new mongodb_1.ObjectId(user.id),
+                    }, {
+                        $push: {
+                            deviceInfo: deviceInfo,
+                        },
+                    });
             }
         }
         catch (error) {

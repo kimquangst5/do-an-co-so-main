@@ -35,11 +35,25 @@ block main
             sl-input(label="Email" size="small" type='email' name="email" required value=account.email)
 
     sl-details(summary="Thông tin thiết bị" open)
-        each it in account.deviceInfo
-            div(class="") Tên trình duyệt: #{it.browser}
-            div(class="") Phiên bản trình duyệt: #{it.browserVersion}
-            div(class="") Hệ điều hành: #{it.os} #{it.osVersion}
-            div(class="") Ip:  #{it.ip}
-            div(class="") city: #{it.city}
-            div(class="") city: #{it.region}
-            div(class="") city: #{it.country}
+        div(class="grid grid-cols-2 gap-[20px]") 
+            each it in account.deviceInfo
+                div(class="flex items-center gap-x-[20px]")
+                    - if(it.deviceType == 'Desktop' || it.deviceType == 'Chưa rõ')
+                        sl-icon(name='laptop' class="text-[50px]")
+                    - else
+                        sl-icon(name='phone' class="text-[50px]")
+                    div(class="") 
+                        div(class="") #{it.browser} - #{it.browserVersion}
+                        div(class="") #{it.os} #{it.osVersion} - #{it.ip}
+                        div(class="") Thành phố: #{it.city}
+                        div(class="") Khu vực: #{it.region}
+                        div(class="") Mã quốc gia: #{it.country}
+                        div(class="") Model thiết bị: #{it.device}
+                        div(class="") Loại thiết bị:
+                            - if(it.deviceType == 'Desktop')
+                                b Máy tính
+                            - else if(it.deviceType == 'Mobile')
+                                b Điện thoại
+                            - else
+                                b Chưa rõ
+                        div(class="") Nhà sản xuất thiết bị: #{it.deviceVendor}
