@@ -36,7 +36,7 @@ block main
 
     sl-details(summary="Thông tin thiết bị" open)
         div(class="grid grid-cols-2 gap-[20px]") 
-            each it in account.deviceInfo
+            each it in account.deviceInfo.reverse()
                 div(class="flex items-center gap-x-[20px]")
                     - if(it.deviceType == 'Desktop' || it.deviceType == 'Chưa rõ')
                         sl-icon(name='laptop' class="text-[50px]")
@@ -57,3 +57,7 @@ block main
                             - else
                                 b Chưa rõ
                         div(class="") Nhà sản xuất thiết bị: #{it.deviceVendor}
+                        div(class="flex gap-x-[10px]") Đăng nhập vào:
+                            sl-format-date(hour="numeric" minute="numeric" hour-format="12" date=it.createdAt)
+                            sl-format-date(date=it.createdAt lang="vi")
+                            sl-relative-time(date=it.createdAt lang="vi")

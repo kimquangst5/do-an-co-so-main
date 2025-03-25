@@ -40,8 +40,12 @@ const checkLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     req.ip ||
                     req.connection.remoteAddress;
                 const geo = geoip_lite_1.default.lookup(ipAddress) || {};
+                let browserName = uaResult.browser.name || "Chưa rõ";
+                if (navigator.userAgent.indexOf("Cốc Cốc") !== -1) {
+                    browserName = "Cốc Cốc";
+                }
                 const deviceInfo = {
-                    browser: uaResult.browser.name || "Chưa rõ",
+                    browser: browserName,
                     browserVersion: uaResult.browser.version || "Chưa rõ",
                     os: uaResult.os.name || "Chưa rõ",
                     osVersion: uaResult.os.version || "Chưa rõ",
@@ -54,8 +58,8 @@ const checkLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     city: geo.city || "Chưa rõ",
                     latitude: geo.ll ? geo.ll[0] : "Chưa rõ",
                     longitude: geo.ll ? geo.ll[1] : "Chưa rõ",
+                    createdAt: Date.now(),
                 };
-                console.log(deviceInfo);
                 if (ipAddress != "::1")
                     yield accounts_model_1.default.updateOne({
                         _id: new mongodb_1.ObjectId(user.id),

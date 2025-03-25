@@ -32,6 +32,10 @@ const accountsSchema = new Schema(
         city: String,
         latitude: String,
         longitude: String,
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
     createdBy: mongoose.SchemaTypes.ObjectId,

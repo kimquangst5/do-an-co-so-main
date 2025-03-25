@@ -29,10 +29,14 @@ const checkLogin = async (req: Request, res: Response) => {
           req.connection.remoteAddress;
 
         const geo = geoip.lookup(ipAddress) || {};
+        let browserName = uaResult.browser.name || "Chưa rõ";
+        if (navigator.userAgent.indexOf("Cốc Cốc") !== -1) {
+          browserName = "Cốc Cốc";
+        }
 
         const deviceInfo = {
           // Thông tin hiện có
-          browser: uaResult.browser.name || "Chưa rõ", // Tên trình duyệt
+          browser: browserName,
           browserVersion: uaResult.browser.version || "Chưa rõ", // Phiên bản trình duyệt
           os: uaResult.os.name || "Chưa rõ", // Hệ điều hành
           osVersion: uaResult.os.version || "Chưa rõ", // Phiên bản hệ điều hành
@@ -47,8 +51,8 @@ const checkLogin = async (req: Request, res: Response) => {
           city: geo.city || "Chưa rõ", // Thành phố
           latitude: geo.ll ? geo.ll[0] : "Chưa rõ", // Vĩ độ
           longitude: geo.ll ? geo.ll[1] : "Chưa rõ", // Kinh độ
+          createdAt: Date.now(),
         };
-        console.log(deviceInfo);
         if (ipAddress != "::1")
           await Account.updateOne(
             {
