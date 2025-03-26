@@ -1,5 +1,5 @@
 # ĐỒ ÁN CƠ SỞ NGÀNH - NHÓM 2
-### Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam
+Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam
 # Đề tài: Xây dựng hệ thống website bán quần áo sử dụng Nodejs
 ## Tổng quan
 **1. Mở đầu**
