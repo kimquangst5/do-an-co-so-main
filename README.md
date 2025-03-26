@@ -2,7 +2,7 @@
 #### Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam
 ### Đề tài: Xây dựng hệ thống website bán quần áo sử dụng Nodejs
 
-# Thông tin thành viên
+### Thành viên nhóm
 
 - **Thành viên:**
 
