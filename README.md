@@ -1,4 +1,4 @@
-# Đồ án cơ sở ngành công nghệ thông tin
+# Đồ án cơ sở ngành - Nhóm 2
 #FitVAA #Học viện Hàng Không Việt Nam
 ## Tổng quan
 **1. Mở đầu**
