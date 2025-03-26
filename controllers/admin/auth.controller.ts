@@ -1,4 +1,4 @@
-import { geoip } from 'geoip-lite';
+import { geoip } from "geoip-lite";
 import { Request, Response } from "express";
 import { authService } from "../../services/admin/index.service";
 import jwt from "jsonwebtoken";

@@ -61,9 +61,31 @@ const updatePatch = async (req: Request, res: Response) => {
     code: 200,
   });
 };
-const permission = async (req: Request, res: Response) => {};
-const permissionPatch = async (req: Request, res: Response) => {};
 
+const permission = async (req: Request, res: Response) => {
+  const roles = await Role.find({
+    deleted: false,
+  });
+  res.render("admin/pages/roles/permission.pug", {
+    pageTitle: "Phân quyền",
+    roles: roles,
+  });
+};
+const permissionPatch = async (req: Request, res: Response) => {
+  req.body.forEach(async (it: any) => {
+    await Role.updateOne(
+      {
+        _id: it.roleId,
+      },
+      {
+        permission: it.permission,
+      }
+    );
+  });
+  res.json({
+    code: 200,
+  });
+};
 const deletePatch = async (req: Request, res: Response) => {
   await Role.updateOne(
     {

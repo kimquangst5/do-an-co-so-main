@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkLogin = exports.index = void 0;
+const geoip_lite_1 = require("geoip-lite");
 const index_service_1 = require("../../services/admin/index.service");
 const accounts_model_1 = __importDefault(require("../../models/accounts.model"));
 const ua_parser_js_1 = require("ua-parser-js");
-const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const mongodb_1 = require("mongodb");
 const index = (req, res) => {
     res.render("admin/pages/auth/login.pug", {
@@ -39,7 +39,7 @@ const checkLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 const ipAddress = ((_a = req.headers["x-forwarded-for"]) === null || _a === void 0 ? void 0 : _a.split(",")[0]) ||
                     req.ip ||
                     req.connection.remoteAddress;
-                const geo = geoip_lite_1.default.lookup(ipAddress) || {};
+                const geo = geoip_lite_1.geoip.lookup(ipAddress) || {};
                 let browserName = uaResult.browser.name || "Chưa rõ";
                 if (navigator.userAgent.indexOf("Cốc Cốc") !== -1) {
                     browserName = "Cốc Cốc";

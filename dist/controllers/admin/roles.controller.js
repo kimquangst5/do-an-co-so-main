@@ -72,9 +72,28 @@ const updatePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.updatePatch = updatePatch;
-const permission = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const permission = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const roles = yield roles_models_1.default.find({
+        deleted: false,
+    });
+    res.render("admin/pages/roles/permission.pug", {
+        pageTitle: "Phân quyền",
+        roles: roles,
+    });
+});
 exports.permission = permission;
-const permissionPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const permissionPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body.forEach((it) => __awaiter(void 0, void 0, void 0, function* () {
+        yield roles_models_1.default.updateOne({
+            _id: it.roleId,
+        }, {
+            permission: it.permission,
+        });
+    }));
+    res.json({
+        code: 200,
+    });
+});
 exports.permissionPatch = permissionPatch;
 const deletePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield roles_models_1.default.updateOne({

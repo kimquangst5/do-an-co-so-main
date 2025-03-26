@@ -10,7 +10,11 @@ const main = () => {
     div.innerHTML = `<div class="flex w-full justify-between items-center"><sl-switch checked="" size="medium" form="" data-optional="" data-valid="">Trạng thái</sl-switch><sl-input label="Tên màu" size="small" name="name" type="text" form="" data-optional="" data-valid=""></sl-input><div class="flex gap-x-[20px] items-center"> <sl-input label="Mã màu" size="small" disabled="" type="text" form="" data-optional="" data-valid=""></sl-input><sl-color-picker format="hex" size="small" label="Mã màu" name="code" form="" data-optional="" data-valid=""></sl-color-picker></div><sl-input label="Đường dẫn" size="small" name="slug" type="text" form="" data-optional="" data-valid=""></sl-input><sl-icon class="text-[red] cursor-pointer" name="trash" aria-hidden="true" library="default"></sl-icon></div>`;
     const icon = div.querySelector("sl-icon");
     icon.addEventListener("click", () => {
-      parentItem.removeChild(div);
+      questionYesNo(
+        'warning', 'Xóa màu sắc', 'Bạn có chắc muốn xóa màu sắc này?', 'Xóa', '#4BC18F', 'Hủy', '#FFA09B',
+        () => {
+          parentItem.removeChild(div);
+        })
     });
     parentItem.appendChild(div);
   });
