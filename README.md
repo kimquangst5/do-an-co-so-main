@@ -1,10 +1,28 @@
-# Đồ án cơ sở ngành công nghệ thông tin
+# ĐỒ ÁN CƠ SỞ NGÀNH - NHÓM 2
 
-## Tổng quan
+#### Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam
 
-Dự án này là một webiste được xây dựng bằng Node.js và Express.js, theo mô hình MVC (Model-View-Controller). Nó bao gồm các tính năng như xác thực người dùng, xác thực đầu vào và các biện pháp bảo mật API.
+### Đề tài: Xây dựng hệ thống website bán quần áo sử dụng Nodejs
 
-## Hướng dẫn dự án
+#### Thành viên nhóm
+
+- Trần Kim Quang - 2331540197 - **Nhóm trưởng**
+
+- Nguyễn Hoàng Minh Anh - 2331540207
+
+- Nguyễn Huy Quang - 2331540315
+
+- Nguyễn Trọng Ngọc Sơn - 2331540223
+
+- Ngô Đặng Anh Thư - 2331540173
+
+#### Công nghệ sử dụng
+
+- Node.js
+- Express.js
+- Pug
+- MongoDB
+- Mongoose
 
 ### 1. Tổ chức tập tin
 
