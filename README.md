@@ -1,8 +1,8 @@
 # ĐỒ ÁN CƠ SỞ NGÀNH - NHÓM 2
 **Khoa Công Nghệ Thông Tin - Học Viện Hàng Không Việt Nam**
 ### Đề tài: Xây dựng hệ thống website bán quần áo sử dụng Nodejs
-## Tổng quan
-**1. Mở đầu**
+
+**Thành viên nhóm**
 
 Dự án này là một webiste được xây dựng bằng Node.js và Express.js, theo mô hình MVC (Model-View-Controller). Nó bao gồm các tính năng như xác thực người dùng, xác thực đầu vào và các biện pháp bảo mật API.
 
