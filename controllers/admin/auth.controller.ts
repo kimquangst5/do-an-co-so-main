@@ -1,9 +1,9 @@
+import { geoip } from 'geoip-lite';
 import { Request, Response } from "express";
 import { authService } from "../../services/admin/index.service";
 import jwt from "jsonwebtoken";
 import Account from "../../models/accounts.model";
 import uaParser, { UAParser } from "ua-parser-js";
-import geoip from "geoip-lite";
 import { ObjectId } from "mongodb";
 const index = (req: Request, res: Response) => {
   res.render("admin/pages/auth/login.pug", {
