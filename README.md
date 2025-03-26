@@ -6,8 +6,6 @@
 
 #### Thành viên nhóm
 
-- **Thành viên:**
-
   Trần Kim Quang - 2331540197 - **Nhóm trưởng**
 
   Nguyễn Hoàng Minh Anh - 2331540207
