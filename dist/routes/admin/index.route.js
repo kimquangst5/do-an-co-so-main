@@ -22,9 +22,11 @@ const productsCategory_route_1 = __importDefault(require("./productsCategory.rou
 const customer_route_1 = __importDefault(require("./customer.route"));
 const orders_route_1 = __importDefault(require("./orders.route"));
 const path_route_1 = __importDefault(require("./path.route"));
+const inforWebsite_route_1 = __importDefault(require("./inforWebsite.route"));
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const checkLogin_middlewares_1 = __importDefault(require("../../middlewares/admin/checkLogin.middlewares"));
 const index = (app) => __awaiter(void 0, void 0, void 0, function* () {
+    app.use(`/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.INFOR_WEBSITE}`, checkLogin_middlewares_1.default, inforWebsite_route_1.default);
     app.use(`/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.PRODUCT.PATH}`, checkLogin_middlewares_1.default, products_route_1.default);
     app.use(`/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.PRODUCT_CATEGORY.PATH}`, checkLogin_middlewares_1.default, productsCategory_route_1.default);
     app.use(`/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.ROLES.PATH}`, checkLogin_middlewares_1.default, roles_route_1.default);

@@ -7,12 +7,15 @@ import ProductCategory from "../../models/productsCategories.model";
 import createTree from "../../helpers/createTree.helper";
 import console from "console";
 import Cart from "../../models/carts.model";
+import InfoWebsite from "../../models/info-website.model";
 
 const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.cookies["alert-success"] == "xoa-cookie") {
       res.clearCookie("alert-success");
     }
+    const infoWebsite = await InfoWebsite.findOne({});
+    res.locals.infoWebsite = infoWebsite;
     const categories = await ProductCategory.find({
       deleted: false,
       status: "active",

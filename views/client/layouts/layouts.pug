@@ -15,7 +15,44 @@ html(lang="vi" data-theme="light")
           script(src="https://cdn.tailwindcss.com/3.3.0")
           script(src="/tailwind.config.js")
           link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css")
+     script(type="text/javascript").
+          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          (function(){
+          var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+          s1.async=true;
+          s1.src='https://embed.tawk.to/67e3b65569bb2f190aa30ad9/1in8o0g7u';
+          s1.charset='UTF-8';
+          s1.setAttribute('crossorigin','*');
+          s0.parentNode.insertBefore(s1,s0);
+          })();
      body(class=`quicksand-font` )
+          div(class="contact-fixed" btn-contact)
+               div(class="show flex flex-col gap-y-[5px] items-center justify-center w-[60px] h-[60px] text-white text-[10px] leading-[11px] scale-0 transition-all ease-in duration-150" contact-fixed__button)
+                    //- label(class="btn btn-sm btn-circle swap swap-rotate bg-transparent border-0 hover:bg-transparent shadow-none")
+                         input(type="checkbox")
+                         sl-icon(name="list" class=`m-auto swap-off fill-current text-[20px]`)
+                         sl-icon(name="x" class=`m-auto swap-on fill-current text-[20px]`)
+                    //- i(class="fa-regular fa-comment-dots")
+                    sl-icon(name='chat-dots' class="text-[20px]")
+                    | Liên hệ
+               div(class="contact-fixed__close absolute top-0 left-0 flex flex-col items-center justify-center w-[60px] h-[60px] text-white text-2xl rotate-180 scale-0 transition-all ease-in duration-[120ms]" contact-fixed__close)
+                    sl-icon(name='x-lg' class="text-[20px]")
+               div(class="contact-fixed__pulsation")
+               div(class="contact-fixed__pulsation")
+               div(class="contact-fixed__list")
+                    a(class="contact-fixed__item" href="#" target="_blank")
+                         span(class="contact-fixed__item-icon")
+                              sl-icon(name='messenger' class="text-white")
+                         span(class="contact-fixed__item-title") Messenger
+                    a(class="contact-fixed__item" href=`http://zalo.me/${infoWebsite.phone}` target="_blank")
+                         span(class="contact-fixed__item-icon")
+                              img(src="/client/images/zalo.svg" alt="" class="text-white")
+                         span(class="contact-fixed__item-title") Zalo
+                    a(class="contact-fixed__item" href=`tel:${infoWebsite.phone}` target="_blank")
+                         span(class="contact-fixed__item-icon")
+                              sl-icon(name='telephone' class="text-white")
+                         span(class="contact-fixed__item-title") Gọi Ngay
+
           button#btn-back-to-top(type="button", data-twe-ripple-init, data-twe-ripple-color="light" class="!fixed bottom-5 end-5 hidden rounded-full bg-red-600 p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg")
                span(class="[&>svg]:w-4")
                     svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor")

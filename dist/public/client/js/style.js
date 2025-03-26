@@ -285,3 +285,17 @@ const animation = () => {
 }
 
 animation()
+
+const btnContact = () => {
+  const btn = document.querySelector('[btn-contact]')
+  btn.addEventListener('click', () => {
+    const conFixBtn = document.querySelector('[contact-fixed__button]')
+    const list = document.querySelector('.contact-fixed__list')
+    const iconClose = document.querySelector('[contact-fixed__close]')
+
+    conFixBtn.classList.toggle('show')
+    list.classList.toggle('show')
+    iconClose.classList.toggle('show')
+  })
+}
+btnContact()

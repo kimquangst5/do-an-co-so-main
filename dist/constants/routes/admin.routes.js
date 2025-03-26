@@ -4,6 +4,7 @@ const encodeRouterPaths_1 = require("../../helpers/encodeRouterPaths");
 const ROUTER_ADMIN = {
     AUTH: process.env.ADMIN,
     LOGIN: "/Đăng_nhập_quản_trị",
+    INFOR_WEBSITE: "/Thông_tin_website",
     PRODUCT: {
         PATH: "/Sản_phẩm",
         INDEX: "/Tổng_quan",

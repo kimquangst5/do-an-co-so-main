@@ -17,11 +17,14 @@ const customers_model_1 = __importDefault(require("../../models/customers.model"
 const productsCategories_model_1 = __importDefault(require("../../models/productsCategories.model"));
 const createTree_helper_1 = __importDefault(require("../../helpers/createTree.helper"));
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
+const info_website_model_1 = __importDefault(require("../../models/info-website.model"));
 const checkLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (req.cookies["alert-success"] == "xoa-cookie") {
             res.clearCookie("alert-success");
         }
+        const infoWebsite = yield info_website_model_1.default.findOne({});
+        res.locals.infoWebsite = infoWebsite;
         const categories = yield productsCategories_model_1.default.find({
             deleted: false,
             status: "active",

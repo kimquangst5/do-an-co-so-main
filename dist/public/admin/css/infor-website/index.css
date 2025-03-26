@@ -1,0 +1,26 @@
+ .label-on-left {
+      --label-width: 3.75rem;
+      --gap-width: 2rem;
+ }
+
+ .label-on-left+.label-on-left {
+      margin-top: var(--sl-spacing-medium);
+ }
+
+ .label-on-left::part(form-control) {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+ }
+
+ .label-on-left::part(form-control-label) {
+      text-align: right;
+      grid-column: span 2/ span 2;
+      margin-right: auto;
+
+ }
+
+ .label-on-left::part(form-control-input) {
+      text-align: right;
+      grid-column: span 3/ span 3;
+
+ }

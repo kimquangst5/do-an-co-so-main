@@ -9,12 +9,18 @@ import productsCategories from "./productsCategory.route";
 import customers from "./customer.route";
 import orders from "./orders.route";
 import path from "./path.route";
+import infoWebsite from "./inforWebsite.route";
 import ROUTERS from "../../constants/routes/index.routes";
 import checkLogin from "../../middlewares/admin/checkLogin.middlewares";
 import checkRoute from "../../middlewares/admin/checkRoute.middlewares";
 
 const index = async (app: Application) => {
   // app.use(checkRoute);
+  app.use(
+    `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.INFOR_WEBSITE}`,
+    checkLogin,
+    infoWebsite
+  );
   app.use(
     `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}`,
     checkLogin,

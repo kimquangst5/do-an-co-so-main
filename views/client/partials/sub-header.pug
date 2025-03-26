@@ -1,9 +1,18 @@
-div(class="bg-[#000000]")
+div(class="bg-[#000000] py-[10px]")
      div(class="container")
-          div(class="h-[38px] flex justify-center items-center relative")
+          //- div(class="h-[38px] flex justify-center items-center relative")
                div
                     div(class="text-[#FFFFFF] font-[400] text-[14px] lg:text-[12px]")
                          | Đăng ký và được giảm giá 20% cho đơn hàng đầu tiên của bạn.
                          span(class="underline decoration-solid text-[#FFFFFFF] font-[400] text-[14px] lg:text-[12px]") Đăng ký ngay
                div
                     i(class="fa-solid fa-xmark text-[20px] text-[#FFFFFF] absolute right-0 top-1/4 lg:hidden")
+          div(class="flex justify-between items-center text-[18px] text-[#FFFFFF]")
+               div(class="") #{infoWebsite.nameWeb}
+               div(class="flex items-center gap-x-[20px]") 
+                    div(class="flex items-center gap-x-[10px]")
+                         sl-icon(name='telephone')
+                         div(class="") #{infoWebsite.phone}
+                    div(class="flex items-center gap-x-[10px]")
+                         sl-icon(name='geo-alt')
+                         div(class="") #{infoWebsite.address}
