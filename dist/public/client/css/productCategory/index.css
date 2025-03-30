@@ -22,6 +22,3 @@ sl-select::part(combobox) {
   border-color: transparent;
   padding: 0;
 }
-
-sl-select::part(base) {
-}

@@ -11,7 +11,6 @@ import Order from "../../models/order.model";
 import { it } from "node:test";
 import ROUTERS from "../../constants/routes/index.routes";
 import axios from "axios";
-import console from "console";
 import { capitalizeWords } from "../../helpers/capitalizeWords.helper";
 
 const index = async (req: Request, res: Response) => {
@@ -90,9 +89,25 @@ const create = async (req: Request, res: Response) => {
     const cartItem = await Cart.findOne({
       _id: cartId,
     });
+
     const items = await ProductItem.findOne({
       _id: cartItem.productItemId,
     });
+
+    if (items.quantity - cartItem.quantity < 0) {
+      res.status(400).json({
+        message: "Thêm đơn hàng không thành công!",
+      });
+      return;
+    }
+    await ProductItem.updateOne(
+      {
+        _id: cartItem.productItemId,
+      },
+      {
+        quantity: items.quantity - cartItem.quantity,
+      }
+    );
     totalPrice +=
       (items["price"] - items["price"] * (items["discount"] / 100)) *
       cartItem["quantity"];
@@ -169,43 +184,43 @@ const create = async (req: Request, res: Response) => {
     to: res.locals.INFOR_CUSTOMER.email,
     subject: "Đặt đơn hàng thành công!",
     html: `<h1><code><span style="font-family: verdana, geneva, sans-serif; color: #e03e2d;">Đặt hàng th&agrave;nh c&ocirc;ng</span></code></h1>
-<p>&nbsp;</p>
-<h2><code><span style="font-family: verdana, geneva, sans-serif;">I. Th&ocirc;ng tin kh&aacute;ch h&agrave;ng</span></code></h2>
-<div>
-<div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Họ v&agrave; t&ecirc;n kh&aacute;ch h&agrave;ng:&nbsp;<strong>${
-      order.inforCustomer.fullname
-    }</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Email kh&aacute;ch h&agrave;ng: <strong><a href="mailto:kimquangst5@gmail.com">${
-      order.inforCustomer.email
-    }</a></strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Số điện thoại kh&aacute;ch h&agrave;ng&nbsp;<strong>${
-      order.inforCustomer.phone
-    }</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Địa chỉ giao h&agrave;ng: <strong>${
-      order.inforCustomer.address
-    }</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Ghi ch&uacute;: <strong>${
-      order.inforCustomer.note ? order.inforCustomer.note : "Không có"
-    }</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Id đơn h&agrave;ng: <strong>${
-      order.id
-    }</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Đường link đơn h&agrave;ng:&nbsp;<strong>${domain}${
+  <p>&nbsp;</p>
+  <h2><code><span style="font-family: verdana, geneva, sans-serif;">I. Th&ocirc;ng tin kh&aacute;ch h&agrave;ng</span></code></h2>
+  <div>
+  <div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Họ v&agrave; t&ecirc;n kh&aacute;ch h&agrave;ng:&nbsp;<strong>${
+    order.inforCustomer.fullname
+  }</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Email kh&aacute;ch h&agrave;ng: <strong><a href="mailto:kimquangst5@gmail.com">${
+    order.inforCustomer.email
+  }</a></strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Số điện thoại kh&aacute;ch h&agrave;ng&nbsp;<strong>${
+    order.inforCustomer.phone
+  }</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Địa chỉ giao h&agrave;ng: <strong>${
+    order.inforCustomer.address
+  }</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Ghi ch&uacute;: <strong>${
+    order.inforCustomer.note ? order.inforCustomer.note : "Không có"
+  }</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Id đơn h&agrave;ng: <strong>${
+    order.id
+  }</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Đường link đơn h&agrave;ng:&nbsp;<strong>${domain}${
       ROUTERS.CLIENT.CHECKOUT.PATH
     }${ROUTERS.CLIENT.CHECKOUT.SUCCESS}/${
       res.locals.INFOR_CUSTOMER.username
     }?id-don-hang=${order.id}</strong></span></code></div>
-</div>
-</div>
-<h2><code><span style="font-family: verdana, geneva, sans-serif;">II. Th&ocirc;ng tin đơn h&agrave;ng (${
-      order.inforProductItem.length
-    } sản phẩm)</span></code></h2>
-<p style="padding-left: 40px;"><code><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Th&agrave;nh tiền: <strong>${
-      order.inforProductItem["totalPrice"] + order.shipping_fee
-    } đồng</strong></span></code></p>
-<p>&nbsp;</p>
-<p style="text-align: right;"><code><em><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Xin cảm ơn qu&iacute; kh&aacute;ch đ&atilde; đặt h&agrave;ng của ch&uacute;ng t&ocirc;i, ch&uacute;ng t&ocirc;i sẽ sớm xử l&iacute; đơn h&agrave;ng của qu&iacute; kh&aacute;ch trong khoảng thời gian sớm nhất!</span></em></code></p>`,
+  </div>
+  </div>
+  <h2><code><span style="font-family: verdana, geneva, sans-serif;">II. Th&ocirc;ng tin đơn h&agrave;ng (${
+    order.inforProductItem.length
+  } sản phẩm)</span></code></h2>
+  <p style="padding-left: 40px;"><code><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Th&agrave;nh tiền: <strong>${
+    order.inforProductItem["totalPrice"] + order.shipping_fee
+  } đồng</strong></span></code></p>
+  <p>&nbsp;</p>
+  <p style="text-align: right;"><code><em><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Xin cảm ơn qu&iacute; kh&aacute;ch đ&atilde; đặt h&agrave;ng của ch&uacute;ng t&ocirc;i, ch&uacute;ng t&ocirc;i sẽ sớm xử l&iacute; đơn h&agrave;ng của qu&iacute; kh&aacute;ch trong khoảng thời gian sớm nhất!</span></em></code></p>`,
   };
   transporter.sendMail(mailOptions, async (error: any, info: any) => {
     if (error) {

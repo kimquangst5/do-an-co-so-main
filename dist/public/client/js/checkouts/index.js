@@ -10,6 +10,7 @@ const promise = axios(Parameter);
 promise.then(function (result) {
   renderCity(result.data);
 });
+
 function renderCity(data) {
   for (const x of data) {
     citis.options[citis.options.length] = new Option(x.Name, x.Id);

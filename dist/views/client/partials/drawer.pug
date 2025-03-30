@@ -1,0 +1,16 @@
+sl-drawer(label="Giỏ hàng của bạn" class="drawer-scrolling" style="--size: 40vw;" class="relative" drawer-cart)
+     include ../partials/loading-drawer.pug
+     div(class="flex flex-col gap-y-[15px]" parent-cart-drawer)
+     div(class="flex flex-col gap-y-[20px] justify-center items-center h-full" cart-0) 
+          sl-icon(name='bag-x' class="text-[10rem]")
+          div(class="text-[1rem] font-bold") Chưa có sản phẩm nào trong giỏ hàng!
+          sl-animation(name="jello" duration="2000" play)
+               a(onclick="showLoaderDrawer()" class="text-[2rem] font-bold" href=`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.INDEX}`) Mua hàng ngay nào
+     div(class="flex flex-col gap-y-[20px]" slot="footer")
+          div(class="flex justify-between font-bold items-center")
+               div(class="flex items-center gap-x-[10px]")
+                    div(class="") Giá tạm tính:
+                    sl-icon-button(btn-reload-cart name="arrow-repeat" label="Reload") Giá tạm tính:
+               sl-format-number(type="currency" currency="VND" value="" lang="vi" class="text-[red] text-[20px]" price-new-cart-drawer)
+          sl-button(data-twe-ripple-init variant="neutral" class="w-full" outline href=(INFOR_CUSTOMER ? `${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.INDEX}/${INFOR_CUSTOMER.username}` : '#') get-cart = (INFOR_CUSTOMER ?  `${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.GET_CART}/${INFOR_CUSTOMER.id}` : '#') onclick="showLoaderDrawer()" ) Xem giỏ hàng
+          sl-button(data-twe-ripple-init variant="neutral" class=`w-full ${INFOR_CUSTOMER ? '' : 'hidden'}` href=(INFOR_CUSTOMER ? `${ROUTERS.CLIENT.CHECKOUT.PATH}${ROUTERS.CLIENT.CHECKOUT.INDEX}/${INFOR_CUSTOMER.username}` : '#') onclick="showLoaderDrawer()") Thanh toán ngay

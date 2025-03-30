@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import Account from "../../models/accounts.model";
 import uaParser, { UAParser } from "ua-parser-js";
 import { ObjectId } from "mongodb";
+
 const index = (req: Request, res: Response) => {
   res.render("admin/pages/auth/login.pug", {
     pageTitle: "Đăng nhập quản trị",

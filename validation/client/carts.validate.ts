@@ -2,18 +2,60 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 import Customer from "../../models/customers.model";
-require('dotenv').config()
+import ProductItem from "../../models/product-items.model";
+import Product from "../../models/products.model";
+import ColorProduct from "../../models/colorProduct.model";
+import SizeProduct from "../../models/sizeProduct.model";
+require("dotenv").config();
 
 const addValidate = async (req: Request, res: Response, next: NextFunction) => {
-     const data = req.body
-     if (!res.locals.INFOR_CUSTOMER) {
-          res.status(400).json({
-               message: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ!'
-          })
-          return;
-     }
+  let arrayError = "";
+  try {
+    if (!res.locals.INFOR_CUSTOMER) {
+      res.status(400).json({
+        message: "Vui lòng đăng nhập để thêm sản phẩm vào giỏ!",
+      });
+      return;
+    }
+    const { colorId, sizeId, quantity } = req.body;
+    const { productId } = req.params;
+    const productItem = await ProductItem.findOne({
+      productId: productId,
+      size: sizeId,
+      color: colorId,
+    }).select("quantity");
+    const product = await Product.findOne({
+      _id: productId,
+    }).select("name");
+    const color = await ColorProduct.findOne({
+      _id: colorId,
+    }).select("name");
+    const size = await SizeProduct.findOne({
+      _id: sizeId,
+    }).select("name");
+    console.log(productItem.quantity);
+    console.log(quantity);
 
-     next()
-}
+    if (quantity > productItem.quantity)
+      arrayError += `Chúng tôi xin lỗi! Sản phẩm <b class='text-[red]'>${product.name} (${color.name}, ${size.name})</b> chỉ còn  <b class='text-[red]'>${productItem.quantity}</b> cái`;
+    if (arrayError) {
+      res.status(400).json({
+        message: arrayError,
+      });
+      return;
+    }
+    next();
+  } catch (error) {
+    arrayError +=
+      "Thêm sản phẩm vào giỏ thất bại. Vui lòng liên hệ với quản trị viên!" +
+      "\n";
+    if (arrayError) {
+      res.status(400).json({
+        message: arrayError,
+      });
+      return;
+    }
+  }
+};
 
-export { addValidate }
+export { addValidate };

@@ -46,4 +46,5 @@ router.patch(`${index_routes_1.default.CLIENT.CART.INDEX}/:username${index_route
 router.patch(`${index_routes_1.default.CLIENT.CART.INDEX}/:username${index_routes_1.default.CLIENT.CART.DECREASE}`, controller.decrease);
 router.delete(`${index_routes_1.default.CLIENT.CART.INDEX}/:username${index_routes_1.default.CLIENT.CART.DELETE}/:idItem`, controller.deleteItem);
 router.post(`${index_routes_1.default.CLIENT.CART.ADD}/:productId`, carts_validate_1.addValidate, controller.add);
+router.get(`${index_routes_1.default.CLIENT.CART.GET_CART}/:productId`, controller.getCart);
 exports.default = router;

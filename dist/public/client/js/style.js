@@ -106,9 +106,29 @@ const showLoader = () => {
   loader.classList.remove("hidden");
 };
 
+const showLoaderDrawer = () => {
+  const loader = document.querySelector("[wait-load-drawer]");
+  loader.classList.remove("hidden");
+};
+
 const closeLoader = () => {
   const loader = document.querySelector("[wait-load]");
   loader.classList.add("hidden");
+};
+
+const closeLoaderDrawer = () => {
+  const loader = document.querySelector("[wait-load-drawer]");
+  loader.classList.add("hidden");
+};
+
+const showCartLength0 = () => {
+  const element = document.querySelector("[cart-0]");
+  element.classList.remove("hidden");
+};
+
+const closeCartLength0 = () => {
+  const element = document.querySelector("[cart-0]");
+  element.classList.add("hidden");
 };
 
 // Get the button
@@ -299,3 +319,122 @@ const btnContact = () => {
   })
 }
 btnContact()
+
+const reloadCart = () => {
+  const getCart = document.querySelector('[get-cart]')
+  if (!getCart) return
+  const link = getCart.getAttribute('get-cart')
+  if (!link) return
+  showLoaderDrawer()
+  axios.get(link)
+    .then(res => {
+      if (res.status == 200) {
+        const drawer = document.querySelector('sl-drawer[drawer-cart]');
+        const footer = drawer.querySelector("[slot='footer']")
+        if (res.data.arrayCart && res.data.arrayCart.length > 0) {
+          closeCartLength0()
+          if (footer.className.includes('hidden')) {
+            footer.classList.toggle('hidden')
+          }
+          let htmlDiv = ''
+          let totalPrice = 0
+          for (const it of res.data.arrayCart) {
+            totalPrice += it.priceNew
+            let div = document.createElement('div')
+            div.classList.add('flex', 'items-center')
+            div.classList.add('gap-x-[10px]')
+            htmlDiv += `
+              <div class="flex items-center gap-x-[10px] h-auto">
+                  <a class="w-[20%]" href=${it.productSlug}><img class="rounded-[10px] w-full h-full aspect-square object-cover object-top" src=${it.image} alt="" /></a>
+                  <div class="w-[70%] flex items-center flex-col gap-y-1">
+                      <a class="font-bold line-clamp-1 text-left w-full" href=${it.productSlug}>${it.product}</a>
+                      <div class="text-left w-full">Thuộc tính: (${it.color}, ${it.size})</div>
+                      <div class="font-bold flex items-center gap-x-[10px] text-left w-full">
+                          <div>${it.quantity}</div>
+                          <div>x</div>
+                          <sl-format-number class="text-[red]" type="currency" currency="VND" value=${it.priceNew} lang="vi"></sl-format-number>
+                      </div>
+                  </div>
+                  <div btn-trash = ${it._id} link = ${it.linkTrash} class="rounded-full w-[10%] h-full aspect-square flex items-center justify-center text-[red] cursor-pointer" data-twe-ripple-init=""><sl-icon name="trash" aria-hidden="true" library="default"></sl-icon></div>
+              </div>
+            `
+          }
+          const parentCart = document.querySelector('[parent-cart-drawer]')
+          const priceNewCartDrawer = document.querySelector('[price-new-cart-drawer]')
+          if (!parentCart) return
+          if (!priceNewCartDrawer) return
+          parentCart.innerHTML = htmlDiv
+          // priceNewCartDrawer.defaultValue = totalPrice
+          priceNewCartDrawer.value = totalPrice
+          // console.log(priceNewCartDrawer);
+          btnDelete()
+
+        } else if (res.data.arrayCart && res.data.arrayCart.length === 0) {
+          showCartLength0()
+          if (!footer.className.includes('hidden')) {
+            footer.classList.toggle('hidden')
+          }
+        }
+        closeLoaderDrawer()
+
+
+      }
+    })
+}
+
+const btnReloadCart = () => {
+  const btnReload = document.querySelector('[btn-reload-cart]')
+  if (!btnReload) return;
+  btnReload.addEventListener('click', () => {
+    reloadCart()
+  })
+}
+reloadCart()
+btnReloadCart()
+
+const openDrawer = () => {
+  const drawer = document.querySelector('sl-drawer[drawer-cart]');
+  drawer.show()
+}
+const btnDelete = () => {
+  const listBtnAdd = document.querySelectorAll('[btn-trash]')
+  if (!listBtnAdd || listBtnAdd.length == 0) return
+  listBtnAdd.forEach(btn => {
+    btn.addEventListener('click', () => {
+      Swal.fire({
+        showCancelButton: true,
+        title: `Xóa sản phẩm khỏi giỏ hàng?`,
+        text: `Bạn chắc muốn xóa sản phẩm này khỏi giỏ hàng?\nHành động này không thể phục hồi!`,
+        icon: "warning",
+        confirmButtonText: "Xóa",
+        confirmButtonColor: "#FFA09B",
+        cancelButtonColor: "#d33",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const link = btn.getAttribute('link')
+          if (!link) return
+          showLoader()
+          const itemId = btn.getAttribute('btn-trash')
+          if (!itemId) return;
+          axios.delete(link)
+            .then(res => {
+              if (res.status == 200) {
+                localStorage.setItem(
+                  "alert-success",
+                  JSON.stringify({
+                    title: 'Cập nhật thành công!',
+                    icon: "success",
+                  })
+                );
+                location.reload()
+              }
+            })
+        }
+      })
+
+
+    })
+  })
+}
+
+btnDelete()

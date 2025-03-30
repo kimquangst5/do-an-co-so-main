@@ -52,22 +52,46 @@ block main
 
                             h2(class="text-lg font-medium mb-6") Thông tin khách hàng
                             div(class="flex flex-col gap-y-[15px]")
-                                sl-input(placeholer='Họ và tên' size="small" class=`w-full` value=INFOR_CUSTOMER.fullname name='fullname')
-                                    sl-icon(name='person' slot="prefix")
+                                - if(INFOR_CUSTOMER.address.length > 0)
+                                    each it in INFOR_CUSTOMER.address
+                                        - if(it.default == true)
+                                            sl-input(placeholer='Họ và tên' size="small" class=`w-full` value=it.fullname name='fullname')
+                                                sl-icon(name='person' slot="prefix")
+                                - else
+                                    sl-input(placeholer='Họ và tên' size="small" class=`w-full` value=INFOR_CUSTOMER.fullname name='fullname')
+                                        sl-icon(name='person' slot="prefix")
                                 div(class=`grid grid-cols-3 gap-x-[10px]`)
                                     sl-input(placeholer='Email' size="small" class=`w-full col-span-2` placeholder = 'Email của bạn...' value=INFOR_CUSTOMER.email name='email')
                                         sl-icon(name='envelope' slot="prefix")
-                                    sl-input(placeholer='Số điện thoại' size="small" class=`w-full` placeholder = 'Số điện thoại của bạn...' type='number' length='10' value=INFOR_CUSTOMER.phone name='phone')
-                                        sl-icon(name='telephone-outbound' slot="prefix")
-                                sl-input(placeholder='Địa chỉ (Số nhà + Tên đường)' size="small" class=`w-full` value=INFOR_CUSTOMER.address name='address')
-                                    sl-icon(name='house-heart' slot="prefix")
+                                    - if(INFOR_CUSTOMER.address.length > 0)
+                                        each it in INFOR_CUSTOMER.address
+                                            - if(it.default == true)
+                                                sl-input(placeholer='Số điện thoại' size="small" class=`w-full` placeholder = 'Số điện thoại của bạn...' type='number' length='10' value=it.phone name='phone')
+                                                    sl-icon(name='telephone-outbound' slot="prefix")
+                                    - else
+                                        sl-input(placeholer='Số điện thoại' size="small" class=`w-full` placeholder = 'Số điện thoại của bạn...' type='number' length='10' value=INFOR_CUSTOMER.phone name='phone')
+                                            sl-icon(name='telephone-outbound' slot="prefix")
+                                - if(INFOR_CUSTOMER.address.length > 0)
+                                    each it in INFOR_CUSTOMER.address
+                                        - if(it.default == true)
+                                            sl-input(placeholder='Địa chỉ (Số nhà + Tên đường)' size="small" class=`w-full` name='address' value=it.address)
+                                                sl-icon(name='house-heart' slot="prefix")
+                                - else
+                                    sl-input(placeholder='Địa chỉ (Số nhà + Tên đường)' size="small" class=`w-full` name='address' value=it.address)
+                                        sl-icon(name='house-heart' slot="prefix")
                                 div(class=`flex items-center justify-between gap-[10px]`)
-                                    select#city(class="selectpicker" data-live-search="true")
-                                        option(value='' selected) Chọn tỉnh thành
+                                    - if(INFOR_CUSTOMER.address.length > 0)
+                                        each it in INFOR_CUSTOMER.address
+                                            - if(it.default == true)
+                                                select#city(class="selectpicker" data-live-search="true" value=it.city)
+                                                    option(value='' selected) Chọn tỉnh / thành
+                                    - else
+                                        select#city(class="selectpicker" data-live-search="true")
+                                            option(value='' selected) Chọn tỉnh / thành
                                     select#district(class="selectpicker" data-live-search="true")
-                                        option(value='' selected) Chọn tỉnh thành
+                                        option(value='' selected) Chọn quận / huyện
                                     select#ward(class="selectpicker" data-live-search="true")
-                                        option(value='' selected) Chọn tỉnh thành
+                                        option(value='' selected) Chọn xã / phường
                                     //- sl-select#city(size='small' placeholder="Tỉnh / Thành phố")
                                     //-     option(value='' selected) Chọn tỉnh thành
                                     //- sl-select#district(size='small' placeholder="Quận / Huyện")

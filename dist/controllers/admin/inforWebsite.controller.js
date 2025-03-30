@@ -24,7 +24,6 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.index = index;
 const updatePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     yield info_website_model_1.default.findOneAndUpdate({}, req.body, {
         upsert: true,
         new: true,

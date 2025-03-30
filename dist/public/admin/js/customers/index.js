@@ -43,16 +43,17 @@ trash()
 
 const editAddress = () => {
      const listBtn = document.querySelectorAll('[btn-edit-address]')
-     if(!listBtn || listBtn.length == 0) return
+     if (!listBtn || listBtn.length == 0) return
      listBtn.forEach(btn => {
           if (!btn) return
           btn.addEventListener('click', () => {
+               closeLoader()
                const dialogAddress = document.querySelector(`[dialog-address = '${btn.getAttribute('btn-edit-address')}']`)
                dialogAddress.show()
                reloadDataAddress(btn.getAttribute('btn-edit-address'))
           });
      })
-     
+
 
 }
 
@@ -66,12 +67,12 @@ const btnAddAddress = () => {
                const dialogAddress = document.querySelector('[dialog-address]')
                const dialogAddAddress = document.querySelector(`[dialog-add-address = '${btn.getAttribute('btn-add-address')}']`)
                // dialogAddress.hide()
-               
+
                dialogAddAddress.show()
-     
+
           })
      })
-    
+
 }
 btnAddAddress()
 
@@ -90,7 +91,7 @@ const btnCreateAddress = (parent) => {
           const link = btn.getAttribute('btn-create-address')
           if (!link || !fullname || !phone || !city || !district || !ward || !address) return
           showLoader()
-          
+
           axios.post(link, {
                     fullname: fullname.value,
                     phone: phone.value,
@@ -114,7 +115,7 @@ const btnCreateAddress = (parent) => {
                               district.value = '',
                               ward.value = '',
                               address.value = '',
-                         $(city).selectpicker("refresh");
+                              $(city).selectpicker("refresh");
                          $(district).selectpicker("refresh");
                          $(ward).selectpicker("refresh");
                          reloadDataAddress(btn.getAttribute('link'))
@@ -160,7 +161,7 @@ dialogAddAddress.forEach(dialog => {
      promise.then(function (result) {
           renderCity(result.data);
      });
-     
+
      function renderCity(data) {
           for (const x of data) {
                citis.options[citis.options.length] = new Option(x.Name, x.Id);
@@ -171,7 +172,7 @@ dialogAddAddress.forEach(dialog => {
                wards.length = 1;
                if (this.value != "") {
                     const result = data.filter((n) => n.Id === this.value);
-     
+
                     for (const k of result[0].Districts) {
                          districts.options[districts.options.length] = new Option(k.Name, k.Id);
                          $(districts).selectpicker("refresh");
@@ -185,7 +186,7 @@ dialogAddAddress.forEach(dialog => {
                     const dataWards = dataCity[0].Districts.filter(
                          (n) => n.Id === this.value
                     )[0].Wards;
-     
+
                     for (const w of dataWards) {
                          wards.options[wards.options.length] = new Option(w.Name, w.Id);
                          $(wards).selectpicker("refresh");
@@ -194,7 +195,7 @@ dialogAddAddress.forEach(dialog => {
           };
      }
      btnCreateAddress(dialog)
-     
+
 
 
 })
@@ -237,25 +238,24 @@ const btnUpdateAddressDefault = (dialogAddress) => {
           const parent = dialogAddress.querySelector('sl-radio-group[parent]')
           if (!btn || !link) return;
           link += `/${parent.value}`
-          
+
           showLoader()
           axios.patch(link)
                .then(res => {
-                         if (res.status == 200) {
-                              localStorage.setItem(
-                                   "alert-success",
-                                   JSON.stringify({
-                                        title: 'Cập nhật thành công!',
-                                        icon: "success",
-                                   })
-                              );
-                              showAlertSuccess()
-                              reloadDataAddress(btn.getAttribute('link'))
-                              closeLoader()
-                              
-                         }
+                    if (res.status == 200) {
+                         localStorage.setItem(
+                              "alert-success",
+                              JSON.stringify({
+                                   title: 'Cập nhật thành công!',
+                                   icon: "success",
+                              })
+                         );
+                         showAlertSuccess()
+                         reloadDataAddress(btn.getAttribute('link'))
+                         closeLoader()
+
                     }
-               ).catch()
+               }).catch()
 
      })
 }
@@ -264,7 +264,7 @@ const btnUpdateAddressDefault = (dialogAddress) => {
 
 const dialogAddressFunction = () => {
      const dialogAddress = document.querySelectorAll('[dialog-address]')
-     if(!dialogAddress || dialogAddress.length == 0) return
+     if (!dialogAddress || dialogAddress.length == 0) return
      dialogAddress.forEach(it => {
 
           btnUpdateAddressDefault(it)
@@ -273,17 +273,17 @@ const dialogAddressFunction = () => {
 }
 dialogAddressFunction()
 const reloadDataAddress = (id) => {
-     showLoader()
+     // showLoader()
      const dialog = document.querySelector(`[dialog-address = '${id}']`)
      const btn = dialog.querySelector('[btn-reload-data-address]')
      const link = btn.getAttribute('btn-reload-data-address')
-     
+
      if (!link) return
-     
+
      axios.put(link).then(async (res) => {
           if (res.status == 200) {
                if (res.data && res.data.length > 0) {
-                    
+
                     const parent = dialog.querySelector(`sl-radio-group[parent = '${id}']`)
                     let htmlChildAddress = ''
                     for (const it of res.data) {
@@ -300,17 +300,17 @@ const reloadDataAddress = (id) => {
                                              </div>
                                              <div class="mr-auto text-justify">${addressNew}</div>`
                          if (it.default == true) {
-                              if(parent)
+                              if (parent)
                                    parent.value = it._id
-                              else{
+                              else {
                                    console.log(id);
-                                   
-                                   
-                                   
+
+
+
                               }
-                              
-                              
-                              
+
+
+
                               // parent.setAttribute('value', it._id)
                               htmlChildAddress += `<sl-button class="mr-auto" variant="warning" size="medium" data-optional="" data-valid="">Mặc định</sl-button>`
 
@@ -320,11 +320,11 @@ const reloadDataAddress = (id) => {
                                    </div>
                               </sl-radio>
                          `
-                         if(parent)
-                         parent.innerHTML = htmlChildAddress
+                         if (parent)
+                              parent.innerHTML = htmlChildAddress
                     }
-                    
-                    if(!parent) location.reload()
+
+                    if (!parent) location.reload()
                     closeLoader()
                }
 

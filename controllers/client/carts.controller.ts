@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import Cart from "../../models/carts.model";
 import ColorProduct from "../../models/colorProduct.model";
 import SizeProduct from "../../models/sizeProduct.model";
+import ROUTERS from "../../constants/routes/index.routes";
 
 const index = async (req: Request, res: Response) => {
   const carts = await Cart.find({
@@ -125,4 +126,58 @@ const deleteItem = async (req: Request, res: Response) => {
     code: 200,
   });
 };
-export { index, add, addQuantity, decrease, deleteItem };
+
+const getCart = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  const carts = await Cart.find({
+    customerId: productId,
+  });
+
+  let arrayCart = [];
+  arrayCart["totalPrice"] = 0;
+  for (const it of carts) {
+    const cartItem = it.toObject();
+    const productItem = await ProductItem.findOne({
+      _id: it.productItemId,
+    });
+    const product = await Product.findOne({
+      _id: productItem.productId,
+    }).select("name slug");
+    const color = await ColorProduct.findOne({
+      _id: productItem.color,
+    }).select("name");
+    const size = await SizeProduct.findOne({
+      _id: productItem.size,
+    }).select("name");
+    const productAssets = await ProductAssets.findOne({
+      productId: productItem.productId,
+    });
+    const assets = await Assets.findOne({
+      _id: productAssets["assetsId"],
+    });
+
+    cartItem["price"] = productItem.price;
+    cartItem["discount"] = productItem.discount;
+    cartItem["priceNew"] =
+      productItem.price - productItem.price * (productItem.discount / 100);
+    arrayCart["totalPrice"] += cartItem["priceNew"];
+    cartItem["product"] = product.name;
+    cartItem[
+      "productSlug"
+    ] = `${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.DETAIL}/${product.slug}`;
+    cartItem["color"] = color.name;
+    cartItem["size"] = size.name;
+    cartItem["image"] = assets["path"];
+    cartItem[
+      "linkTrash"
+    ] = `${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.INDEX}/${res.locals.INFOR_CUSTOMER.username}${ROUTERS.CLIENT.CART.DELETE}/${it.id}`;
+
+    arrayCart.push(cartItem);
+  }
+
+  res.json({
+    code: 200,
+    arrayCart,
+  });
+};
+export { index, add, addQuantity, decrease, deleteItem, getCart };

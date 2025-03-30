@@ -1,6 +1,8 @@
 extends ../../layouts/layouts.pug
 
 block css
+     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css")
+
 block script
      script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
      script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js") 
@@ -13,6 +15,7 @@ block main
                     sl-input(label = 'Tên đăng nhập hoặc email' name='username')
                     sl-input(type='password' label = 'Mật khẩu' name='password' password-toggle clearable oncopy="return false" oncut="return false" onpaste="return false" onselectstart="return false" ondragstart="return false" ondrop="return false")
 
+
                     div(class=`flex flex-col gap-y-[5px]`) 
                          div(class=`flex items-center gap-x-[5px]`) 
                               div(class=`italic text-[#677279] text-[12px]`) Khách hàng mới? 
@@ -23,7 +26,17 @@ block main
 
                     div(class=`text-[black]/50 text-center`) Hoặc
                     div(class=`flex items-center justify-center gap-x-[10px]`)
-                         sl-tooltip(content="Đăng nhập bằng Google")
+                         //- sl-tooltip(content="Đăng nhập bằng Google")
                               a(href = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.GOOGLE}`)
                                    sl-icon(name="google")
-                    sl-button(variant="primary" btn-login = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.LOGIN}`) Đăng nhập
+                         a(href = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.GOOGLE}` data-twe-ripple-init class="text-black border-[1px] px-[20px] py-[10px] rounded-[10px] border-[#e5e5e5] flex items-center gap-x-[10px]")
+                              svg(aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512")
+                                   g
+                                        path(d="m0 0H512V512H0" fill="#fff")
+                                        path(fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341")
+                                        path(fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57")
+                                        path(fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73")
+                                        path(fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55")
+                              div Đăng nhập bằng Google
+
+                    sl-button(data-twe-ripple-init variant="primary" btn-login = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.LOGIN}`) Đăng nhập

@@ -17,7 +17,6 @@ const index = async (req: Request, res: Response) => {
 };
 
 const updatePatch = async (req: Request, res: Response) => {
-  console.log(req.body);
   await InfoWebsite.findOneAndUpdate({}, req.body, {
     upsert: true,
     new: true,

@@ -19,7 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteItem = exports.decrease = exports.addQuantity = exports.add = exports.index = void 0;
+exports.getCart = exports.deleteItem = exports.decrease = exports.addQuantity = exports.add = exports.index = void 0;
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const productAssets_model_1 = __importDefault(require("../../models/productAssets.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
@@ -28,6 +28,7 @@ const mongodb_1 = require("mongodb");
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
+const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
     const carts = yield carts_model_1.default.find({
@@ -140,3 +141,49 @@ const deleteItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
 });
 exports.deleteItem = deleteItem;
+const getCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { productId } = req.params;
+    const carts = yield carts_model_1.default.find({
+        customerId: productId,
+    });
+    let arrayCart = [];
+    arrayCart["totalPrice"] = 0;
+    for (const it of carts) {
+        const cartItem = it.toObject();
+        const productItem = yield product_items_model_1.default.findOne({
+            _id: it.productItemId,
+        });
+        const product = yield products_model_1.default.findOne({
+            _id: productItem.productId,
+        }).select("name slug");
+        const color = yield colorProduct_model_1.default.findOne({
+            _id: productItem.color,
+        }).select("name");
+        const size = yield sizeProduct_model_1.default.findOne({
+            _id: productItem.size,
+        }).select("name");
+        const productAssets = yield productAssets_model_1.default.findOne({
+            productId: productItem.productId,
+        });
+        const assets = yield assets_model_1.default.findOne({
+            _id: productAssets["assetsId"],
+        });
+        cartItem["price"] = productItem.price;
+        cartItem["discount"] = productItem.discount;
+        cartItem["priceNew"] =
+            productItem.price - productItem.price * (productItem.discount / 100);
+        arrayCart["totalPrice"] += cartItem["priceNew"];
+        cartItem["product"] = product.name;
+        cartItem["productSlug"] = `${index_routes_1.default.CLIENT.PRODUCT.PATH}${index_routes_1.default.CLIENT.PRODUCT.DETAIL}/${product.slug}`;
+        cartItem["color"] = color.name;
+        cartItem["size"] = size.name;
+        cartItem["image"] = assets["path"];
+        cartItem["linkTrash"] = `${index_routes_1.default.CLIENT.CART.PATH}${index_routes_1.default.CLIENT.CART.INDEX}/${res.locals.INFOR_CUSTOMER.username}${index_routes_1.default.CLIENT.CART.DELETE}/${it.id}`;
+        arrayCart.push(cartItem);
+    }
+    res.json({
+        code: 200,
+        arrayCart,
+    });
+});
+exports.getCart = getCart;

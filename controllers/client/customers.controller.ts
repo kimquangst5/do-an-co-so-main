@@ -159,8 +159,14 @@ const loginGoogleCallback = async (req: Request, res: Response) => {
       email: userData.email,
     });
     if (customer) {
+      console.log("tài khoản tồn tại");
+
       try {
         const user = jwt.verify(customer.token, process.env.JWT_SECRET);
+        res.cookie("tokenCustomer", customer.token, {
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
       } catch (error) {
         const token = await jwt.sign(
           {
@@ -178,12 +184,13 @@ const loginGoogleCallback = async (req: Request, res: Response) => {
             token: token,
           }
         );
+        console.log("đã update token");
+        console.log("đã update token");
+        res.cookie("tokenCustomer", token, {
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
       }
-
-      res.cookie("tokenCustomer", customer.token, {
-        maxAge: 2 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
     } else {
       userData["username"] = userData.email.split("@")[0];
       const username = await Customer.findOne({

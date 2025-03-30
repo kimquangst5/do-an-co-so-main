@@ -51,6 +51,31 @@ const filter = () => {
 
 filter();
 
+const groupKichThuoc = () => {
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const buttonGroup = document.querySelector('sl-radio-button');
+      const shadowRoot = buttonGroup.parentElement.shadowRoot;
+      const ok = shadowRoot.querySelector('sl-button-group')
+      const shadowRootOk = ok.shadowRoot;
+      const buttonGroupNew = shadowRootOk.querySelector('.button-group')
+      buttonGroupNew.style.flexWrap = "wrap"
+      console.log(buttonGroupNew);
+    }, 800); // Đợi 100ms
+
+  })
+  // buttonGroup.attachShadow({
+  //   mode: "open"
+  // });
+  // const shadowRoot = buttonGroup.shadowRoot;
+  // console.log(shadowRoot);
+
+}
+groupKichThuoc()
+setTimeout(() => {
+
+}, 500);
+
 const khoanggia = () => {
   const url = new URL(location.href);
   const price = url.searchParams.get("khoanggia");
@@ -127,16 +152,16 @@ imgProductMain.forEach((img) => {
   });
 });
 
-const imgProductSub = document.querySelectorAll(
-  "sl-animation[img-product-sub]"
-);
-imgProductSub.forEach((img) => {
-  const group = img.parentElement;
-  group.addEventListener("mouseenter", () => {
-    img.setAttribute("play", "");
-    img.setAttribute("iterations", "1");
-  });
-});
+// const imgProductSub = document.querySelectorAll(
+//   "sl-animation[img-product-sub]"
+// );
+// imgProductSub.forEach((img) => {
+//   const group = img.parentElement;
+//   group.addEventListener("mouseenter", () => {
+//     img.setAttribute("play", "");
+//     img.setAttribute("iterations", "1");
+//   });
+// });
 
 const sizeProduct = () => {
   const sizeCurrent = document.querySelector("[filter-size]");

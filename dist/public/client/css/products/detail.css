@@ -17,45 +17,29 @@ sl-radio-button::part(button) {
   background-color: #f0f0f0;
 }
 
-.carousel-thumbnails {
+/* .carousel-thumbnails {
   --slide-aspect-ratio: 1 / 1;
+} */
+
+
+
+[carousel-image-product-sub] .thumbnails__image.active {
+  opacity: 1;
 }
 
-.thumbnails {
-  display: flex;
-  justify-content: center;
+[carousel-image-product]::part(base) {
+  display: unset;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  grid-template-columns: none;
+  gap: 0px;
+  border-radius: 20px;
 }
 
-.thumbnails__scroller {
-  display: flex;
-  gap: var(--sl-spacing-small);
-  overflow-x: auto;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
-  scroll-padding: var(--sl-spacing-small);
-}
-
-.thumbnails__scroller::-webkit-scrollbar {
+[scroll-hide]::-webkit-scrollbar {
   display: none;
 }
 
-.thumbnails__image {
-  /* width: 64px; */
-  /* height: 64px; */
-  object-fit: cover;
-
-  opacity: 0.3;
-  will-change: opacity;
-  transition: 250ms opacity;
-  border-radius: 20px;
-
-  cursor: pointer;
-}
-
-sl-carousel::part(base) {
-  gap: 0;
-}
-
-.thumbnails__image.active {
-  opacity: 1;
+[scroll-hide] {
+  scrollbar-width: none;
 }

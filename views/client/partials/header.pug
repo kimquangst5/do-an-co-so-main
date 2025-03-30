@@ -60,7 +60,7 @@ header(class=``)
                     sl-icon(name="search" class="text-[24px] hidden lg:block")
                     sl-animation(name="fadeInDown" easing="ease-in-out" duration="1800" play iterations="1")
                          - if(INFOR_CUSTOMER)
-                              a(href=`${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.INDEX}/${INFOR_CUSTOMER.username}` class=`relative`) 
+                              button(onclick = 'openDrawer()' href=`${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.INDEX}/${INFOR_CUSTOMER.username}` get-cart = `${ROUTERS.CLIENT.CART.PATH}${ROUTERS.CLIENT.CART.GET_CART}/${INFOR_CUSTOMER.id}` class=`relative`) 
                                    sl-icon(name="cart2" class="text-[24px]")
                                    - if(CART > 0)
                                         sl-badge(variant="danger" pill class=`absolute top-[-8px] right-[-10px]`) #{CART}

@@ -32,6 +32,7 @@ const ROUTER_CLIENT = {
         DELETE: "/xoa-san-pham-khoi-gio-hang",
         ADD_QUANTITY: "/them-so-luong",
         DECREASE: "/giam-so-luong",
+        GET_CART: "/lay-san-pham-trong-gio",
     },
     CHECKOUT: {
         PATH: "/thanh-toan",

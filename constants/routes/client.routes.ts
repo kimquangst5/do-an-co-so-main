@@ -30,6 +30,7 @@ interface ROUTER_CLIENT {
     DELETE?: string;
     ADD_QUANTITY: string;
     DECREASE: string;
+    GET_CART?: string;
   };
   CHECKOUT: {
     PATH: string;
@@ -73,6 +74,7 @@ const ROUTER_CLIENT: ROUTER_CLIENT = {
     DELETE: "/xoa-san-pham-khoi-gio-hang",
     ADD_QUANTITY: "/them-so-luong",
     DECREASE: "/giam-so-luong",
+    GET_CART: "/lay-san-pham-trong-gio",
   },
   CHECKOUT: {
     PATH: "/thanh-toan",

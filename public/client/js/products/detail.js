@@ -230,8 +230,12 @@ const addCart = () => {
               icon: "success",
             })
           );
-          const redirect = btnAdd.getAttribute("redirect");
-          location.href = redirect;
+          // const redirect = btnAdd.getAttribute("redirect");
+          // location.href = redirect;
+          reloadCart()
+          const drawer = document.querySelector('sl-drawer')
+          drawer.show()
+          showAlertSuccess()
         }
       })
       .catch((error) => {
@@ -249,3 +253,50 @@ const addCart = () => {
 };
 
 addCart();
+
+
+
+const CongTruSoLuong = () => {
+  const cong = document.querySelector('[btn-cong]')
+  const tru = document.querySelector('[btn-tru]')
+  const quantityProduct = document.querySelector('[quantity-product]')
+  if (!cong || !tru || !quantityProduct) return;
+  cong.addEventListener('click', () =>
+    quantityProduct.innerHTML = parseInt(quantityProduct.innerHTML) + 1
+  )
+  tru.addEventListener('click', () => {
+    if (parseInt(quantityProduct.innerHTML) > 1)
+      quantityProduct.innerHTML = parseInt(quantityProduct.innerHTML) - 1
+  })
+}
+
+CongTruSoLuong()
+
+const viewImage = () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const carouselImageProduct = document.querySelector("[id = 'carousel-image-product']")
+    // new Viewer(carouselImageProduct)
+    if (!carouselImageProduct) return
+    lightGallery(carouselImageProduct, {
+      selector: 'img',
+      thumbnail: true,
+      plugins: [lgThumbnail, lgZoom],
+      download: true,
+      controls: true,
+      thumbWidth: 100,
+      counter: true
+    });
+  })
+
+}
+// viewImage()
+lightGallery(document.getElementById('lightgallery'));
+// lightGallery(document.getElementById('aniimated-thumbnials'), {
+//   // selector: 'img',
+//   thumbnail: true,
+//   plugins: [lgThumbnail, lgZoom],
+//   download: true,
+//   controls: true,
+//   thumbWidth: 100,
+//   counter: true
+// });

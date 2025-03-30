@@ -140,8 +140,13 @@ const loginGoogleCallback = (req, res) => __awaiter(void 0, void 0, void 0, func
             email: userData.email,
         });
         if (customer) {
+            console_1.default.log("tài khoản tồn tại");
             try {
                 const user = jsonwebtoken_1.default.verify(customer.token, process.env.JWT_SECRET);
+                res.cookie("tokenCustomer", customer.token, {
+                    maxAge: 2 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                });
             }
             catch (error) {
                 const token = yield jsonwebtoken_1.default.sign({
@@ -150,11 +155,13 @@ const loginGoogleCallback = (req, res) => __awaiter(void 0, void 0, void 0, func
                 yield customers_model_1.default.updateOne({
                     _id: customer.id,
                 }, Object.assign(Object.assign({}, userData), { token: token }));
+                console_1.default.log("đã update token");
+                console_1.default.log("đã update token");
+                res.cookie("tokenCustomer", token, {
+                    maxAge: 2 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                });
             }
-            res.cookie("tokenCustomer", customer.token, {
-                maxAge: 2 * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
         }
         else {
             userData["username"] = userData.email.split("@")[0];

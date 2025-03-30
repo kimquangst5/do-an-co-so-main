@@ -1,0 +1,26 @@
+div(class="contact-fixed" btn-contact)
+     div(class="show flex flex-col gap-y-[5px] items-center justify-center w-[60px] h-[60px] text-white text-[10px] leading-[11px] scale-0 transition-all ease-in duration-150" contact-fixed__button)
+          //- label(class="btn btn-sm btn-circle swap swap-rotate bg-transparent border-0 hover:bg-transparent shadow-none")
+               input(type="checkbox")
+               sl-icon(name="list" class=`m-auto swap-off fill-current text-[20px]`)
+               sl-icon(name="x" class=`m-auto swap-on fill-current text-[20px]`)
+          //- i(class="fa-regular fa-comment-dots")
+          sl-icon(name='chat-dots' class="text-[20px]")
+          | Liên hệ
+     div(class="contact-fixed__close absolute top-0 left-0 flex flex-col items-center justify-center w-[60px] h-[60px] text-white text-2xl rotate-180 scale-0 transition-all ease-in duration-[120ms]" contact-fixed__close)
+          sl-icon(name='x-lg' class="text-[20px]")
+     div(class="contact-fixed__pulsation")
+     div(class="contact-fixed__pulsation")
+     div(class="contact-fixed__list")
+          a(class="contact-fixed__item" href="#" target="_blank")
+               span(class="contact-fixed__item-icon")
+                    sl-icon(name='messenger' class="text-white")
+               span(class="contact-fixed__item-title") Messenger
+          a(class="contact-fixed__item" href=`http://zalo.me/${infoWebsite.phone}` target="_blank")
+               span(class="contact-fixed__item-icon")
+                    img(src="/client/images/zalo.svg" alt="" class="text-white")
+               span(class="contact-fixed__item-title") Zalo
+          a(class="contact-fixed__item" href=`tel:${infoWebsite.phone}` target="_blank")
+               span(class="contact-fixed__item-icon")
+                    sl-icon(name='telephone' class="text-white")
+               span(class="contact-fixed__item-title") Gọi Ngay

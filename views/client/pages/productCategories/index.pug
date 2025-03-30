@@ -4,9 +4,9 @@ block css
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" type="text/css")
     link(rel="stylesheet" href="/client/css/productCategory/index.css")
 block script
-    script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js" async) 
-    script(src="https://code.jquery.com/jquery-3.6.0.min.js" async)
-    script(type="module" src="/client/js/productCategory/index.js" async) 
+    script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js") 
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(type="module" src="/client/js/productCategory/index.js") 
 
 block main
     div(class="py-[20px]")
@@ -52,19 +52,6 @@ block main
                             div(class=`grid grid-cols-2 gap-x-[10px] p-[10px]`) 
                                 sl-input(class=`` size='small' type='number' filter-price-min placeholder='Từ...')
                                 sl-input(class=`` size='small' type='number' filter-price-max placeholder='Đến...')
-                            //- div(class="relative w-full")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 w-full h-1 bg-[#F0F0F0]")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 left-[20%] right-[20%] h-1 bg-[#000000]")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 left-[20%] w-5 h-5 bg-[#000000] rounded-full")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 right-[20%] w-5 h-5 bg-[#000000] rounded-full")
-                            //- div(class="relative w-full")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 w-full h-1 bg-[#F0F0F0]")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 left-[20%] right-[20%] h-1 bg-[#000000]")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 left-[20%] w-5 h-5 bg-[#000000] rounded-full")
-                                div(class="absolute top-1/2 transform -translate-y-1/2 right-[20%] w-5 h-5 bg-[#000000] rounded-full")
-                            //- div(class="flex justify-center gap-x-[78px] w-full mt-[15px]")
-                                span(class="font-[400] text-[14px] text-[#000000]") 50.000đ
-                                span(class="font-[400] text-[14px] text-[#000000]") 200.000đ
                     div(class="border border-[1px] border-[#0000001A] my-[24px]")
                     div
                         div(class="flex justify-between items-center pb-[20px]")
@@ -75,28 +62,16 @@ block main
                                 each color in listColors
                                     sl-tooltip(content=color.name)
                                         input(type="radio" name="color", class=`radio w-[30px] h-[30px] bg-[${color.code}] checked:bg-[${color.code}]` slug = color.slug)
-
-                                    //- button(class=`fa-solid sl-tooltip(content=color.name)
-                                        input(type="radio" name="color", class=`radio w-[37px] h-[37px] bg-[${color.code}] checked:bg-[${color.code}]` color-id = color.id)fa-circle text-[37px] text-[${color.code}]` slug = color.slug)
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#F50606]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#F5DD06]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#F57906]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#06CAF5]")
-                                    //- i(class="fa-solid fa-circle-check text-[37px] text-[#063AF5]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#7D06F5]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#F506A4]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#FFFFFF]")
-                                    //- i(class="fa-solid fa-circle text-[37px] text-[#000000]")
                     div
                         div(class="border border-[1px] border-[#0000001A] my-[24px]")
                         div(class="flex justify-between items-center pb-[20px]")
                             div(class="font-[400] text-[20px] text-[#000000]") Kích thước
                             i(class="fa-solid fa-chevron-up text-[16px]")
-                        div(class="grid grid-cols-3 flex-col gap-y-[8px]")
+                        div(class="flex flex-col gap-y-[8px] truncate")
                             - if(listSizes && listSizes.length > 0)
-                                sl-radio-group(class="flex gap-x-[12px] mb-[26px]" filter-size)
+                                sl-radio-group(class="flex gap-3 mb-[26px] flex-wrap" filter-size)
                                     each size in listSizes
-                                        sl-radio-button(class="mr-[12px] flex justify-center items-center" value = size.slug)
+                                        sl-radio-button(class="mr-[12px] mb-[12px] flex justify-center items-center" value = size.slug)
                                             div(class="text-[16px]") #{size.name}
                             //- span(class="w-[65px] h-[38px] font-[400] text-[14px] text-[#00000099] bg-[#F0F0F0] rounded-[62px] flex items-center justify-center") XXS
                             //- span(class="w-[57px] h-[38px] font-[400] text-[14px] text-[#00000099] bg-[#F0F0F0] rounded-[62px] flex items-center justify-center") XS
@@ -128,6 +103,7 @@ block main
                     div(class="flex flex-col justify-center gap-y-[20px]")
                         button(class="w-full py-[15px] bg-[#000000] text-[#FFFFFF] font-[400] text-[14px] rounded-[62px] flex-1" btn-filter) Lọc
                         button(class="" reset-filter) Reset
+
                 div(class="col-span-3 lg:col-span-4")
                     div(class="flex justify-between pb-[28px]")
                         div(class="font-[400] text-[16px] lg:text-[24px] text-[#000000]") #{category.name}

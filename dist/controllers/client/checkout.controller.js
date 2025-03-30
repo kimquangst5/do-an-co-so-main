@@ -31,7 +31,6 @@ const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.mo
 const order_model_1 = __importDefault(require("../../models/order.model"));
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const axios_1 = __importDefault(require("axios"));
-const console_1 = __importDefault(require("console"));
 const capitalizeWords_helper_1 = require("../../helpers/capitalizeWords.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
@@ -121,6 +120,17 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const items = yield product_items_model_1.default.findOne({
                 _id: cartItem.productItemId,
             });
+            if (items.quantity - cartItem.quantity < 0) {
+                res.status(400).json({
+                    message: "Thêm đơn hàng không thành công!",
+                });
+                return;
+            }
+            yield product_items_model_1.default.updateOne({
+                _id: cartItem.productItemId,
+            }, {
+                quantity: items.quantity - cartItem.quantity,
+            });
             totalPrice +=
                 (items["price"] - items["price"] * (items["discount"] / 100)) *
                     cartItem["quantity"];
@@ -180,7 +190,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return { cityName, districtName, wardName };
             }
             catch (error) {
-                console_1.default.error("Lỗi khi lấy dữ liệu địa lý:", error);
+                console.error("Lỗi khi lấy dữ liệu địa lý:", error);
                 return { cityName: "", districtName: "", wardName: "" };
             }
         });
@@ -195,23 +205,23 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         to: res.locals.INFOR_CUSTOMER.email,
         subject: "Đặt đơn hàng thành công!",
         html: `<h1><code><span style="font-family: verdana, geneva, sans-serif; color: #e03e2d;">Đặt hàng th&agrave;nh c&ocirc;ng</span></code></h1>
-<p>&nbsp;</p>
-<h2><code><span style="font-family: verdana, geneva, sans-serif;">I. Th&ocirc;ng tin kh&aacute;ch h&agrave;ng</span></code></h2>
-<div>
-<div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Họ v&agrave; t&ecirc;n kh&aacute;ch h&agrave;ng:&nbsp;<strong>${order.inforCustomer.fullname}</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Email kh&aacute;ch h&agrave;ng: <strong><a href="mailto:kimquangst5@gmail.com">${order.inforCustomer.email}</a></strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Số điện thoại kh&aacute;ch h&agrave;ng&nbsp;<strong>${order.inforCustomer.phone}</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Địa chỉ giao h&agrave;ng: <strong>${order.inforCustomer.address}</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Ghi ch&uacute;: <strong>${order.inforCustomer.note ? order.inforCustomer.note : "Không có"}</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Id đơn h&agrave;ng: <strong>${order.id}</strong></span></code></div>
-<div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Đường link đơn h&agrave;ng:&nbsp;<strong>${domain}${index_routes_1.default.CLIENT.CHECKOUT.PATH}${index_routes_1.default.CLIENT.CHECKOUT.SUCCESS}/${res.locals.INFOR_CUSTOMER.username}?id-don-hang=${order.id}</strong></span></code></div>
-</div>
-</div>
-<h2><code><span style="font-family: verdana, geneva, sans-serif;">II. Th&ocirc;ng tin đơn h&agrave;ng (${order.inforProductItem.length} sản phẩm)</span></code></h2>
-<p style="padding-left: 40px;"><code><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Th&agrave;nh tiền: <strong>${order.inforProductItem["totalPrice"] + order.shipping_fee} đồng</strong></span></code></p>
-<p>&nbsp;</p>
-<p style="text-align: right;"><code><em><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Xin cảm ơn qu&iacute; kh&aacute;ch đ&atilde; đặt h&agrave;ng của ch&uacute;ng t&ocirc;i, ch&uacute;ng t&ocirc;i sẽ sớm xử l&iacute; đơn h&agrave;ng của qu&iacute; kh&aacute;ch trong khoảng thời gian sớm nhất!</span></em></code></p>`,
+  <p>&nbsp;</p>
+  <h2><code><span style="font-family: verdana, geneva, sans-serif;">I. Th&ocirc;ng tin kh&aacute;ch h&agrave;ng</span></code></h2>
+  <div>
+  <div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Họ v&agrave; t&ecirc;n kh&aacute;ch h&agrave;ng:&nbsp;<strong>${order.inforCustomer.fullname}</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Email kh&aacute;ch h&agrave;ng: <strong><a href="mailto:kimquangst5@gmail.com">${order.inforCustomer.email}</a></strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Số điện thoại kh&aacute;ch h&agrave;ng&nbsp;<strong>${order.inforCustomer.phone}</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Địa chỉ giao h&agrave;ng: <strong>${order.inforCustomer.address}</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Ghi ch&uacute;: <strong>${order.inforCustomer.note ? order.inforCustomer.note : "Không có"}</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Id đơn h&agrave;ng: <strong>${order.id}</strong></span></code></div>
+  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Đường link đơn h&agrave;ng:&nbsp;<strong>${domain}${index_routes_1.default.CLIENT.CHECKOUT.PATH}${index_routes_1.default.CLIENT.CHECKOUT.SUCCESS}/${res.locals.INFOR_CUSTOMER.username}?id-don-hang=${order.id}</strong></span></code></div>
+  </div>
+  </div>
+  <h2><code><span style="font-family: verdana, geneva, sans-serif;">II. Th&ocirc;ng tin đơn h&agrave;ng (${order.inforProductItem.length} sản phẩm)</span></code></h2>
+  <p style="padding-left: 40px;"><code><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Th&agrave;nh tiền: <strong>${order.inforProductItem["totalPrice"] + order.shipping_fee} đồng</strong></span></code></p>
+  <p>&nbsp;</p>
+  <p style="text-align: right;"><code><em><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Xin cảm ơn qu&iacute; kh&aacute;ch đ&atilde; đặt h&agrave;ng của ch&uacute;ng t&ocirc;i, ch&uacute;ng t&ocirc;i sẽ sớm xử l&iacute; đơn h&agrave;ng của qu&iacute; kh&aacute;ch trong khoảng thời gian sớm nhất!</span></em></code></p>`,
     };
     transporter.sendMail(mailOptions, (error, info) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
@@ -221,7 +231,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         else {
-            console_1.default.log("Gửi thành công!");
+            console.log("Gửi thành công!");
         }
     }));
     res.json({

@@ -7,12 +7,27 @@ import { addValidate } from "../../validation/client/carts.validate";
 
 router.get(`${ROUTERS.CLIENT.CART.INDEX}/:username`, controller.index);
 
-router.patch(`${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.ADD_QUANTITY}`, controller.addQuantity);
+router.patch(
+  `${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.ADD_QUANTITY}`,
+  controller.addQuantity
+);
 
-router.patch(`${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.DECREASE}`, controller.decrease);
+router.patch(
+  `${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.DECREASE}`,
+  controller.decrease
+);
 
-router.delete(`${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.DELETE}/:idItem`, controller.deleteItem);
+router.delete(
+  `${ROUTERS.CLIENT.CART.INDEX}/:username${ROUTERS.CLIENT.CART.DELETE}/:idItem`,
+  controller.deleteItem
+);
 
-router.post(`${ROUTERS.CLIENT.CART.ADD}/:productId`, addValidate, controller.add);
+router.post(
+  `${ROUTERS.CLIENT.CART.ADD}/:productId`,
+  addValidate,
+  controller.add
+);
+
+router.get(`${ROUTERS.CLIENT.CART.GET_CART}/:productId`, controller.getCart);
 
 export default router;
