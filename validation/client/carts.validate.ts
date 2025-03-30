@@ -6,6 +6,7 @@ import ProductItem from "../../models/product-items.model";
 import Product from "../../models/products.model";
 import ColorProduct from "../../models/colorProduct.model";
 import SizeProduct from "../../models/sizeProduct.model";
+import Cart from "../../models/carts.model";
 require("dotenv").config();
 
 const addValidate = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,10 +34,18 @@ const addValidate = async (req: Request, res: Response, next: NextFunction) => {
     const size = await SizeProduct.findOne({
       _id: sizeId,
     }).select("name");
-    console.log(productItem.quantity);
-    console.log(quantity);
+    // console.log(productItem.quantity); // tồn kho
+    // console.log(quantity); // khách hàng
 
-    if (quantity > productItem.quantity)
+    const cartCustomer = await Cart.findOne({
+      customerId: res.locals.INFOR_CUSTOMER.id,
+      productItemId: productItem.id,
+    });
+    if (cartCustomer) {
+      let cntStockProduct = parseInt(quantity) + cartCustomer["quantity"];
+      if (cntStockProduct > productItem.quantity)
+        arrayError += `Chúng tôi xin lỗi! Sản phẩm <b class='text-[red]'>${product.name} (${color.name}, ${size.name})</b> chỉ còn  <b class='text-[red]'>${productItem.quantity}</b> cái\nGiỏ hàng của bạn đã có <b class='text-[red]'>${cartCustomer["quantity"]}</b> cái`;
+    } else if (quantity > productItem.quantity)
       arrayError += `Chúng tôi xin lỗi! Sản phẩm <b class='text-[red]'>${product.name} (${color.name}, ${size.name})</b> chỉ còn  <b class='text-[red]'>${productItem.quantity}</b> cái`;
     if (arrayError) {
       res.status(400).json({

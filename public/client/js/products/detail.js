@@ -224,18 +224,19 @@ const addCart = () => {
       .then((res) => {
         if (res.status == 200) {
           localStorage.setItem(
-            "alert-error",
+            "alert-success",
             JSON.stringify({
               title: "Thêm vào giỏ hàng thành công!",
               icon: "success",
             })
           );
+          closeLoader();
+          showAlertSuccess()
           // const redirect = btnAdd.getAttribute("redirect");
           // location.href = redirect;
           reloadCart()
           const drawer = document.querySelector('sl-drawer')
           drawer.show()
-          showAlertSuccess()
         }
       })
       .catch((error) => {

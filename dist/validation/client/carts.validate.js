@@ -17,6 +17,7 @@ const product_items_model_1 = __importDefault(require("../../models/product-item
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
+const carts_model_1 = __importDefault(require("../../models/carts.model"));
 require("dotenv").config();
 const addValidate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let arrayError = "";
@@ -43,9 +44,16 @@ const addValidate = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const size = yield sizeProduct_model_1.default.findOne({
             _id: sizeId,
         }).select("name");
-        console.log(productItem.quantity);
-        console.log(quantity);
-        if (quantity > productItem.quantity)
+        const cartCustomer = yield carts_model_1.default.findOne({
+            customerId: res.locals.INFOR_CUSTOMER.id,
+            productItemId: productItem.id,
+        });
+        if (cartCustomer) {
+            let cntStockProduct = parseInt(quantity) + cartCustomer["quantity"];
+            if (cntStockProduct > productItem.quantity)
+                arrayError += `Chúng tôi xin lỗi! Sản phẩm <b class='text-[red]'>${product.name} (${color.name}, ${size.name})</b> chỉ còn  <b class='text-[red]'>${productItem.quantity}</b> cái\nGiỏ hàng của bạn đã có <b class='text-[red]'>${cartCustomer["quantity"]}</b> cái`;
+        }
+        else if (quantity > productItem.quantity)
             arrayError += `Chúng tôi xin lỗi! Sản phẩm <b class='text-[red]'>${product.name} (${color.name}, ${size.name})</b> chỉ còn  <b class='text-[red]'>${productItem.quantity}</b> cái`;
         if (arrayError) {
             res.status(400).json({

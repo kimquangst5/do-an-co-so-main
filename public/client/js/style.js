@@ -297,14 +297,14 @@ const animation = () => {
         it.currentTime = 0;
       }
     });
-    // if(box)
-    observer.observe(it.children[0]);
+    if (box)
+      observer.observe(it.children[0]);
   })
 
 
 }
 
-animation()
+// animation()
 
 const btnContact = () => {
   const btn = document.querySelector('[btn-contact]')

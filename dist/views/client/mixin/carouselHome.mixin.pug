@@ -1,6 +1,6 @@
 mixin carouselHome(array)
      - if(array && array.length > 0)
-          sl-carousel(class="h-[500px] truncate" mouse-dragging autoplay pagination slides-per-page="4" loop = (array.length > 4 ? true : false) slides-per-move="1" autoplayInterval = '200' )
+          sl-carousel(class="h-[500px] truncate" mouse-dragging  pagination slides-per-page="4"  loop = (array.length > 4 ? true : false) slides-per-move="1" autoplayInterval = '200' )
                each it, i in array
                     - if(it.priceNew)
                          sl-carousel-item(class="bg-none group")
@@ -23,9 +23,9 @@ mixin carouselHome(array)
                                              sl-animation(name="fadeInUp" easing="ease-in-out" duration="1000" class="group-hover:[play=''] group-not-hover:[play='false']" iterations="1")
                                                   //- sl-button(class="" variant="default" pill data-twe-ripple-init )
                                                        sl-icon(name="cart-plus")
-                              a(onclick = 'showLoader()' href=`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.DETAIL}/${it.slug}` class="text-[18px] sm:text-[16px] text-[#000000] font-[500] mt-[12px] mb-[6px] md:text-[16px] line-clamp-1")
+                              a(onclick = 'showLoader()' href=`${ROUTERS.CLIENT.PRODUCT.PATH}${ROUTERS.CLIENT.PRODUCT.DETAIL}/${it.slug}` class="text-[18px] sm:text-[16px] text-[#000000] font-[500] mt-[12px] mb-[6px] md:text-[16px] line-clamp-1 w-full ")
                                    sl-tooltip(content=it.name)
-                                        div #{it.name}
+                                        div(class="w-full text-center line-clamp-1 whitespace-normal") #{it.name}
                               div(class="flex items-center mb-[6px]")
                                    sl-rating(label="Rating" precision="0.5" value='5' style="--symbol-color-active: #FFD43B; --symbol-size: 1rem;")
                                    span(class="ml-[8px] text-[12px] sm:text-[10px] text-gray-500") 4.5/5
