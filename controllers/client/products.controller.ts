@@ -218,13 +218,11 @@ const search = async (req: Request, res: Response) => {
 const index = async (req: Request, res: Response) => {
   const { khoanggia, mausac, kichthuoc } = req.query;
 
-  // Tìm kiếm sản phẩm với điều kiện cơ bản
   const findProduct = {
     status: "active",
     deleted: false,
   };
 
-  // Xử lý sắp xếp
   let sortProduct = {};
   if (typeof req.query.sapxep === "string") {
     const name = req.query.sapxep.split("-")[0];
