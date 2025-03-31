@@ -76,8 +76,8 @@ const deletePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.deletePatch = deletePatch;
 const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield customers_model_1.default.updateMany({ _id: req.params.id, "address.default": true }, { $set: { "address.$[].default": false } });
-    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, ' '));
-    req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, ' '));
+    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "));
+    req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, " "));
     yield customers_model_1.default.updateOne({
         _id: new mongodb_1.ObjectId(req.params.id),
     }, {
@@ -106,7 +106,7 @@ const updateAddressDefault = (req, res) => __awaiter(void 0, void 0, void 0, fun
     yield customers_model_1.default.updateMany({ _id: customer, "address.default": true }, { $set: { "address.$[].default": false } });
     yield customers_model_1.default.updateOne({ _id: customer, "address._id": new mongodb_1.ObjectId(id) }, { $set: { "address.$.default": true } });
     res.json({
-        code: 200
+        code: 200,
     });
 });
 exports.updateAddressDefault = updateAddressDefault;

@@ -111,4 +111,10 @@ router.patch(
   controller.infoCustomerUpdatePasswordPatch
 );
 
+router.get(`${ROUTERS.CLIENT.CUSTOMER.ADDRESS}`, controller.address);
+router.patch(
+  `${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.UPDATE_ADDRESS_DEFAULT}`,
+  controller.addressUpdateDefault
+);
+
 export default router;

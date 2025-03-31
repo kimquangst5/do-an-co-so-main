@@ -22,6 +22,8 @@ interface ROUTER_CLIENT {
     INFOR_CUSTOMER_UPDATE_PHONE: string;
     INFOR_CUSTOMER_UPDATE_PASSWORD: string;
     INFOR_CUSTOMER_CREATE_OTP: string;
+    ADDRESS: string;
+    UPDATE_ADDRESS_DEFAULT: string;
   };
   CART: {
     PATH: string;
@@ -66,6 +68,8 @@ const ROUTER_CLIENT: ROUTER_CLIENT = {
     INFOR_CUSTOMER_UPDATE_PHONE: "/sua-so-dien-thoai",
     INFOR_CUSTOMER_UPDATE_PASSWORD: "/doi-mat-khau",
     INFOR_CUSTOMER_CREATE_OTP: "/tao-otp",
+    ADDRESS: "/dia-chi-nhan-hang",
+    UPDATE_ADDRESS_DEFAULT: "/cap-nhat-dia-chi-mac-dinh",
   },
   CART: {
     PATH: "/gio-hang",

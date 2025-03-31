@@ -6,6 +6,8 @@ import ROUTERS from "../../constants/routes/index.routes";
 import axios from "axios";
 import OTP from "../../models/otp.model";
 import console from "console";
+import { getLocationNames } from "../../helpers/getLocationNames.helper";
+import { ObjectId } from "mongodb";
 
 require("dotenv").config();
 const login = async (req: Request, res: Response) => {
@@ -505,7 +507,43 @@ const infoCustomerUpdatePasswordPatch = async (req: Request, res: Response) => {
     code: 200,
   });
 };
+const address = async (req: Request, res: Response) => {
+  const customer = res.locals.INFOR_CUSTOMER;
+  for (const it of customer.address) {
+    const newAddress = await getLocationNames(
+      it["city"],
+      it["district"],
+      it["ward"]
+    );
+    it[
+      "addressComplete"
+    ] = `${it.address}, ${newAddress.wardName}, ${newAddress.districtName}, ${newAddress.cityName}`;
+  }
+  res.render("client/pages/customers/address.pug", {
+    pageTitle: "Địa chỉ nhận hàng",
+  });
+};
+
+const addressUpdateDefault = async (req: Request, res: Response) => {
+  const { address } = req.body;
+
+  await Customer.updateMany(
+    { _id: res.locals.INFOR_CUSTOMER.id, "address.default": true },
+    { $set: { "address.$[].default": false } }
+  );
+
+  await Customer.updateOne(
+    { _id: res.locals.INFOR_CUSTOMER.id, "address._id": new ObjectId(address) },
+    { $set: { "address.$.default": true } }
+  );
+  res.json({
+    code: 200,
+  });
+};
+
 export {
+  address,
+  addressUpdateDefault,
   login,
   register,
   registerPost,

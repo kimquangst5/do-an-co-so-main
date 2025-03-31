@@ -1,13 +1,16 @@
 div(class="col-span-3")
      div(class="bg-white rounded-lg shadow p-4")
-          h2(class="text-lg font-semibold mb-4 text-center") Tài khoản tôi
+          h2(class="text-lg font-semibold mb-4 text-center") Tài khoản của tôi
           ul(class="space-y-3")
-               li(class="flex items-center gap-2 text-gray-600 hover:text-black cursor-pointer")
-                    i(class="fa-regular fa-user")
-                    span Thông tin cá nhân
-               li(class="flex items-center gap-2 text-gray-600 hover:text-black cursor-pointer")
-                    i(class="fa-solid fa-location-dot")
-                    span Địa chỉ nhận hàng
-               li(class="flex items-center gap-2 text-gray-600 hover:text-black cursor-pointer")
-                    i(class="fa-solid fa-cart-shopping")
-                    span Đơn hàng
+               li(class="")
+                    a(class="flex items-center gap-2 text-gray-600 hover:text-black" href=`${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.INFOR_CUSTOMER}`) 
+                         sl-icon(name='person')
+                         span Thông tin cá nhân
+               li(class="")
+                    a(class="flex items-center gap-2 text-gray-600 hover:text-black" href=`${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.ADDRESS}`) 
+                         sl-icon(name='geo-alt')
+                         span Địa chỉ nhận hàng
+               li(class="")
+                    a(class="flex items-center gap-2 text-gray-600 hover:text-black" href=`${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.ADDRESS}`) 
+                         sl-icon(name='cart-check')
+                         span Đơn hàng

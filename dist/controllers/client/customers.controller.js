@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.infoCustomerUpdatePasswordPatch = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdatePhone = exports.infoCustomerUpdateEmailPatch = exports.infoCustomerCreateOtp = exports.infoCustomerUpdateEmail = exports.infoCustomerUpdateInforPatch = exports.infoCustomerUpdateInfor = exports.infoCustomer = exports.forgotPasswordNewPasswordPost = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPasswordOtp = exports.forgotPasswordCreateOTP = exports.forgotPassword = exports.loginGoogleCallback = exports.loginGoogle = exports.logout = exports.loginPost = exports.registerPost = exports.register = exports.login = void 0;
+exports.infoCustomerUpdatePasswordPatch = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdatePhone = exports.infoCustomerUpdateEmailPatch = exports.infoCustomerCreateOtp = exports.infoCustomerUpdateEmail = exports.infoCustomerUpdateInforPatch = exports.infoCustomerUpdateInfor = exports.infoCustomer = exports.forgotPasswordNewPasswordPost = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPasswordOtp = exports.forgotPasswordCreateOTP = exports.forgotPassword = exports.loginGoogleCallback = exports.loginGoogle = exports.logout = exports.loginPost = exports.registerPost = exports.register = exports.login = exports.addressUpdateDefault = exports.address = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const argon2_1 = __importDefault(require("argon2"));
 const customers_model_1 = __importDefault(require("../../models/customers.model"));
@@ -20,6 +20,8 @@ const index_routes_1 = __importDefault(require("../../constants/routes/index.rou
 const axios_1 = __importDefault(require("axios"));
 const otp_model_1 = __importDefault(require("../../models/otp.model"));
 const console_1 = __importDefault(require("console"));
+const getLocationNames_helper_1 = require("../../helpers/getLocationNames.helper");
+const mongodb_1 = require("mongodb");
 require("dotenv").config();
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.render("client/pages/customers/login.pug", {
@@ -446,3 +448,23 @@ const infoCustomerUpdatePasswordPatch = (req, res) => __awaiter(void 0, void 0, 
     });
 });
 exports.infoCustomerUpdatePasswordPatch = infoCustomerUpdatePasswordPatch;
+const address = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const customer = res.locals.INFOR_CUSTOMER;
+    for (const it of customer.address) {
+        const newAddress = yield (0, getLocationNames_helper_1.getLocationNames)(it["city"], it["district"], it["ward"]);
+        it["addressComplete"] = `${it.address}, ${newAddress.wardName}, ${newAddress.districtName}, ${newAddress.cityName}`;
+    }
+    res.render("client/pages/customers/address.pug", {
+        pageTitle: "Địa chỉ nhận hàng",
+    });
+});
+exports.address = address;
+const addressUpdateDefault = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { address } = req.body;
+    yield customers_model_1.default.updateMany({ _id: res.locals.INFOR_CUSTOMER.id, "address.default": true }, { $set: { "address.$[].default": false } });
+    yield customers_model_1.default.updateOne({ _id: res.locals.INFOR_CUSTOMER.id, "address._id": new mongodb_1.ObjectId(address) }, { $set: { "address.$.default": true } });
+    res.json({
+        code: 200,
+    });
+});
+exports.addressUpdateDefault = addressUpdateDefault;

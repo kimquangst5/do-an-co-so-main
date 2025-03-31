@@ -30,8 +30,8 @@ const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.
 const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
 const order_model_1 = __importDefault(require("../../models/order.model"));
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
-const axios_1 = __importDefault(require("axios"));
 const capitalizeWords_helper_1 = require("../../helpers/capitalizeWords.helper");
+const getLocationNames_helper_1 = require("../../helpers/getLocationNames.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
     const carts = yield carts_model_1.default.find({
@@ -170,32 +170,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             pass: process.env.PASSWORD_APPLICATION,
         },
     });
-    function getLocationNames(cityId, districtId, wardId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const Parameter = {
-                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                method: "GET",
-            };
-            try {
-                const response = yield (0, axios_1.default)(Parameter);
-                const data = response.data;
-                const city = data.find((c) => c.Id == cityId);
-                const cityName = city ? city.Name : "Không tìm thấy";
-                const district = city
-                    ? city.Districts.find((d) => d.Id == districtId)
-                    : null;
-                const districtName = district ? district.Name : "Không tìm thấy";
-                const ward = district ? district.Wards.find((w) => w.Id == wardId) : null;
-                const wardName = ward ? ward.Name : "Không tìm thấy";
-                return { cityName, districtName, wardName };
-            }
-            catch (error) {
-                console.error("Lỗi khi lấy dữ liệu địa lý:", error);
-                return { cityName: "", districtName: "", wardName: "" };
-            }
-        });
-    }
-    const newAddress = yield getLocationNames(order.inforCustomer["city"], order.inforCustomer["district"], order.inforCustomer["ward"]);
+    const newAddress = yield (0, getLocationNames_helper_1.getLocationNames)(order.inforCustomer["city"], order.inforCustomer["district"], order.inforCustomer["ward"]);
     order.inforCustomer.address = `${order.inforCustomer.address}, ${newAddress.wardName}, ${newAddress.districtName}, ${newAddress.cityName}`;
     const protocol = req.headers["x-forwarded-proto"] ||
         (req.socket["encrypted"] ? "https" : "http");

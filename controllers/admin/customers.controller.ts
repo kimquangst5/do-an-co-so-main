@@ -81,8 +81,12 @@ const createAddress = async (req: Request, res: Response) => {
     { _id: req.params.id, "address.default": true }, // Tìm các địa chỉ có `default: true`
     { $set: { "address.$[].default": false } } // Cập nhật tất cả thành `false`
   );
-  req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, ' '))
-  req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, ' '))
+  req.body.fullname = capitalizeWords(
+    req.body.fullname.trim().replace(/\s+/g, " ")
+  );
+  req.body.address = capitalizeWords(
+    req.body.address.trim().replace(/\s+/g, " ")
+  );
   await Customer.updateOne(
     {
       _id: new ObjectId(req.params.id),
@@ -110,8 +114,8 @@ const getAddress = async (req: Request, res: Response) => {
   res.json(customer.address);
 };
 const updateAddressDefault = async (req: Request, res: Response) => {
-  const { customer, id } = req.params
-  
+  const { customer, id } = req.params;
+
   await Customer.updateMany(
     { _id: customer, "address.default": true },
     { $set: { "address.$[].default": false } }
@@ -122,8 +126,8 @@ const updateAddressDefault = async (req: Request, res: Response) => {
     { $set: { "address.$.default": true } }
   );
   res.json({
-    code: 200
-  })
+    code: 200,
+  });
 };
 export {
   index,

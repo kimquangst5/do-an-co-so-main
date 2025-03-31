@@ -438,3 +438,31 @@ const btnDelete = () => {
 }
 
 btnDelete()
+
+const Parameter = {
+  url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+  method: "GET",
+  responseType: "json",
+};
+const promise = axios(Parameter);
+const addressComplete = async (address, city, district, ward) => {
+  let addressNew;
+  await promise.then(async (result) => {
+    const array = result.data
+    const cityIt = await array.find(c => parseInt(c.Id) === parseInt(city))
+    const districtit = await cityIt.Districts.find(d => parseInt(d.Id) === parseInt(district))
+    const wardIt = await districtit.Wards.find(w => parseInt(w.Id) === parseInt(ward))
+    addressNew = `${address}, ${wardIt.Name}, ${districtit.Name}, ${cityIt.Name}`
+  });
+  return addressNew;
+}
+
+const addressFinish = async (address, city, district, ward) => {
+  const result = await addressComplete(address, city, district, ward)
+  return result;
+}
+
+const getAddress = async (address, city, district, ward) => {
+  const result = await addressFinish(address, city, district, ward);
+  console.log(result);
+};

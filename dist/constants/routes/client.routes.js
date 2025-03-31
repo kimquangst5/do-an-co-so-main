@@ -24,6 +24,8 @@ const ROUTER_CLIENT = {
         INFOR_CUSTOMER_UPDATE_PHONE: "/sua-so-dien-thoai",
         INFOR_CUSTOMER_UPDATE_PASSWORD: "/doi-mat-khau",
         INFOR_CUSTOMER_CREATE_OTP: "/tao-otp",
+        ADDRESS: "/dia-chi-nhan-hang",
+        UPDATE_ADDRESS_DEFAULT: "/cap-nhat-dia-chi-mac-dinh",
     },
     CART: {
         PATH: "/gio-hang",

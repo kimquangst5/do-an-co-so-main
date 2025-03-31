@@ -1,0 +1,47 @@
+extends ../../layouts/layouts.pug
+
+block css
+block script
+     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+     script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js") 
+     script(type="module" src="/client/js/customer/address.js") 
+block main
+     - if(INFOR_CUSTOMER)
+          div
+               div(class="container mx-auto py-8")
+                    div(class="grid grid-cols-12 gap-8")
+                         // Left Sidebar
+                         include ../../partials/info-customer-leftbar.pug
+                         // Main Content
+                         div(class="col-span-9")
+                              div(class="bg-white rounded-lg shadow p-6")
+                                   h2(class="text-xl font-semibold mb-[5px]") Địa chỉ nhận hàng
+                                   p(class="text-gray-600 mb-6 text-[14px]") Quản lý địa chỉ nhận hàng của bạn
+                                   - if(INFOR_CUSTOMER.address.length == 0)
+                                        div(class="text-center flex flex-col gap-y-[10px] py-[20px]") 
+                                             h2(class="text-[2rem]") Bạn chưa có địa chỉ nhận hàng nào!
+                                             h4(class="text-[1rem]") Vui lòng thiết lập địa chỉ mới nhé!
+                                   - else
+                                        sl-radio-group(value=(INFOR_CUSTOMER.address.find(it => it.default == true)).id address)
+                                             each it in INFOR_CUSTOMER.address
+                                                  sl-radio(value=it.id class="py-[20px]")
+                                                       div(class="flex flex-col gap-y-[10px]")
+                                                            // Họ tên
+                                                            div(class="grid grid-cols-9 w-full")
+                                                                 div(class="col-span-3") Họ tên:
+                                                                 div(class="col-span-5") #{it.fullname}
+                                                                 sl-button(pill class="col-span-1") Cập nhật
+                                                            // SĐT
+                                                            div(class="grid grid-cols-3 w-full")
+                                                                 div(class="") Số điện thoại:
+                                                                 div(class="col-span-2") #{it.phone}
+                                                            // Địa chỉ
+                                                            div(class="grid grid-cols-3 w-full")
+                                                                 div(class="") Địa chỉ :
+                                                                 div(class="col-span-2") #{it.addressComplete}
+                                                            - if (it.default == true)
+                                                                 div(class="w-full")
+                                                                      sl-button(variant="warning" outline) Mặc định
+                                        sl-button(pill variant="success" class="w-full mt-[10px]" data-twe-ripple-init btn-update-default = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.UPDATE_ADDRESS_DEFAULT}`) Cập nhật địa chỉ mặc định
+
+

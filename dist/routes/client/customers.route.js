@@ -64,4 +64,6 @@ router.get(`${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER}${index_rout
 router.patch(`${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_INFOR}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_PHONE}`, CustomerValidate.infoCustomerUpdatePhonePatch, controller.infoCustomerUpdatePhonePatch);
 router.get(`${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_INFOR}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_PASSWORD}`, controller.infoCustomerUpdatePassword);
 router.patch(`${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_INFOR}${index_routes_1.default.CLIENT.CUSTOMER.INFOR_CUSTOMER_UPDATE_PASSWORD}`, CustomerValidate.infoCustomerUpdatePassword, controller.infoCustomerUpdatePasswordPatch);
+router.get(`${index_routes_1.default.CLIENT.CUSTOMER.ADDRESS}`, controller.address);
+router.patch(`${index_routes_1.default.CLIENT.CUSTOMER.ADDRESS}${index_routes_1.default.CLIENT.CUSTOMER.UPDATE_ADDRESS_DEFAULT}`, controller.addressUpdateDefault);
 exports.default = router;
