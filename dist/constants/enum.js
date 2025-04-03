@@ -12,6 +12,7 @@ const TYPE_IMAGE = {
 };
 exports.TYPE_IMAGE = TYPE_IMAGE;
 const STATUS_ORDER = {
+    INITIAL: "khoi-tao",
     WAIT_CONFIRMATION: "cho-xac-nhan",
     WAIT_PICK_UP_GOODS: "cho-lay-hang",
     IN_TRANSIT: "dang-giao-hang",

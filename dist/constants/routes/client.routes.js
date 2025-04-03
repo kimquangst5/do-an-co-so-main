@@ -40,6 +40,8 @@ const ROUTER_CLIENT = {
         PATH: "/thanh-toan",
         INDEX: "",
         SUCCESS: "/thanh-cong",
+        METHOD_PAY: "/phuong-thuc-thanh-toan",
+        CHANGE_STATUS_BANK_SUCCESS: "/thanh-toan-online-thanh-cong",
     },
     PRODUCT_CATEGORY: {
         PATH: "/danh-muc",

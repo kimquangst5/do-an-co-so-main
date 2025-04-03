@@ -19,7 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.success = exports.create = exports.index = void 0;
+exports.methodPay = exports.success = exports.create = exports.index = void 0;
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const productAssets_model_1 = __importDefault(require("../../models/productAssets.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
@@ -29,7 +29,6 @@ const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
 const order_model_1 = __importDefault(require("../../models/order.model"));
-const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const capitalizeWords_helper_1 = require("../../helpers/capitalizeWords.helper");
 const getLocationNames_helper_1 = require("../../helpers/getLocationNames.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -93,6 +92,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_2, _b, _c;
     let { fullname, email, phone, address, city, district, ward, note, cart } = req.body;
     const data = {
+        expireAt: Date.now() + 24 * 60 * 60 * 1000,
         inforCustomer: {
             customerId: new mongodb_1.ObjectId(res.locals.INFOR_CUSTOMER.id),
             fullname: (0, capitalizeWords_helper_1.capitalizeWords)(fullname.trim().replace(/\s+/g, " ")),
@@ -160,55 +160,6 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield carts_model_1.default.deleteMany({
         _id: listCartId,
     });
-    const nodemailer = require("nodemailer");
-    const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-            user: "kimquangst5@gmail.com",
-            pass: process.env.PASSWORD_APPLICATION,
-        },
-    });
-    const newAddress = yield (0, getLocationNames_helper_1.getLocationNames)(order.inforCustomer["city"], order.inforCustomer["district"], order.inforCustomer["ward"]);
-    order.inforCustomer.address = `${order.inforCustomer.address}, ${newAddress.wardName}, ${newAddress.districtName}, ${newAddress.cityName}`;
-    const protocol = req.headers["x-forwarded-proto"] ||
-        (req.socket["encrypted"] ? "https" : "http");
-    const domain = protocol + "://" + req.headers.host;
-    const mailOptions = {
-        from: "kimquangst5@gmail.com",
-        to: res.locals.INFOR_CUSTOMER.email,
-        subject: "Đặt đơn hàng thành công!",
-        html: `<h1><code><span style="font-family: verdana, geneva, sans-serif; color: #e03e2d;">Đặt hàng th&agrave;nh c&ocirc;ng</span></code></h1>
-  <p>&nbsp;</p>
-  <h2><code><span style="font-family: verdana, geneva, sans-serif;">I. Th&ocirc;ng tin kh&aacute;ch h&agrave;ng</span></code></h2>
-  <div>
-  <div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Họ v&agrave; t&ecirc;n kh&aacute;ch h&agrave;ng:&nbsp;<strong>${order.inforCustomer.fullname}</strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Email kh&aacute;ch h&agrave;ng: <strong><a href="mailto:kimquangst5@gmail.com">${order.inforCustomer.email}</a></strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Số điện thoại kh&aacute;ch h&agrave;ng&nbsp;<strong>${order.inforCustomer.phone}</strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Địa chỉ giao h&agrave;ng: <strong>${order.inforCustomer.address}</strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Ghi ch&uacute;: <strong>${order.inforCustomer.note ? order.inforCustomer.note : "Không có"}</strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Id đơn h&agrave;ng: <strong>${order.id}</strong></span></code></div>
-  <div style="padding-left: 40px;"><code><span style="font-size: 14pt; font-family: verdana, geneva, sans-serif;">Đường link đơn h&agrave;ng:&nbsp;<strong>${domain}${index_routes_1.default.CLIENT.CHECKOUT.PATH}${index_routes_1.default.CLIENT.CHECKOUT.SUCCESS}/${res.locals.INFOR_CUSTOMER.username}?id-don-hang=${order.id}</strong></span></code></div>
-  </div>
-  </div>
-  <h2><code><span style="font-family: verdana, geneva, sans-serif;">II. Th&ocirc;ng tin đơn h&agrave;ng (${order.inforProductItem.length} sản phẩm)</span></code></h2>
-  <p style="padding-left: 40px;"><code><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Th&agrave;nh tiền: <strong>${order.inforProductItem["totalPrice"] + order.shipping_fee} đồng</strong></span></code></p>
-  <p>&nbsp;</p>
-  <p style="text-align: right;"><code><em><span style="font-family: verdana, geneva, sans-serif; font-size: 14pt;">Xin cảm ơn qu&iacute; kh&aacute;ch đ&atilde; đặt h&agrave;ng của ch&uacute;ng t&ocirc;i, ch&uacute;ng t&ocirc;i sẽ sớm xử l&iacute; đơn h&agrave;ng của qu&iacute; kh&aacute;ch trong khoảng thời gian sớm nhất!</span></em></code></p>`,
-    };
-    transporter.sendMail(mailOptions, (error, info) => __awaiter(void 0, void 0, void 0, function* () {
-        if (error) {
-            res.status(400).json({
-                message: "Gửi email không thành công!",
-            });
-            return;
-        }
-        else {
-            console.log("Gửi thành công!");
-        }
-    }));
     res.json({
         code: 200,
         newOrder: order.id,
@@ -273,3 +224,44 @@ const success = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.success = success;
+const methodPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const orderId = req.query["id-don-hang"];
+    const order = yield order_model_1.default.findOne({
+        _id: orderId,
+    });
+    const addressNew = yield (0, getLocationNames_helper_1.getLocationNames)(order.inforCustomer.city, order.inforCustomer.district, order.inforCustomer.ward);
+    order["addressNew"] = addressNew;
+    order["totalPrice"] = 0;
+    for (const it of order.inforProductItem) {
+        const items = yield product_items_model_1.default.findOne({
+            _id: it.productItemId,
+        }).select("productId color size");
+        const productAssets = yield productAssets_model_1.default.findOne({
+            productId: items.productId,
+        }).select("assetsId");
+        const assets = yield assets_model_1.default.findOne({
+            _id: productAssets.assetsId,
+        }).select("path");
+        const product = yield products_model_1.default.findOne({
+            _id: items.productId,
+        }).select("name");
+        const color = yield colorProduct_model_1.default.findOne({
+            _id: items.color,
+        }).select("name");
+        const size = yield sizeProduct_model_1.default.findOne({
+            _id: items.size,
+        }).select("name");
+        it["product_name"] = product.name;
+        it["product_size"] = color.name;
+        it["product_color"] = size.name;
+        it["image"] = assets.path;
+        it["priceNew"] = it.price - it.price * (it.discount / 100);
+        it["newPrice"] = it["priceNew"] * it["quantity"];
+        order["totalPrice"] += it["newPrice"];
+    }
+    res.render("client/pages/checkouts/method-pay.pug", {
+        pageTitle: "Phương thức thanh toán",
+        order,
+    });
+});
+exports.methodPay = methodPay;

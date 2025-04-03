@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { sizeProductService } from "../../services/admin/index.service";
 
-
 const index = async (req: Request, res: Response) => {
   const listSize = await sizeProductService.get(req.query);
 

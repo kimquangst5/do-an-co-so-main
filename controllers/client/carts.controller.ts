@@ -160,7 +160,7 @@ const getCart = async (req: Request, res: Response) => {
     cartItem["discount"] = productItem.discount;
     cartItem["priceNew"] =
       productItem.price - productItem.price * (productItem.discount / 100);
-    arrayCart["totalPrice"] += cartItem["priceNew"];
+    // arrayCart["totalPrice"] += cartItem["priceNew"] * it["quantity"];
     cartItem["product"] = product.name;
     cartItem[
       "productSlug"
@@ -174,6 +174,7 @@ const getCart = async (req: Request, res: Response) => {
 
     arrayCart.push(cartItem);
   }
+  // console.log(arrayCart["totalPrice"]);
 
   res.json({
     code: 200,

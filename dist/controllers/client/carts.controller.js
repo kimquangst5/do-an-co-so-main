@@ -172,7 +172,6 @@ const getCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         cartItem["discount"] = productItem.discount;
         cartItem["priceNew"] =
             productItem.price - productItem.price * (productItem.discount / 100);
-        arrayCart["totalPrice"] += cartItem["priceNew"];
         cartItem["product"] = product.name;
         cartItem["productSlug"] = `${index_routes_1.default.CLIENT.PRODUCT.PATH}${index_routes_1.default.CLIENT.PRODUCT.DETAIL}/${product.slug}`;
         cartItem["color"] = color.name;

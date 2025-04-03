@@ -109,7 +109,6 @@ const updatePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.updatePatch = updatePatch;
 const deletePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.params);
     yield accounts_model_1.default.updateOne({
         _id: new mongodb_1.ObjectId(req.params.id),
     }, {

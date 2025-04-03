@@ -339,7 +339,7 @@ const reloadCart = () => {
           let htmlDiv = ''
           let totalPrice = 0
           for (const it of res.data.arrayCart) {
-            totalPrice += it.priceNew
+            totalPrice += it.priceNew * it.quantity
             let div = document.createElement('div')
             div.classList.add('flex', 'items-center')
             div.classList.add('gap-x-[10px]')
@@ -365,6 +365,8 @@ const reloadCart = () => {
           if (!priceNewCartDrawer) return
           parentCart.innerHTML = htmlDiv
           // priceNewCartDrawer.defaultValue = totalPrice
+          console.log(res.data.arrayCart);
+
           priceNewCartDrawer.value = totalPrice
           // console.log(priceNewCartDrawer);
           btnDelete()

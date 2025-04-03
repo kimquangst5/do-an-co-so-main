@@ -32,11 +32,16 @@ const orderSchema = new mongoose_1.default.Schema({
     },
     status: {
         type: String,
-        default: enum_1.STATUS_ORDER.WAIT_CONFIRMATION,
+        enum: Object.values(enum_1.STATUS_ORDER),
+        default: enum_1.STATUS_ORDER.INITIAL,
     },
     deleted: {
         type: Boolean,
         default: false,
+    },
+    expireAt: {
+        type: Date,
+        expires: 0,
     },
 }, {
     timestamps: true,

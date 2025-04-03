@@ -94,7 +94,6 @@ const updatePatch = async (req: Request, res: Response) => {
   });
 };
 const deletePatch = async (req: Request, res: Response) => {
-  console.log(req.params);
   await Account.updateOne(
     {
       _id: new ObjectId(req.params.id),

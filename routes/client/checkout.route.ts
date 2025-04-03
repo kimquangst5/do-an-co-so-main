@@ -7,6 +7,10 @@ import { addValidate } from "../../validation/client/carts.validate";
 import * as CheckoutValidate from "../../validation/client/checkouts.validate";
 
 router.get(`${ROUTERS.CLIENT.CHECKOUT.INDEX}/:username`, controller.index);
+router.get(
+  `${ROUTERS.CLIENT.CHECKOUT.METHOD_PAY}/:username`,
+  controller.methodPay
+);
 router.get(`${ROUTERS.CLIENT.CHECKOUT.SUCCESS}/:username`, controller.success);
 router.post(
   `${ROUTERS.CLIENT.CHECKOUT.INDEX}/:username`,

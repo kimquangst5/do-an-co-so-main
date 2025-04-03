@@ -42,6 +42,7 @@ const controller = __importStar(require("../../controllers/client/checkout.contr
 const index_routes_1 = __importDefault(require("../../constants/routes/index.routes"));
 const CheckoutValidate = __importStar(require("../../validation/client/checkouts.validate"));
 router.get(`${index_routes_1.default.CLIENT.CHECKOUT.INDEX}/:username`, controller.index);
+router.get(`${index_routes_1.default.CLIENT.CHECKOUT.METHOD_PAY}/:username`, controller.methodPay);
 router.get(`${index_routes_1.default.CLIENT.CHECKOUT.SUCCESS}/:username`, controller.success);
 router.post(`${index_routes_1.default.CLIENT.CHECKOUT.INDEX}/:username`, CheckoutValidate.create, controller.create);
 exports.default = router;

@@ -8,6 +8,7 @@ const TYPE_IMAGE = {
   SUB: "sub",
 };
 interface STATUS_ORDER {
+  INITIAL: string;
   WAIT_CONFIRMATION: string;
   WAIT_PICK_UP_GOODS: string;
   IN_TRANSIT: string;
@@ -20,6 +21,7 @@ interface STATUS_ORDER {
   COMPLETED: string;
 }
 const STATUS_ORDER: STATUS_ORDER = {
+  INITIAL: "khoi-tao",
   WAIT_CONFIRMATION: "cho-xac-nhan",
   WAIT_PICK_UP_GOODS: "cho-lay-hang",
   IN_TRANSIT: "dang-giao-hang",

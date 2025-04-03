@@ -33,7 +33,7 @@ exports.deleteMany = deleteMany;
 const findOneAndUpdate = (data) => __awaiter(void 0, void 0, void 0, function* () {
     for (const it of data) {
         if (it.id) {
-            yield sizeProduct_model_1.default.findOneAndUpdate({ _id: it.id }, { $set: it }, { upsert: true });
+            yield sizeProduct_model_1.default.updateOne({ _id: it.id }, it);
         }
         else {
             const newColorProduct = new sizeProduct_model_1.default(it);

@@ -38,6 +38,8 @@ interface ROUTER_CLIENT {
     PATH: string;
     INDEX: string;
     SUCCESS: string;
+    METHOD_PAY: string;
+    CHANGE_STATUS_BANK_SUCCESS: string;
   };
   PRODUCT_CATEGORY: {
     PATH: string;
@@ -84,6 +86,8 @@ const ROUTER_CLIENT: ROUTER_CLIENT = {
     PATH: "/thanh-toan",
     INDEX: "",
     SUCCESS: "/thanh-cong",
+    METHOD_PAY: "/phuong-thuc-thanh-toan",
+    CHANGE_STATUS_BANK_SUCCESS: "/thanh-toan-online-thanh-cong",
   },
   PRODUCT_CATEGORY: {
     PATH: "/danh-muc",
