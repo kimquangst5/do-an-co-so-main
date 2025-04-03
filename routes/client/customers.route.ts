@@ -117,4 +117,27 @@ router.patch(
   controller.addressUpdateDefault
 );
 
+router.get(
+  `${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.CREATE_ADDRESS}`,
+  controller.createAddress
+);
+
+router.post(
+  `${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.CREATE_ADDRESS}`,
+  CustomerValidate.createAddress,
+  controller.createAddressPost
+);
+
+router.get(
+  `${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.UPDATE_ADDRESS}/:id`,
+  controller.updateAddress
+);
+
+
+router.patch(
+  `${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.UPDATE_ADDRESS}/:id`,
+  CustomerValidate.createAddress,
+  controller.updateAddressPatch
+);
+
 export default router;

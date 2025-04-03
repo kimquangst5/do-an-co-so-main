@@ -151,9 +151,8 @@ const loginGoogleCallback = async (req: Request, res: Response) => {
       phone: peopleInfo.phoneNumbers?.[0]?.value.replace(/\s+/g, "") || "",
       genders: peopleInfo.genders?.[0]?.value || "",
       birthday: peopleInfo.birthdays?.[0]?.date
-        ? `${peopleInfo.birthdays[0].date.day}/${
-            peopleInfo.birthdays[0].date.month
-          }/${peopleInfo.birthdays[0].date.year || "N/A"}`
+        ? `${peopleInfo.birthdays[0].date.day}/${peopleInfo.birthdays[0].date.month
+        }/${peopleInfo.birthdays[0].date.year || "N/A"}`
         : "",
     };
 
@@ -540,9 +539,86 @@ const addressUpdateDefault = async (req: Request, res: Response) => {
     code: 200,
   });
 };
+const createAddress = async (req: Request, res: Response) => {
+  res.render('client/pages/customers/create-address.pug', {
+    pageTitle: 'Thêm địa chỉ nhận hàng',
 
+  })
+};
+
+const createAddressPost = async (req: Request, res: Response) => {
+  await Customer.updateMany(
+    { _id: res.locals.INFOR_CUSTOMER.id, "address.default": true }, // Tìm các địa chỉ có `default: true`
+    { $set: { "address.$[].default": false } } // Cập nhật tất cả thành `false`
+  );
+  req.body.fullname = capitalizeWords(
+    req.body.fullname.trim().replace(/\s+/g, " ")
+  );
+  req.body.address = capitalizeWords(
+    req.body.address.trim().replace(/\s+/g, " ")
+  );
+  await Customer.updateOne(
+    {
+      _id: new ObjectId(res.locals.INFOR_CUSTOMER.id),
+    },
+    {
+      $push: {
+        address: req.body,
+      },
+    }
+  );
+  res.json({
+    code: 200
+  })
+};
+
+const updateAddress = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const customer = await Customer.findOne({
+    _id: res.locals.INFOR_CUSTOMER.id,
+  }).select('address')
+  const address = customer.address.find(it => it.id == id)
+  console.log(id);
+
+  res.render('client/pages/customers/update-address.pug', {
+    pageTitle: 'Cập nhật địa chỉ nhận hàng',
+
+    location: address
+  })
+}
+
+const updateAddressPatch = async (req: Request, res: Response) => {
+  console.log(req.params);
+  console.log(req.body);
+  req.body.fullname = capitalizeWords(
+    req.body.fullname.trim().replace(/\s+/g, " ")
+  );
+  req.body.address = capitalizeWords(
+    req.body.address.trim().replace(/\s+/g, " ")
+  );
+  const { id } = req.params
+  await Customer.updateOne({
+    _id: res.locals.INFOR_CUSTOMER.id,
+    "address._id": id
+  }, {
+    $set: {
+      "address.$.city": parseInt(req.body.city),
+      "address.$.district": parseInt(req.body.district),
+      "address.$.ward": parseInt(req.body.ward),
+      "address.$.address": req.body.address,
+      "address.$.fullname": req.body.fullname,
+      "address.$.phone": req.body.phone,
+    }
+  })
+  res.json({
+    code: 200
+  })
+}
 export {
   address,
+  updateAddress,
+  updateAddressPatch,
+  createAddressPost,
   addressUpdateDefault,
   login,
   register,
@@ -567,4 +643,5 @@ export {
   infoCustomerUpdatePhonePatch,
   infoCustomerUpdatePassword,
   infoCustomerUpdatePasswordPatch,
+  createAddress
 };

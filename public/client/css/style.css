@@ -366,4 +366,14 @@ sl-option[tabindex="0"]::part(base):hover {
   }
 }
 
+*[required]::part(form-control-label)::after {
+  content: none;
+}
+
+*[required]::part(form-control-label)::before {
+  content: '*';
+  color: #FA4F64;
+  font-size: larger;
+}
+
 /*End Button Contact Fixed*/

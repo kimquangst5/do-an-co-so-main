@@ -18,8 +18,12 @@ const productsCategories_model_1 = __importDefault(require("../../models/product
 const createTree_helper_1 = __importDefault(require("../../helpers/createTree.helper"));
 const carts_model_1 = __importDefault(require("../../models/carts.model"));
 const info_website_model_1 = __importDefault(require("../../models/info-website.model"));
+const enum_1 = require("../../constants/enum");
 const checkLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        res.locals.STATUS_ORDER = enum_1.STATUS_ORDER;
+        res.locals.STATUS = enum_1.STATUS;
+        res.locals.STATUS_PAY = enum_1.STATUS_PAY;
         if (req.cookies["alert-success"] == "xoa-cookie") {
             res.clearCookie("alert-success");
         }

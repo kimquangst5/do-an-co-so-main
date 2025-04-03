@@ -6,6 +6,7 @@ block script
      script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js") 
      script(type="module" src="/client/js/customer/address.js") 
 block main
+
      - if(INFOR_CUSTOMER)
           div
                div(class="container mx-auto py-8")
@@ -15,8 +16,11 @@ block main
                          // Main Content
                          div(class="col-span-9")
                               div(class="bg-white rounded-lg shadow p-6")
-                                   h2(class="text-xl font-semibold mb-[5px]") Địa chỉ nhận hàng
-                                   p(class="text-gray-600 mb-6 text-[14px]") Quản lý địa chỉ nhận hàng của bạn
+                                   div(class='flex items-center justify-between')
+                                        div 
+                                             h2(class="text-xl font-semibold mb-[5px]") Địa chỉ nhận hàng
+                                             p(class="text-gray-600 mb-6 text-[14px]") Quản lý địa chỉ nhận hàng của bạn để thuận tiện trong lúc thanh toán
+                                        sl-button(variant='primary' href = `${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.CREATE_ADDRESS}`) Thêm ngay
                                    - if(INFOR_CUSTOMER.address.length == 0)
                                         div(class="text-center flex flex-col gap-y-[10px] py-[20px]") 
                                              h2(class="text-[2rem]") Bạn chưa có địa chỉ nhận hàng nào!
@@ -30,7 +34,7 @@ block main
                                                             div(class="grid grid-cols-9 w-full")
                                                                  div(class="col-span-3") Họ tên:
                                                                  div(class="col-span-5") #{it.fullname}
-                                                                 sl-button(pill class="col-span-1") Cập nhật
+                                                                 sl-button(pill class="col-span-1" href=`${ROUTERS.CLIENT.CUSTOMER.PATH}${ROUTERS.CLIENT.CUSTOMER.ADDRESS}${ROUTERS.CLIENT.CUSTOMER.UPDATE_ADDRESS}/${it.id}`) Cập nhật
                                                             // SĐT
                                                             div(class="grid grid-cols-3 w-full")
                                                                  div(class="") Số điện thoại:

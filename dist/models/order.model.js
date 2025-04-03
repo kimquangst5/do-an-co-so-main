@@ -35,6 +35,11 @@ const orderSchema = new mongoose_1.default.Schema({
         enum: Object.values(enum_1.STATUS_ORDER),
         default: enum_1.STATUS_ORDER.INITIAL,
     },
+    statusPay: {
+        type: String,
+        enum: Object.values(enum_1.STATUS_PAY),
+        default: enum_1.STATUS_PAY.PAY_SUCCESS,
+    },
     deleted: {
         type: Boolean,
         default: false,
@@ -43,6 +48,13 @@ const orderSchema = new mongoose_1.default.Schema({
         type: Date,
         expires: 0,
     },
+    method: String,
+    inforTransfer: {
+        time: Date,
+        receive: Number,
+        price: Number,
+        transactionCode: Number
+    }
 }, {
     timestamps: true,
     autoCreate: true,

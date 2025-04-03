@@ -45,4 +45,6 @@ router.get(`${index_routes_1.default.CLIENT.CHECKOUT.INDEX}/:username`, controll
 router.get(`${index_routes_1.default.CLIENT.CHECKOUT.METHOD_PAY}/:username`, controller.methodPay);
 router.get(`${index_routes_1.default.CLIENT.CHECKOUT.SUCCESS}/:username`, controller.success);
 router.post(`${index_routes_1.default.CLIENT.CHECKOUT.INDEX}/:username`, CheckoutValidate.create, controller.create);
+router.patch(`${index_routes_1.default.CLIENT.CHECKOUT.CHANGE_STATUS_BANK_SUCCESS}/:orderId`, controller.changeStatusBankSuccess);
+router.patch(`${index_routes_1.default.CLIENT.CHECKOUT.CHANGE_STATUS_POLIME_SUCCESS}/:orderId`, controller.changeStatusPolimeSuccess);
 exports.default = router;

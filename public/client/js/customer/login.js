@@ -6,9 +6,9 @@ const main = () => {
      if (!link) return
      btnSubmit.addEventListener('click', () => {
           axios.post(link, {
-                    username: username.value,
-                    password: password.value
-               })
+               username: username.value,
+               password: password.value
+          })
                .then(res => {
                     localStorage.setItem(
                          "alert-success",

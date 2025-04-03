@@ -4,6 +4,7 @@ import Customer from "../../models/customers.model";
 import { STATUS } from "../../constants/enum";
 import axios from "axios";
 import { ObjectId } from "mongodb";
+import { capitalizeWords } from "../../helpers/capitalizeWords.helper";
 
 const index = async (req: Request, res: Response) => {
   const customers = await Customer.find({
@@ -34,16 +35,7 @@ const update = async (req: Request, res: Response) => {
     customer,
   });
 };
-function capitalizeWords(str) {
-  str = str.toLowerCase();
-  const words = str.split(" ");
-  for (let i = 0; i < words.length; i++) {
-    const firstChar = words[i].charAt(0).toUpperCase();
-    const restOfWord = words[i].slice(1);
-    words[i] = firstChar + restOfWord;
-  }
-  return words.join(" ");
-}
+
 const updatePatch = async (req: Request, res: Response) => {
   req.body.birthday = req.body.birthday.split("-").reverse().join("/");
   req.body.fullname = capitalizeWords(

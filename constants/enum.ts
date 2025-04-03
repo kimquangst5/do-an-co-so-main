@@ -17,8 +17,12 @@ interface STATUS_ORDER {
   RETURNING: string;
   RETURNED: string;
   CANCELLED: string;
-  PENDING_PAYMENT: string;
   COMPLETED: string;
+}
+
+interface STATUS_PAY {
+  PAY_SUCCESS: string;
+  PAY_NOT_YET: string;
 }
 const STATUS_ORDER: STATUS_ORDER = {
   INITIAL: "khoi-tao",
@@ -30,8 +34,12 @@ const STATUS_ORDER: STATUS_ORDER = {
   RETURNING: "dang-hoan-tra",
   RETURNED: "da-hoan-tra",
   CANCELLED: "da-huy",
-  PENDING_PAYMENT: "cho-thanh-toan",
   COMPLETED: "hoan-thanh",
 };
 
-export { STATUS, TYPE_IMAGE, STATUS_ORDER };
+const STATUS_PAY: STATUS_PAY = {
+  PAY_SUCCESS: 'thanh-toan-thanh-cong',
+  PAY_NOT_YET: 'chua-thanh-toan'
+};
+
+export { STATUS, TYPE_IMAGE, STATUS_ORDER, STATUS_PAY };

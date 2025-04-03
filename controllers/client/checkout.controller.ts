@@ -13,6 +13,7 @@ import ROUTERS from "../../constants/routes/index.routes";
 import axios from "axios";
 import { capitalizeWords } from "../../helpers/capitalizeWords.helper";
 import { getLocationNames } from "../../helpers/getLocationNames.helper";
+import { STATUS_ORDER, STATUS_PAY } from "../../constants/enum";
 
 const index = async (req: Request, res: Response) => {
   const carts = await Cart.find({
@@ -44,8 +45,8 @@ const index = async (req: Request, res: Response) => {
     );
     it["priceNew"] = Math.ceil(
       it.quantity *
-        (productItems.price -
-          productItems.price * (productItems.discount / 100))
+      (productItems.price -
+        productItems.price * (productItems.discount / 100))
     );
     carts["totalPrice"] += it["priceNew"];
     const productAsset = await ProductAssets.findOne({
@@ -220,6 +221,7 @@ const success = async (req: Request, res: Response) => {
   const order = await Order.findOne({
     _id: id,
   });
+
   order.inforProductItem["totalPrice"] = 0;
 
   for await (const it of order.inforProductItem) {
@@ -247,8 +249,8 @@ const success = async (req: Request, res: Response) => {
     );
     it["priceNew"] = Math.ceil(
       it.quantity *
-        (productItems.price -
-          productItems.price * (productItems.discount / 100))
+      (productItems.price -
+        productItems.price * (productItems.discount / 100))
     );
     order.inforProductItem["totalPrice"] += it["priceNew"];
     const productAsset = await ProductAssets.findOne({
@@ -261,6 +263,8 @@ const success = async (req: Request, res: Response) => {
     });
     it["image"] = asset.path;
   }
+  console.log(order.method);
+
 
   res.render("client/pages/checkouts/success.pug", {
     pageTitle: "Đặt đơn thành công",
@@ -314,5 +318,51 @@ const methodPay = async (req: Request, res: Response) => {
     order,
   });
 };
+const changeStatusBankSuccess = async (req: Request, res: Response) => {
+  const { orderId } = req.params
+  const order = await Order.findOne({
+    _id: orderId
+  })
 
-export { index, create, success, methodPay };
+  if (order.status == STATUS_ORDER.INITIAL || (order.method == 'polime' && order.status == STATUS_ORDER.WAIT_CONFIRMATION)) {
+    await Order.updateOne({
+      _id: orderId
+    }, {
+      status: STATUS_ORDER.WAIT_CONFIRMATION,
+      statusPay: STATUS_PAY.PAY_SUCCESS,
+      $unset: { expireAt: '' },
+      inforTransfer: req.body,
+      method: 'transfer'
+    })
+  }
+
+  res.json({
+    code: 200
+  })
+
+}
+
+const changeStatusPolimeSuccess = async (req: Request, res: Response) => {
+  const { orderId } = req.params
+  const order = await Order.findOne({
+    _id: orderId
+  }).select('status')
+
+  if (order.status == 'khoi-tao') {
+
+    await Order.updateOne({
+      _id: orderId
+    }, {
+      status: STATUS_ORDER.WAIT_CONFIRMATION,
+      statusPay: STATUS_PAY.PAY_NOT_YET,
+      $unset: { expireAt: '' },
+      method: 'polime'
+    })
+  }
+
+  res.json({
+    code: 200
+  })
+
+}
+export { index, create, success, methodPay, changeStatusBankSuccess, changeStatusPolimeSuccess };

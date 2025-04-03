@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.infoCustomerUpdateInfor = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdateEmailPatch = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPassword = exports.login = exports.register = void 0;
+exports.createAddress = exports.infoCustomerUpdateInfor = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdateEmailPatch = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPassword = exports.login = exports.register = void 0;
 const argon2_1 = __importDefault(require("argon2"));
 const customers_model_1 = __importDefault(require("../../models/customers.model"));
 const otp_model_1 = __importDefault(require("../../models/otp.model"));
@@ -391,3 +391,42 @@ const infoCustomerUpdateInfor = (req, res, next) => __awaiter(void 0, void 0, vo
         next();
 });
 exports.infoCustomerUpdateInfor = infoCustomerUpdateInfor;
+const createAddress = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { city, district, ward, address, fullname, phone } = req.body;
+    let errorArray = [];
+    if (!city)
+        errorArray.push("Chưa chọn thành phố!");
+    if (!district)
+        errorArray.push("Chưa chọn quận/huyện!");
+    if (!ward)
+        errorArray.push("Chưa nhập xã/phường");
+    if (!address)
+        errorArray.push("Chưa nhập số nhà + tên đường");
+    if (!fullname)
+        errorArray.push("Chưa nhập họ tên");
+    if (!phone)
+        errorArray.push("Chưa nhập số điện thoại");
+    if (fullname && district && ward && address && fullname && phone) {
+        if (fullname.length < 6)
+            errorArray.push("Họ và tên quá ngắn");
+        if (address.length <= 8)
+            errorArray.push("Địa chỉ quá ngắn");
+        if (phone.length != 10)
+            errorArray.push("Số điện thoại phải có 10 số");
+        else {
+            const phoneRegex = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+            if (phoneRegex.test(phone) == false) {
+                errorArray.push("Số điện thoại không hợp lệ!");
+            }
+        }
+    }
+    if (errorArray.length > 0) {
+        res.status(400).json({
+            message: errorArray.join("\n"),
+        });
+        return;
+    }
+    else
+        next();
+});
+exports.createAddress = createAddress;

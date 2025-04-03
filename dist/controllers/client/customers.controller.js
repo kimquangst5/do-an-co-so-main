@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.infoCustomerUpdatePasswordPatch = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdatePhone = exports.infoCustomerUpdateEmailPatch = exports.infoCustomerCreateOtp = exports.infoCustomerUpdateEmail = exports.infoCustomerUpdateInforPatch = exports.infoCustomerUpdateInfor = exports.infoCustomer = exports.forgotPasswordNewPasswordPost = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPasswordOtp = exports.forgotPasswordCreateOTP = exports.forgotPassword = exports.loginGoogleCallback = exports.loginGoogle = exports.logout = exports.loginPost = exports.registerPost = exports.register = exports.login = exports.addressUpdateDefault = exports.address = void 0;
+exports.createAddress = exports.infoCustomerUpdatePasswordPatch = exports.infoCustomerUpdatePassword = exports.infoCustomerUpdatePhonePatch = exports.infoCustomerUpdatePhone = exports.infoCustomerUpdateEmailPatch = exports.infoCustomerCreateOtp = exports.infoCustomerUpdateEmail = exports.infoCustomerUpdateInforPatch = exports.infoCustomerUpdateInfor = exports.infoCustomer = exports.forgotPasswordNewPasswordPost = exports.forgotPasswordNewPassword = exports.forgotPasswordCheckOtp = exports.forgotPasswordOtp = exports.forgotPasswordCreateOTP = exports.forgotPassword = exports.loginGoogleCallback = exports.loginGoogle = exports.logout = exports.loginPost = exports.registerPost = exports.register = exports.login = exports.addressUpdateDefault = exports.createAddressPost = exports.updateAddressPatch = exports.updateAddress = exports.address = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const argon2_1 = __importDefault(require("argon2"));
 const customers_model_1 = __importDefault(require("../../models/customers.model"));
@@ -468,3 +468,62 @@ const addressUpdateDefault = (req, res) => __awaiter(void 0, void 0, void 0, fun
     });
 });
 exports.addressUpdateDefault = addressUpdateDefault;
+const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.render('client/pages/customers/create-address.pug', {
+        pageTitle: 'Thêm địa chỉ nhận hàng',
+    });
+});
+exports.createAddress = createAddress;
+const createAddressPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield customers_model_1.default.updateMany({ _id: res.locals.INFOR_CUSTOMER.id, "address.default": true }, { $set: { "address.$[].default": false } });
+    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "));
+    req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, " "));
+    yield customers_model_1.default.updateOne({
+        _id: new mongodb_1.ObjectId(res.locals.INFOR_CUSTOMER.id),
+    }, {
+        $push: {
+            address: req.body,
+        },
+    });
+    res.json({
+        code: 200
+    });
+});
+exports.createAddressPost = createAddressPost;
+const updateAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const customer = yield customers_model_1.default.findOne({
+        _id: res.locals.INFOR_CUSTOMER.id,
+    }).select('address');
+    const address = customer.address.find(it => it.id == id);
+    console_1.default.log(id);
+    res.render('client/pages/customers/update-address.pug', {
+        pageTitle: 'Cập nhật địa chỉ nhận hàng',
+        location: address
+    });
+});
+exports.updateAddress = updateAddress;
+const updateAddressPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console_1.default.log(req.params);
+    console_1.default.log(req.body);
+    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "));
+    req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, " "));
+    const { id } = req.params;
+    yield customers_model_1.default.updateOne({
+        _id: res.locals.INFOR_CUSTOMER.id,
+        "address._id": id
+    }, {
+        $set: {
+            "address.$.city": parseInt(req.body.city),
+            "address.$.district": parseInt(req.body.district),
+            "address.$.ward": parseInt(req.body.ward),
+            "address.$.address": req.body.address,
+            "address.$.fullname": req.body.fullname,
+            "address.$.phone": req.body.phone,
+        }
+    });
+    res.json({
+        code: 200
+    });
+});
+exports.updateAddressPatch = updateAddressPatch;
