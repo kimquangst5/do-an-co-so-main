@@ -24,28 +24,6 @@ const checkLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
                 icon: "grid",
             },
             {
-                name: "Bài viết",
-                icon: "box",
-                childrent: [
-                    {
-                        name: "Thêm bài viết",
-                        icon: "plus-circle",
-                    },
-                    {
-                        name: "Danh sách",
-                        icon: "list",
-                    },
-                    {
-                        name: "Danh mục",
-                        icon: "columns-gap",
-                    },
-                ],
-            },
-            {
-                name: "Media",
-                icon: "image",
-            },
-            {
                 name: "Sản phẩm",
                 icon: "box",
                 childrent: [
@@ -93,8 +71,24 @@ const checkLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
                 ],
             },
             {
+                name: "Đánh giá/Bình luận",
+                icon: "pencil-square",
+                childrent: [
+                    {
+                        name: "Thêm đánh giá",
+                        icon: "plus-circle",
+                        link: `/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.REVIEW.PATH}${index_routes_1.default.ADMIN.REVIEW.CREATE}`,
+                    },
+                    {
+                        name: "Danh sách",
+                        icon: "list",
+                        link: `/${index_routes_1.default.ADMIN.AUTH}${index_routes_1.default.ADMIN.REVIEW.PATH}${index_routes_1.default.ADMIN.REVIEW.INDEX}`,
+                    },
+                ],
+            },
+            {
                 name: "Nhóm quyền",
-                icon: "person-lock",
+                icon: "person-gear",
                 childrent: [
                     {
                         name: "Thêm nhóm quyền",

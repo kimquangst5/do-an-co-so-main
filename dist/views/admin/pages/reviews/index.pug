@@ -1,0 +1,131 @@
+extends ../../layouts/layouts.pug
+include ../../mixins/btn-redirect.mixin.pug
+
+block header
+    h1 Danh sách bình luận / đánh giá
+
+block hb
+    //- sl-button(variant="primary" size="small" btn-export-excel) Xuất file Excel
+    - if(ROLE.permission.includes("products-create"))
+        +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
+    - if(ROLE.permission.includes("products-update"))
+        sl-dropdown(link = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CHANGE_STATUS_MANY_PRODUCT}`)
+            sl-button(slot="trigger", caret variant="primary" size="small")
+                sl-icon(slot="prefix" name="pen")
+                | Hành động
+            sl-menu
+                sl-menu-item(value="trash-product")
+                    | Xóa sản phẩm
+                    sl-icon(slot="prefix" name="trash")
+                sl-divider
+                sl-menu-item
+                    | Cập nhật trạng thái
+                    sl-icon(slot="prefix" name="arrow-clockwise")
+                    sl-menu(slot="submenu")
+                        sl-menu-item(value="active") Hoạt động
+                        sl-menu-item(value="inactive") Tạm dừng
+
+
+block css
+    //- - if(ROLE.permission.includes("products-view"))
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.7/dist/viewer.min.css")
+    link(rel="stylesheet" href="/admin/css/products/index.css")
+
+block script
+    //- - if(ROLE.permission.includes("products-view"))
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+    script(src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.7/dist/viewer.min.js")
+
+    script(src="/admin/js/reviews/index.js")
+
+
+block main
+
+    //- - if(ROLE.permission.includes("products-view"))
+    div(class='flex-1')
+        div(class=`pb-[10px] grid grid-cols-4 gap-[10px]`)
+            form(class="input-validation-required" search-product)
+                sl-input(placeholder="Tìm kiếm..." size="small" name='search')
+                    //- button(type="submit" slot="prefix")
+                    sl-icon(type="submit" name="search-heart" slot="prefix")
+
+            sl-select(placeholder="---Trạng thái---" size="small" clearable filter-status)
+                sl-option(size="small" value="active") Đang bán
+                sl-option(size="small" value="inactive") Tạm ngưng
+        - if(reviews && reviews.length > 0)
+            table(class=`w-full `)
+                thead
+                    tr(class="")
+                        th
+                            sl-checkbox()
+                        th
+                            div(class=``) Sản phẩm
+                        th
+                            div(class=``) Điểm
+                        th
+                            div(class=``) Nội dung
+                        th
+                            div(class=``) Khách hàng
+                        th
+                            div(class=``) Trạng thái
+                tbody
+                    each it in reviews
+                        //- div #{it.id}
+                        tr(class=`group hover:bg-[#FFFFCF] w-full overflow-y-auto`)
+                            td
+                                sl-checkbox(value=it._id class=`flex justify-center`)
+                            td(class=`w-fit min-w-[30vh]`)
+                                div(class=`flex flex-col gap-y-[5px] justify-center`) 
+                                    sl-tooltip(content=it.product_name)
+                                        div(class=`font-bold text-[18px] line-clamp-1` name-product) #{it.product_name}
+                                    div(class=`opacity-0 group-hover:opacity-[100%] flex items-center gap-x-[10px] text-[13px]`)
+                                        //- - if(ROLE.permission.includes("products-update"))
+                                        a(href=`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.UPDATE}/${it._id}` class=`text-[#5277FF]`) Chỉnh sửa
+                                        //- - if(ROLE.permission.includes("products-delete"))
+                                        button(trash=`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.TRASH}/${it._id}` class=`text-[#FFA09B]`) Xóa
+                            td
+                                div(class='text-center') #{it.rating}
+                            td
+                                div(class='break-words whitespace-normal text-wrap max-w-[300px] px-[10px]') #{it.content}
+                            td(class='w-fit min-w-[10vh]')
+                                div #{it.customer_name}
+                            td
+                                div(class=`flex justify-center items-center`)
+                                    - if(it.is_approved == false)
+                                        sl-badge(variant="warning" size="small" change-status = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.REVIEW.PATH}${ROUTERS.ADMIN.REVIEW.CHANGE_STATUS}/${it._id}` class='cursor-pointer') Chưa duyệt
+                                    - else
+                                        sl-badge(variant="success" size="small" change-status = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.REVIEW.PATH}${ROUTERS.ADMIN.REVIEW.CHANGE_STATUS}/${it._id}` class='cursor-pointer') Đã duyệt
+
+
+        - else
+            +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
+
+
+
+
+    - if(pagination)
+        div(class=`flex items-center justify-between`) 
+            nav
+                ul(class=`flex items-center gap-x-[10px]`)
+                    li(class=`w-auto`)
+                        button(href="£" class=`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200  hover:bg-[#0EA5E9] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200` trang-dau) Trang đầu
+                    li(class=`w-auto`)
+                        button(href="£" class=`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200  hover:bg-[#0EA5E9] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200` trang-truoc) Trước
+                    - for(let i = Math.max(1, pagination.current - 3); i <= Math.min(pagination.totalPage, pagination.current + 3); i++)
+                        li(class=`w-[40px] `)
+                            button(href="£" class=`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200  hover:bg-[#0EA5E9] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200` trang = i) #{i}
+                    li(class=`w-auto`)
+                        button(href="£" class=`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200  hover:bg-[#0EA5E9] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200` trang-sau = pagination.totalPage) Sau
+                    li(class=`w-auto`)
+                        button(href="£" class=`px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200  hover:bg-[#0EA5E9] dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200` trang-cuoi = pagination.totalPage) Trang cuối
+            div(class=`flex flex-col items-center gap-[10px]`)
+                div #{pagination.limit * (pagination.current - 1) + 1} - #{pagination.limit * pagination.current} trong số #{pagination.totalProduct} sản phẩm
+                div(class=`flex gap-x-[5px]`)
+                    div(class=``) Hiển thị
+                    sl-select(size='small' class=`w-[100px]` value='5' so-trang)
+                        sl-option(value='full') Tất cả
+                        sl-option(value='5') 5
+                        sl-option(value='10') 10
+                        sl-option(value='15') 15
+                        sl-option(value='20') 20
+                    div(class=``) sản phẩm

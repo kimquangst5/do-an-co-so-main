@@ -1,0 +1,174 @@
+extends ../../layouts/layouts.pug
+include ../../mixins/createTree.mixin.pug
+include ../../mixins/back-list.pug
+
+block header
+     h1 Cập nhật đơn hàng
+
+block hb
+
+     +back-list(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ORDERS.PATH}${ROUTERS.ADMIN.ORDERS.INDEX}`)
+     - if(ROLE.permission.includes('order-update'))
+          sl-button(variant='primary' size='small' btn-update-order = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ORDERS.PATH}${ROUTERS.ADMIN.ORDERS.UPDATE}/${order._id}`)
+               sl-icon(slot='prefix' name='plus-circle')
+               | Cập nhật
+block css
+     - if(ROLE.permission.includes('order-update'))
+          link(rel="stylesheet" href="/client/css/checkouts/index.css")
+          link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css")
+          link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css")
+
+
+block script
+     - if(ROLE.permission.includes('order-update'))
+          script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+          script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js")
+          script(src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js")
+          script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js")
+          script(src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js")
+          //- script(type="module" src="/client/js/customer/update-address.js") 
+          script(src='/admin/js/order/update.js')
+
+
+
+block main
+     - if(ROLE.permission.includes('order-update'))
+          sl-details(summary='Thông tin cập nhật' open)  
+               div(class=`grid grid-cols-2 text-[13px]`)
+                    div(class=`flex flex-col gap-y-[10px]`) 
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Trạng thái đơn
+                              - if(order.status == STATUS_ORDER.WAIT_CONFIRMATION)
+                                   sl-badge Chờ xác nhận
+                              - else if(order.status == STATUS_ORDER.WAIT_PICK_UP_GOODS)
+                                   sl-badge Chờ lấy hàng
+                              - else if(order.status == STATUS_ORDER.IN_TRANSIT)
+                                   sl-badge Đang giao hàng
+                              - else if(order.status == STATUS_ORDER.IN_TRANSIT)
+                                   sl-badge Đã giao hàng
+                              - else if(order.status == STATUS_ORDER.DELIVERY_FAILED)
+                                   sl-badge Giao hàng thất bại
+                              - else if(order.status == STATUS_ORDER.RETURNING)
+                                   sl-badge Đang hoàn trả
+                              - else if(order.status == STATUS_ORDER.RETURNED)
+                                   sl-badge Đã hoàn trả
+                              - else if(order.status == STATUS_ORDER.CANCELLED)
+                                   sl-badge Đã hủy
+                              - else if(order.status == STATUS_ORDER.COMPLETED)
+                                   sl-badge Hoàn thành
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Thời gian tạo
+                              div(class=`flex items-center gap-x-[5px] font-bold`) 
+                                   sl-format-date(date=order.createdAt hour='numeric' minute='numeric' hour-format='24')
+                                   div(class=``) -
+                                   sl-format-date(date=order.createdAt lang='fr') 
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Cập nhật mới
+                              div(class=`flex items-center gap-x-[5px] font-bold`) 
+                                   sl-format-date(date=order.updatedAt hour='numeric' minute='numeric' hour-format='24')
+                                   div(class=``) -
+                                   sl-format-date(date=order.updatedAt lang='fr') 
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Trạng thái thanh toán
+                              sl-badge(variant = (order.statusPay == STATUS_PAY.PAY_SUCCESS ? 'success' : 'warning')) #{order.statusPay == STATUS_PAY.PAY_SUCCESS ? 'Thanh toán thành công' : 'Chưa thanh toán'}
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Hình thức thanh toán
+                              sl-badge(pill variant = (order.method == 'transfer' ? 'neutral' : 'primary')) #{order.method == 'transfer' ? 'Chuyển khoản' : 'Tiền mặt'}
+                    div(class=`flex flex-col gap-y-[10px]`)
+                         - if(order.method == 'transfer' && order.inforTransfer)
+                              div(class=`grid grid-cols-2`)
+                                   div(class=`text-[#AFAFAF] font-bold`) Số tiền đã chuyển khoản
+                                   sl-format-number(type="currency" currency="VND" value=order.inforTransfer.price lang="vi" class='text-[red] font-bold')
+                              div(class=`grid grid-cols-2`)
+                                   div(class=`text-[#AFAFAF] font-bold`) Thời gian chuyển
+                                   div()
+                                        sl-format-date(date=order.inforTransfer.time hour="numeric" minute="numeric" hour-format="12")
+                                        sl-format-date(date=order.inforTransfer.time lang='vi')
+                              div(class=`grid grid-cols-2`)
+                                   div(class=`text-[#AFAFAF] font-bold`) Mã giao dịch
+                                   div(class='flex items-center gap-x-[10px]')
+                                        div #{order.inforTransfer.transactionCode}
+                                        sl-copy-button(value=order.inforTransfer.transactionCode lang='vi')
+
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Tạo bởi khách hàng
+                              div(class=`font-bold`) #{order.inforCustomer.fullname}
+                         div(class=`grid grid-cols-2`)
+                              div(class=`text-[#AFAFAF] font-bold`) Cập nhật bởi
+                              div(class=`font-bold`) #{order.updatetor ? order.updatetor : 'Chưa ai cập nhật'}
+          sl-details(summary='Thông tin khách hàng' open class="")
+               div(class="flex flex-col gap-y-[20px]") 
+                    sl-select(required label='Tình trạng đơn hàng' name='status-order' size='small' value=order.status hoist)
+                         sl-option(value=STATUS_ORDER.INITIAL) Khởi tạo
+                         sl-option(value=STATUS_ORDER.WAIT_CONFIRMATION) Chờ xác nhận
+                         sl-option(value=STATUS_ORDER.WAIT_PICK_UP_GOODS) Chờ lấy hàng
+                         sl-option(value=STATUS_ORDER.IN_TRANSIT) Đang giao hàng
+                         sl-option(value=STATUS_ORDER.DELIVERED) Đã giao hàng
+                         sl-option(value=STATUS_ORDER.DELIVERY_FAILED) Giao hàng thất bại
+                         sl-option(value=STATUS_ORDER.RETURNING) Đang hoàn trả
+                         sl-option(value=STATUS_ORDER.RETURNED) Đã hoàn trả
+                         sl-option(value=STATUS_ORDER.CANCELLED) Đã hủy
+                         sl-option(value=STATUS_ORDER.COMPLETED) Hoàn thành
+
+
+                    sl-select(required label='Trạng thái thanh toán' name='status-pay' size='small' value=order.statusPay hoist)
+                         sl-option(value=STATUS_PAY.PAY_SUCCESS) Thanh toán thành công
+                         sl-option(value=STATUS_PAY.PAY_NOT_YET) Chưa thanh toán
+
+                    sl-select(required label='Hình thức thanh toán' name='method' size='small' value=order.method hoist)
+                         sl-option(value='transfer') Chuyển khoản
+                         sl-option(value='polime') Tiền mặt
+
+                    sl-input(label='Khách hàng:' required size='small' name='fullname' value=order.inforCustomer.fullname)
+
+                    sl-input(label='Email:' required size='small' name='email' value=order.inforCustomer.email)
+
+                    sl-input(label='Phone:' required size='small' name='phone' value=order.inforCustomer.phone)
+
+                    sl-input(label='Số nhà + Tên đường:' required size='small' name='address' value=order.inforCustomer.address)
+
+                    div(class='flex justify-between')
+                         select#ward(class="selectpicker" data-live-search="true" value=order.inforCustomer.ward)
+                              option(value='' selected) Chọn xã / phường
+                         select#district(class="selectpicker" data-live-search="true" value=order.inforCustomer.district)
+                              option(value='' selected) Chọn quận / huyện
+                         select#city(class="selectpicker" data-live-search="true" value=order.inforCustomer.city)
+                              option(value='' selected ) Chọn tỉnh / thành
+
+                    sl-input(label='Ghi chú:' required size='small' name='note' value=order.inforCustomer.note)
+
+
+          sl-details(summary='Thông tin sản phẩm' open)
+               div(class='grid grid-cols-2 gap-x-[20px] items-center')
+                    sl-input(label="Phí vận chuyển" value=order.shipping_fee required size='small' name='name-product')
+                    sl-format-number(value=order.shipping_fee)
+               table(class='w-full')
+                    thead
+                         tr 
+                              th(class='text-center') STT
+                              th Sản phẩm
+                              th(class='text-center') Đơn giá
+                              th(class='text-center') Giảm (%)
+                              th(class='text-center') Số lượng
+                              th(class='text-center') Tạm tính
+                    tbody
+                         - let totalPrice = 0
+                         each it, index in order.inforProductItem
+                              tr
+                                   td
+                                        div(class='text-center') #{index + 1}
+                                   td
+                                        div(class='text-left') #{it.product.name} (#{it.color.name}, #{it.size.name})
+                                   td(class='flex justify-center')
+                                        sl-format-number(class='text-center' type="currency" currency="VND" value=(it.price) lang="vi")
+                                   td
+                                        div(class='text-center') #{it.discount}
+                                   td
+                                        div(class='text-center') #{it.quantity}
+                                   td(class='flex justify-center')
+                                        - let priceNew = (it.price - it.price * (it.discount / 100 )) * it.quantity
+                                        - totalPrice += priceNew
+                                        sl-format-number(type="currency" currency="VND" value=priceNew lang="vi" class='text-center w-full block mx-auto')
+               div(class='flex items-center py-[20px] justify-between')
+                    div Tổng tiền:
+                    sl-format-number(type="currency" currency="VND" value=totalPrice lang="vi" class='text-center  text-[red] text-[2rem]')

@@ -12,8 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.index = void 0;
+exports.update = exports.index = void 0;
 const order_model_1 = __importDefault(require("../../models/order.model"));
+const product_items_model_1 = __importDefault(require("../../models/product-items.model"));
+const products_model_1 = __importDefault(require("../../models/products.model"));
+const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.model"));
+const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orders = yield order_model_1.default.find({
         deleted: false,
@@ -33,3 +37,34 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.index = index;
+const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.params);
+    const { id } = req.params;
+    console.log(id);
+    const order = yield order_model_1.default.findOne({
+        _id: id
+    });
+    for (const it of order['inforProductItem']) {
+        const items = yield product_items_model_1.default.findOne({
+            _id: it.productItemId
+        });
+        console.log(items);
+        const product = yield products_model_1.default.findOne({
+            _id: items.productId
+        });
+        const size = yield sizeProduct_model_1.default.findOne({
+            _id: items.size
+        });
+        const color = yield colorProduct_model_1.default.findOne({
+            _id: items.color
+        });
+        it['product'] = product;
+        it['size'] = size;
+        it['color'] = color;
+    }
+    res.render('admin/pages/orders/update.pug', {
+        pageTitle: 'Cập nhật đơn hàng',
+        order: order
+    });
+});
+exports.update = update;

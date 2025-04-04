@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var multer_1 = require("multer");
+var controller = require("../../controllers/admin/orders.controller");
+var index_routes_1 = require("../../constants/routes/index.routes");
+var router = express_1["default"].Router();
+var upload = multer_1["default"]();
+router.get("" + index_routes_1["default"].ADMIN.ORDERS.INDEX, controller.index);
+router.get(index_routes_1["default"].ADMIN.ORDERS.UPDATE + "/:id", controller.update);
+exports["default"] = router;

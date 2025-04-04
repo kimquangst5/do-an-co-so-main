@@ -7,8 +7,8 @@ block header
     h1 Thiết lập phân quyền
 
 block hb
-    sl-button(variant="primary", size="small" btn-update-permission = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ROLES.PATH}${ROUTERS.ADMIN.ROLES.PERMISSION}`)
-        sl-icon(slot="prefix", name="plus-circle")
+    sl-button(variant="primary" size="small" btn-update-permission = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ROLES.PATH}${ROUTERS.ADMIN.ROLES.PERMISSION}`)
+        sl-icon(slot="prefix" name="plus-circle")
         | Cập nhật
 
 block css
@@ -56,6 +56,7 @@ block main
                     +permission-data(roles, 'Xem', 'order', 'view')
                     +permission-data(roles, 'Thêm mới', 'order', 'create')
                     +permission-data(roles, 'Cập nhật', 'order', 'update')
+                    +permission-data(roles, 'Xóa', 'order', 'delete')
                 div(class=``) 
                     +permission-title(roles, 'Giao dịch')
                     +permission-data(roles, 'Xem', 'transaction', 'view')
@@ -127,5 +128,5 @@ block main
                     +permission-data(roles, 'Xem', 'money', 'view')
                     +permission-data(roles, 'Thêm mới', 'money', 'create')
                     +permission-data(roles, 'Cập nhật', 'money', 'update')
-                
+
 

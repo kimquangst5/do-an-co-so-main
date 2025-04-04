@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { sizeProductService } from "../../services/admin/index.service";
 import Order from "../../models/order.model";
+import ProductItem from "../../models/product-items.model";
+import Product from "../../models/products.model";
+import SizeProduct from "../../models/sizeProduct.model";
+import ColorProduct from "../../models/colorProduct.model";
 
 const index = async (req: Request, res: Response) => {
   const orders = await Order.find({
@@ -21,5 +25,36 @@ const index = async (req: Request, res: Response) => {
     orders: orders,
   });
 };
+const update = async (req: Request, res: Response) => {
+  console.log(req.params)
+  const { id } = req.params
+  console.log(id)
+  const order = await Order.findOne({
+    _id: id
+  })
+  for (const it of order['inforProductItem']) {
+    const items = await ProductItem.findOne({
+      _id: it.productItemId
+    })
+    console.log(items);
+    const product = await Product.findOne({
+      _id: items.productId
+    })
+    const size = await SizeProduct.findOne({
+      _id: items.size
+    })
+    const color = await ColorProduct.findOne({
+      _id: items.color
+    })
+    it['product'] = product
+    it['size'] = size
+    it['color'] = color
 
-export { index };
+
+  }
+  res.render('admin/pages/orders/update.pug', {
+    pageTitle: 'Cập nhật đơn hàng',
+    order: order
+  })
+}
+export { index, update };

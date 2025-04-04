@@ -11,28 +11,28 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
         name: "Tổng quan",
         icon: "grid",
       },
-      {
-        name: "Bài viết",
-        icon: "box",
-        childrent: [
-          {
-            name: "Thêm bài viết",
-            icon: "plus-circle",
-          },
-          {
-            name: "Danh sách",
-            icon: "list",
-          },
-          {
-            name: "Danh mục",
-            icon: "columns-gap",
-          },
-        ],
-      },
-      {
-        name: "Media",
-        icon: "image",
-      },
+      // {
+      //   name: "Bài viết",
+      //   icon: "box",
+      //   childrent: [
+      //     {
+      //       name: "Thêm bài viết",
+      //       icon: "plus-circle",
+      //     },
+      //     {
+      //       name: "Danh sách",
+      //       icon: "list",
+      //     },
+      //     {
+      //       name: "Danh mục",
+      //       icon: "columns-gap",
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: "Media",
+      //   icon: "image",
+      // },
       {
         name: "Sản phẩm",
         icon: "box",
@@ -81,8 +81,24 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
         ],
       },
       {
+        name: "Đánh giá/Bình luận",
+        icon: "pencil-square",
+        childrent: [
+          {
+            name: "Thêm đánh giá",
+            icon: "plus-circle",
+            link: `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.REVIEW.PATH}${ROUTERS.ADMIN.REVIEW.CREATE}`,
+          },
+          {
+            name: "Danh sách",
+            icon: "list",
+            link: `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.REVIEW.PATH}${ROUTERS.ADMIN.REVIEW.INDEX}`,
+          },
+        ],
+      },
+      {
         name: "Nhóm quyền",
-        icon: "person-lock",
+        icon: "person-gear",
         childrent: [
           {
             name: "Thêm nhóm quyền",
@@ -95,7 +111,7 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
             link: `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ROLES.PATH}${ROUTERS.ADMIN.ROLES.INDEX}`,
           },
         ],
-      },{
+      }, {
         name: "Khách hàng",
         icon: "person",
         childrent: [
@@ -110,7 +126,7 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
             link: `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.CUSTOMERS.PATH}${ROUTERS.ADMIN.CUSTOMERS.INDEX}`,
           },
         ],
-      },{
+      }, {
         name: "Đơn hàng",
         icon: "person",
         childrent: [

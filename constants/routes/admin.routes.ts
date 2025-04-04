@@ -39,8 +39,8 @@ export interface RouterAdmin {
   ORDERS?: GeneralRoutes;
   PATH?: GeneralRoutes;
   INFOR_WEBSITE?: string;
+  REVIEW?: Product;
 }
-
 const ROUTER_ADMIN: RouterAdmin = {
   AUTH: process.env.ADMIN,
   LOGIN: "/Đăng_nhập_quản_trị",
@@ -119,6 +119,14 @@ const ROUTER_ADMIN: RouterAdmin = {
   PATH: {
     PATH: "/Đường_dẫn",
     INDEX: "/Tổng_quan",
+  },
+  REVIEW: {
+    PATH: "/Bình_luận",
+    INDEX: "/Tổng_quan",
+    UPDATE: "/cập_nhật",
+    DELETE: "/xóa",
+    TRASH: "/rác",
+    CHANGE_STATUS: '/Cập_nhật_trạng_thái'
   },
 };
 

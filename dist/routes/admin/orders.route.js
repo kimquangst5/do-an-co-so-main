@@ -43,4 +43,5 @@ const index_routes_1 = __importDefault(require("../../constants/routes/index.rou
 const router = express_1.default.Router();
 const upload = (0, multer_1.default)();
 router.get(`${index_routes_1.default.ADMIN.ORDERS.INDEX}`, controller.index);
+router.get(`${index_routes_1.default.ADMIN.ORDERS.UPDATE}/:id`, controller.update);
 exports.default = router;
