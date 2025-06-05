@@ -11,6 +11,8 @@ import InfoWebsite from "../../models/info-website.model";
 
 const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.cookies["alert-success"]);
+
     if (req.cookies["alert-success"] == "xoa-cookie") {
       res.clearCookie("alert-success");
     }

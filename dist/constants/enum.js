@@ -23,5 +23,6 @@ const STATUS_ORDER = {
     CANCELLED: "da-huy",
     PENDING_PAYMENT: "cho-thanh-toan",
     COMPLETED: "hoan-thanh",
+    PAY_SUCCESS: "thanh-toan-thanh-cong",
 };
 exports.STATUS_ORDER = STATUS_ORDER;

@@ -28,17 +28,43 @@ const checkPaid = async () => {
           closeLoader()
           if (parseInt(priceCustomer) >= parseInt(price) && contentCustomer.includes(id)) {
                localStorage.setItem('bankSuccess', "success")
-               axios.patch('/')
-               Swal.fire({
-                    title: "Thanh toán thành công!",
-                    html: `Chúc mừng bạn đã thanh toán thành công!<br>Mã giao dịch của bạn là: <b class='text-[red]'>${data['Mã GD']}</b><br>Số tiền đã chuyển: <sl-format-number class="text-lg font-bold text-[red]" type="currency" currency="VND" value=${data['Giá trị']} lang="vi"></sl-format-number>`,
-                    icon: "success"
-               });
+               const btn = document.querySelector('[check-status-pay]')
+               const link = btn.getAttribute("check-status-pay")
+               console.log(data);
+
+               axios.patch(link, {
+                         time: data['Ngày diễn ra'],
+                         receive: data['Số tài khoản'],
+                         price: data['Giá trị'],
+                         // referenceCode: data['Mã tham chiếu'],
+                         transactionCode: data['Mã GD'],
+                    })
+                    .then(res => {
+                         if (res.status == 200) {
+                              const polime = document.querySelector("sl-radio[value='polime']")
+                              polime.setAttribute("disabled", true)
+                              const bank = document.querySelector("sl-radio[value='bank']")
+                              bank.innerHTML = `Chuyển khoản ngân hàng (Đã thanh toán)`
+                              const btn = document.querySelector('sl-button[order-id]')
+                              console.log(btn);
+                              btn.innerHTML = 'Thanh toán thành công'
+
+
+                              // btn.classList.add('hidden')
+
+                              Swal.fire({
+                                   title: "Thanh toán thành công!",
+                                   html: `Chúc mừng bạn đã thanh toán thành công!<br>Mã giao dịch của bạn là: <b class='text-[red]'>${data['Mã GD']}</b><br>Số tiền đã chuyển: <sl-format-number class="text-lg font-bold text-[red]" type="currency" currency="VND" value=${data['Giá trị']} lang="vi"></sl-format-number>`,
+                                   icon: "success"
+                              });
+                         }
+                    })
+
           } else {
                localStorage.removeItem('bankSuccess')
                Swal.fire({
-                    title: "Thanh toán thành công!",
-                    text: "Hiện tại chúng tôi chưa nhận được tiền!\nVui lòng chờ trong giây lát!\nSau đó load lại trang và kiểm tra lại nhé!\nXin cảm ơn bạn",
+                    title: "Chưa nhận được!",
+                    html: "Hiện tại chúng tôi chưa nhận được số tiền bạn chuyển!<br>Vui lòng chờ trong giây lát và Kiểm tra lại nhé!<br>Xin cảm ơn!",
                     icon: "info"
                });
           }

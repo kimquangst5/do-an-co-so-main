@@ -19,6 +19,7 @@ interface STATUS_ORDER {
   CANCELLED: string;
   PENDING_PAYMENT: string;
   COMPLETED: string;
+  PAY_SUCCESS: string;
 }
 const STATUS_ORDER: STATUS_ORDER = {
   INITIAL: "khoi-tao",
@@ -32,6 +33,7 @@ const STATUS_ORDER: STATUS_ORDER = {
   CANCELLED: "da-huy",
   PENDING_PAYMENT: "cho-thanh-toan",
   COMPLETED: "hoan-thanh",
+  PAY_SUCCESS: "thanh-toan-thanh-cong",
 };
 
 export { STATUS, TYPE_IMAGE, STATUS_ORDER };

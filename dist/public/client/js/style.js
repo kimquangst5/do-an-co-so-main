@@ -1,6 +1,7 @@
 const showAlertSuccess = () => {
   const data = JSON.parse(localStorage.getItem("alert-success"));
-  if (data) {
+
+  if (data && data != 'xoa-cookie') {
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -51,7 +52,7 @@ const deleteCookie = (cookieName) => {
 };
 const showAlertSuccessCookie = () => {
   const data = getCookie("alert-success");
-  if (data) {
+  if (data && data != 'xoa-cookie') {
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",

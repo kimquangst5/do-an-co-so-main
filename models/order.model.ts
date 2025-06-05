@@ -27,6 +27,13 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "online",
     },
+    inforTransfer: {
+      time: Date,
+      receive: Number,
+      price: Number,
+      // referenceCode: String,
+      transactionCode: Number,
+    },
     status: {
       type: String,
       enum: Object.values(STATUS_ORDER),

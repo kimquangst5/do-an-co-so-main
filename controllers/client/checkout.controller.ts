@@ -13,6 +13,7 @@ import ROUTERS from "../../constants/routes/index.routes";
 import axios from "axios";
 import { capitalizeWords } from "../../helpers/capitalizeWords.helper";
 import { getLocationNames } from "../../helpers/getLocationNames.helper";
+import { STATUS, STATUS_ORDER } from "../../constants/enum";
 
 const index = async (req: Request, res: Response) => {
   const carts = await Cart.find({
@@ -314,5 +315,25 @@ const methodPay = async (req: Request, res: Response) => {
     order,
   });
 };
-
-export { index, create, success, methodPay };
+const changeStatusBank = async (req: Request, res: Response) => {
+  const { orderId } = req.params;
+  const order = await Order.findOne({
+    _id: orderId,
+  }).select("status");
+  if (order.status == STATUS_ORDER.INITIAL) {
+    await Order.updateOne(
+      {
+        _id: orderId,
+      },
+      {
+        status: STATUS_ORDER.PAY_SUCCESS,
+        inforTransfer: req.body,
+        $unset: { expireAt: "" },
+      }
+    );
+  }
+  res.json({
+    code: 200,
+  });
+};
+export { index, create, success, methodPay, changeStatusBank };

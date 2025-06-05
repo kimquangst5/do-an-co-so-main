@@ -19,7 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.methodPay = exports.success = exports.create = exports.index = void 0;
+exports.changeStatusBank = exports.methodPay = exports.success = exports.create = exports.index = void 0;
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const productAssets_model_1 = __importDefault(require("../../models/productAssets.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
@@ -31,6 +31,7 @@ const sizeProduct_model_1 = __importDefault(require("../../models/sizeProduct.mo
 const order_model_1 = __importDefault(require("../../models/order.model"));
 const capitalizeWords_helper_1 = require("../../helpers/capitalizeWords.helper");
 const getLocationNames_helper_1 = require("../../helpers/getLocationNames.helper");
+const enum_1 = require("../../constants/enum");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
     const carts = yield carts_model_1.default.find({
@@ -265,3 +266,22 @@ const methodPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.methodPay = methodPay;
+const changeStatusBank = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const order = yield order_model_1.default.findOne({
+        _id: orderId,
+    }).select("status");
+    if (order.status == enum_1.STATUS_ORDER.INITIAL) {
+        yield order_model_1.default.updateOne({
+            _id: orderId,
+        }, {
+            status: enum_1.STATUS_ORDER.PAY_SUCCESS,
+            inforTransfer: req.body,
+            $unset: { expireAt: "" },
+        });
+    }
+    res.json({
+        code: 200,
+    });
+});
+exports.changeStatusBank = changeStatusBank;

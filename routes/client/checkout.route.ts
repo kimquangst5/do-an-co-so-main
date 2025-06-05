@@ -18,4 +18,8 @@ router.post(
   controller.create
 );
 
+router.patch(
+  `${ROUTERS.CLIENT.CHECKOUT.CHANGE_STATUS_BANK_SUCCESS}/:orderId`,
+  controller.changeStatusBank
+);
 export default router;
