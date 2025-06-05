@@ -13,6 +13,7 @@ import ProductCategory from "../../models/productsCategories.model";
 import { log } from "util";
 import getParentCategory from "../../helpers/getParentCategory.helper";
 import { productNewAnhFeature } from "../../helpers/productNewAndFeatured.helper";
+import Review from "../../models/reviews.model";
 
 const detail = async (req: Request, res: Response) => {
   const { slug } = req.params;
@@ -299,7 +300,7 @@ const index = async (req: Request, res: Response) => {
       if (listItem.length > 0) {
         const minItem = listItem.reduce((min, item) =>
           Math.ceil(item.price - item.price * (item.discount / 100)) <
-          Math.ceil(min.price - min.price * (min.discount / 100))
+            Math.ceil(min.price - min.price * (min.discount / 100))
             ? item
             : min
         );
@@ -353,4 +354,14 @@ const index = async (req: Request, res: Response) => {
     pagination,
   });
 };
-export { index, detail, getSize, getItem, search };
+
+const review = async (req: Request, res: Response) => {
+  req.body.customer_id = new ObjectId(res.locals.INFOR_CUSTOMER.id)
+  req.body.product_id = new ObjectId(req.params.id)
+  const newReview = new Review(req.body)
+  await newReview.save()
+  res.json({
+    code: 200
+  })
+}
+export { index, detail, getSize, getItem, search, review };

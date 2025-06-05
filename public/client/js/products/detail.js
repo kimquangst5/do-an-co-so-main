@@ -138,7 +138,7 @@ const comment = () => {
     const comment = document.querySelector("sl-textarea");
     axios
       .post(link, {
-        rating: rating.value,
+        rating: parseInt(rating.value),
         content: comment.value,
       })
       .then((res) => {

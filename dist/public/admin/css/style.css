@@ -232,3 +232,7 @@ sl-switch.switch__control {
      background-color: transparent;
      color: black;
 }
+
+.bootstrap-select>.dropdown-toggle:after{
+     color: transparent;
+}

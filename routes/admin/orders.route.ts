@@ -7,4 +7,6 @@ const upload = multer();
 
 router.get(`${ROUTERS.ADMIN.ORDERS.INDEX}`, controller.index);
 
+router.get(`${ROUTERS.ADMIN.ORDERS.UPDATE}/:id`, controller.update);
+
 export default router;

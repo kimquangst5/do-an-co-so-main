@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.STATUS_ORDER = exports.TYPE_IMAGE = exports.STATUS = void 0;
+exports.STATUS_PAY = exports.STATUS_ORDER = exports.TYPE_IMAGE = exports.STATUS = void 0;
 const STATUS = {
     ACTIVE: "active",
     INACTIVE: "inactive",
@@ -21,8 +21,12 @@ const STATUS_ORDER = {
     RETURNING: "dang-hoan-tra",
     RETURNED: "da-hoan-tra",
     CANCELLED: "da-huy",
-    PENDING_PAYMENT: "cho-thanh-toan",
     COMPLETED: "hoan-thanh",
     PAY_SUCCESS: "thanh-toan-thanh-cong",
 };
 exports.STATUS_ORDER = STATUS_ORDER;
+const STATUS_PAY = {
+    PAY_SUCCESS: 'thanh-toan-thanh-cong',
+    PAY_NOT_YET: 'chua-thanh-toan'
+};
+exports.STATUS_PAY = STATUS_PAY;

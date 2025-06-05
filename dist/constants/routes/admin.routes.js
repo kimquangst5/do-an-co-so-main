@@ -80,6 +80,14 @@ const ROUTER_ADMIN = {
         PATH: "/Đường_dẫn",
         INDEX: "/Tổng_quan",
     },
+    REVIEW: {
+        PATH: "/Bình_luận",
+        INDEX: "/Tổng_quan",
+        UPDATE: "/cập_nhật",
+        DELETE: "/xóa",
+        TRASH: "/rác",
+        CHANGE_STATUS: '/Cập_nhật_trạng_thái'
+    },
 };
 const ENCODED_ROUTER_ADMIN = (0, encodeRouterPaths_1.encodeRouterPathsSync)(ROUTER_ADMIN);
 exports.default = ENCODED_ROUTER_ADMIN;

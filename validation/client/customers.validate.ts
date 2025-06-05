@@ -402,6 +402,40 @@ const infoCustomerUpdateInfor = async (
     return;
   } else next();
 };
+
+const createAddress = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { city, district, ward, address, fullname, phone } = req.body;
+  let errorArray = [];
+  if (!city) errorArray.push("Chưa chọn thành phố!");
+  if (!district) errorArray.push("Chưa chọn quận/huyện!");
+  if (!ward) errorArray.push("Chưa nhập xã/phường");
+  if (!address) errorArray.push("Chưa nhập số nhà + tên đường");
+  if (!fullname) errorArray.push("Chưa nhập họ tên");
+  if (!phone) errorArray.push("Chưa nhập số điện thoại");
+
+  if (fullname && district && ward && address && fullname && phone) {
+    if (fullname.length < 6) errorArray.push("Họ và tên quá ngắn");
+    if (address.length <= 8) errorArray.push("Địa chỉ quá ngắn");
+    if (phone.length != 10) errorArray.push("Số điện thoại phải có 10 số");
+    else {
+      const phoneRegex = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+
+      if (phoneRegex.test(phone) == false) {
+        errorArray.push("Số điện thoại không hợp lệ!");
+      }
+    }
+  }
+  if (errorArray.length > 0) {
+    res.status(400).json({
+      message: errorArray.join("\n"),
+    });
+    return;
+  } else next();
+};
 export {
   register,
   login,
@@ -412,4 +446,5 @@ export {
   infoCustomerUpdatePhonePatch,
   infoCustomerUpdatePassword,
   infoCustomerUpdateInfor,
+  createAddress
 };

@@ -8,11 +8,18 @@ import createTree from "../../helpers/createTree.helper";
 import console from "console";
 import Cart from "../../models/carts.model";
 import InfoWebsite from "../../models/info-website.model";
+import { STATUS, STATUS_ORDER, STATUS_PAY } from "../../constants/enum";
 
 const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
+<<<<<<< HEAD
     console.log(req.cookies["alert-success"]);
 
+=======
+    res.locals.STATUS_ORDER = STATUS_ORDER
+    res.locals.STATUS = STATUS
+    res.locals.STATUS_PAY = STATUS_PAY
+>>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
     if (req.cookies["alert-success"] == "xoa-cookie") {
       res.clearCookie("alert-success");
     }

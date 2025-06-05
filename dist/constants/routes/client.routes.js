@@ -26,6 +26,8 @@ const ROUTER_CLIENT = {
         INFOR_CUSTOMER_CREATE_OTP: "/tao-otp",
         ADDRESS: "/dia-chi-nhan-hang",
         UPDATE_ADDRESS_DEFAULT: "/cap-nhat-dia-chi-mac-dinh",
+        CREATE_ADDRESS: "/them-dia-chi-nhan-hang",
+        UPDATE_ADDRESS: "/cap-nhat-dia-chi-nhan-hang",
     },
     CART: {
         PATH: "/gio-hang",
@@ -42,6 +44,7 @@ const ROUTER_CLIENT = {
         SUCCESS: "/thanh-cong",
         METHOD_PAY: "/phuong-thuc-thanh-toan",
         CHANGE_STATUS_BANK_SUCCESS: "/thanh-toan-online-thanh-cong",
+        CHANGE_STATUS_POLIME_SUCCESS: "/xac-nhan-thanh-toan",
     },
     PRODUCT_CATEGORY: {
         PATH: "/danh-muc",

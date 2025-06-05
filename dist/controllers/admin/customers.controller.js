@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateAddressDefault = exports.getAddress = exports.createAddress = exports.deletePatch = exports.updatePatch = exports.update = exports.index = void 0;
 const customers_model_1 = __importDefault(require("../../models/customers.model"));
 const mongodb_1 = require("mongodb");
+const capitalizeWords_helper_1 = require("../../helpers/capitalizeWords.helper");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const customers = yield customers_model_1.default.find({
         deleted: false,
@@ -39,19 +40,9 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.update = update;
-function capitalizeWords(str) {
-    str = str.toLowerCase();
-    const words = str.split(" ");
-    for (let i = 0; i < words.length; i++) {
-        const firstChar = words[i].charAt(0).toUpperCase();
-        const restOfWord = words[i].slice(1);
-        words[i] = firstChar + restOfWord;
-    }
-    return words.join(" ");
-}
 const updatePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.body.birthday = req.body.birthday.split("-").reverse().join("/");
-    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "));
+    req.body.fullname = (0, capitalizeWords_helper_1.capitalizeWords)(req.body.fullname.trim().replace(/\s+/g, " "));
     req.body.username = req.body.username.trim().toLowerCase();
     yield customers_model_1.default.updateOne({
         _id: new mongodb_1.ObjectId(req.params.id),
@@ -76,8 +67,8 @@ const deletePatch = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.deletePatch = deletePatch;
 const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield customers_model_1.default.updateMany({ _id: req.params.id, "address.default": true }, { $set: { "address.$[].default": false } });
-    req.body.fullname = capitalizeWords(req.body.fullname.trim().replace(/\s+/g, " "));
-    req.body.address = capitalizeWords(req.body.address.trim().replace(/\s+/g, " "));
+    req.body.fullname = (0, capitalizeWords_helper_1.capitalizeWords)(req.body.fullname.trim().replace(/\s+/g, " "));
+    req.body.address = (0, capitalizeWords_helper_1.capitalizeWords)(req.body.address.trim().replace(/\s+/g, " "));
     yield customers_model_1.default.updateOne({
         _id: new mongodb_1.ObjectId(req.params.id),
     }, {

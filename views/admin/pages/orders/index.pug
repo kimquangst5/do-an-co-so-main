@@ -5,17 +5,17 @@ block header
      h1 Danh sách đơn hàng
 
 block hb
-     sl-button(variant="primary" size="small" btn-export-excel) Xuất file Excel
-     - if(ROLE.permission.includes("products-create"))
-          +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
-     - if(ROLE.permission.includes("products-update"))
+     //- sl-button(variant="primary" size="small" btn-export-excel) Xuất file Excel
+     - if(ROLE.permission.includes("order-create"))
+          //- +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
+     - if(ROLE.permission.includes("order-update"))
           sl-dropdown(link = `/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CHANGE_STATUS_MANY_PRODUCT}`)
                sl-button(slot="trigger", caret variant="primary" size="small")
                     sl-icon(slot="prefix" name="pen")
                     | Hành động
                sl-menu
                     sl-menu-item(value="trash-product")
-                         | Xóa sản phẩm
+                         | Xóa đơn hàng
                          sl-icon(slot="prefix" name="trash")
                     sl-divider
                     sl-menu-item
@@ -27,13 +27,13 @@ block hb
 
 
 block css
-     - if(ROLE.permission.includes("products-view"))
+     - if(ROLE.permission.includes("order-view"))
           script(src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js") 
           link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.7/dist/viewer.min.css")
           link(rel="stylesheet" href="/admin/css/products/index.css")
 
 block script
-     - if(ROLE.permission.includes("products-view"))
+     - if(ROLE.permission.includes("order-view"))
           script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
           script(src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.7/dist/viewer.min.js")
 
@@ -42,7 +42,7 @@ block script
 
 block main
 
-     - if(ROLE.permission.includes("products-view"))
+     - if(ROLE.permission.includes("order-view"))
           div()
                div(class=`pb-[10px] grid grid-cols-4 gap-[10px]`)
                     form(class="input-validation-required" search-product)
@@ -82,9 +82,9 @@ block main
                                              div(class=`flex flex-col gap-y-[5px] justify-center`) 
                                                   div(class=`font-bold text-[18px] line-clamp-1` name-product) #{it.inforCustomer.fullname} (#{it.inforProductItem.length})
                                                   div(class=`opacity-0 group-hover:opacity-[100%] flex items-center gap-x-[10px] text-[13px]`)
-                                                       - if(ROLE.permission.includes("products-update"))
-                                                            a(href=`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.UPDATE}/${it._id}` class=`text-[#5277FF]`) Chỉnh sửa
-                                                       - if(ROLE.permission.includes("products-delete"))
+                                                       - if(ROLE.permission.includes("order-update"))
+                                                            a(href=`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.ORDERS.PATH}${ROUTERS.ADMIN.ORDERS.UPDATE}/${it._id}` class=`text-[#5277FF]`) Chỉnh sửa
+                                                       - if(ROLE.permission.includes("order-delete"))
                                                             button(trash=`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.TRASH}/${it._id}` class=`text-[#FFA09B]`) Xóa
                                         td
                                              div #{it.createdBy ? it.createdBy : 'Chưa có'}

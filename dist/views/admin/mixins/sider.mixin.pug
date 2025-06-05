@@ -11,6 +11,6 @@ mixin sider-mixin(array)
                     li(class="")
                          details()
                               summary(class=`hover:bg-[#F3F3F2] after:text-[#373641] py-[10px]`)
-                                   sl-icon(name='box' class=`active:text-[#5277FF]`)
+                                   sl-icon(name=it.icon class=`active:text-[#5277FF]`)
                                    | #{it.name}
                               +sider-mixin(it.childrent)

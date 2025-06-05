@@ -5,7 +5,7 @@ block header
      h1 Danh sách sản phẩm
 
 block hb
-     sl-button(variant="primary" size="small" btn-export-excel) Xuất file Excel
+     //- sl-button(variant="primary" size="small" btn-export-excel) Xuất file Excel
      - if(ROLE.permission.includes("products-create"))
           +btn-redirect(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PRODUCT.PATH}${ROUTERS.ADMIN.PRODUCT.CREATE}`)
      - if(ROLE.permission.includes("products-update"))

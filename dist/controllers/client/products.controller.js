@@ -19,7 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.search = exports.getItem = exports.getSize = exports.detail = exports.index = void 0;
+exports.review = exports.search = exports.getItem = exports.getSize = exports.detail = exports.index = void 0;
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const colorProduct_model_1 = __importDefault(require("../../models/colorProduct.model"));
 const product_items_model_1 = __importDefault(require("../../models/product-items.model"));
@@ -31,6 +31,7 @@ const index_routes_1 = __importDefault(require("../../constants/routes/index.rou
 const unidecode_1 = __importDefault(require("unidecode"));
 const getParentCategory_helper_1 = __importDefault(require("../../helpers/getParentCategory.helper"));
 const productNewAndFeatured_helper_1 = require("../../helpers/productNewAndFeatured.helper");
+const reviews_model_1 = __importDefault(require("../../models/reviews.model"));
 const detail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c, _d, e_2, _e, _f;
     const { slug } = req.params;
@@ -370,3 +371,13 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.index = index;
+const review = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body.customer_id = new mongodb_1.ObjectId(res.locals.INFOR_CUSTOMER.id);
+    req.body.product_id = new mongodb_1.ObjectId(req.params.id);
+    const newReview = new reviews_model_1.default(req.body);
+    yield newReview.save();
+    res.json({
+        code: 200
+    });
+});
+exports.review = review;

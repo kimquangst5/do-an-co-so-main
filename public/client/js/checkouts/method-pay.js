@@ -27,6 +27,7 @@ const checkPaid = async () => {
           const price = orderId.getAttribute("order-id")
           closeLoader()
           if (parseInt(priceCustomer) >= parseInt(price) && contentCustomer.includes(id)) {
+<<<<<<< HEAD
                localStorage.setItem('bankSuccess', "success")
                const btn = document.querySelector('[check-status-pay]')
                const link = btn.getAttribute("check-status-pay")
@@ -59,12 +60,40 @@ const checkPaid = async () => {
                               });
                          }
                     })
+=======
+               const btn = document.querySelector('[check-status-pay]')
+               const link = btn.getAttribute('check-status-pay')
+               console.log(link);
+
+               axios.patch(link, {
+                    time: data['Ngày diễn ra'],
+                    price: data['Giá trị'],
+                    transactionCode: data['Mã GD'],
+                    receive: data['Số tài khoản']
+               }).then(res => {
+                    if (res.status == 200) {
+
+                         Swal.fire({
+                              title: "Thanh toán thành công!",
+                              html: `Chúc mừng bạn đã thanh toán thành công!<br>Mã giao dịch của bạn là: <b class='text-[red]'>${data['Mã GD']}</b><br>Số tiền đã chuyển: <sl-format-number class="text-lg font-bold text-[red]" type="currency" currency="VND" value=${data['Giá trị']} lang="vi"></sl-format-number>`,
+                              icon: "success"
+                         });
+                         setTimeout(() => {
+                              console.log(btn.getAttribute('redirect'));
+                              location.href = btn.getAttribute('redirect')
+                         }, 2000);
+                    }
+               })
+>>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
 
           } else {
-               localStorage.removeItem('bankSuccess')
                Swal.fire({
                     title: "Chưa nhận được!",
+<<<<<<< HEAD
                     html: "Hiện tại chúng tôi chưa nhận được số tiền bạn chuyển!<br>Vui lòng chờ trong giây lát và Kiểm tra lại nhé!<br>Xin cảm ơn!",
+=======
+                    html: "Hiện tại chúng tôi chưa nhận được tiền!<br>Vui lòng chờ trong giây lát!<br>Sau đó load lại trang và kiểm tra lại nhé!<br>Xin cảm ơn bạn",
+>>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
                     icon: "info"
                });
           }
@@ -78,8 +107,38 @@ const btnCheckPaid = () => {
      if (!btn) return
      btn.addEventListener('click', () => {
           showLoader()
-
           checkPaid()
      })
 }
 btnCheckPaid()
+
+const payPolime = () => {
+     const btn = document.querySelector('[order-id]')
+     if (!btn) return
+     btn.addEventListener('click', () => {
+
+          const radioGroup = document.querySelector('[method-pay]')
+          if (!radioGroup) return
+          const value = radioGroup.value;
+          const link = btn.getAttribute('link')
+          if (value == 'polime') {
+               showLoader()
+               axios.patch(link, {
+
+               })
+                    .then(res => {
+                         if (res.status == 200) {
+                              location.href = btn.getAttribute('redirect')
+
+                         }
+                    })
+                    .catch(e => {
+                         closeLoader()
+                    })
+          }
+
+
+     })
+}
+
+payPolime()

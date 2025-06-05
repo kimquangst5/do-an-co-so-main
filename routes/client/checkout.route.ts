@@ -18,8 +18,15 @@ router.post(
   controller.create
 );
 
+<<<<<<< HEAD
 router.patch(
   `${ROUTERS.CLIENT.CHECKOUT.CHANGE_STATUS_BANK_SUCCESS}/:orderId`,
   controller.changeStatusBank
 );
+=======
+router.patch(`${ROUTERS.CLIENT.CHECKOUT.CHANGE_STATUS_BANK_SUCCESS}/:orderId`, controller.changeStatusBankSuccess);
+
+router.patch(`${ROUTERS.CLIENT.CHECKOUT.CHANGE_STATUS_POLIME_SUCCESS}/:orderId`, controller.changeStatusPolimeSuccess);
+
+>>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
 export default router;

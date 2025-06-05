@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { STATUS_ORDER } from "../constants/enum";
+import { STATUS_ORDER, STATUS_PAY } from "../constants/enum";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -39,6 +39,11 @@ const orderSchema = new mongoose.Schema(
       enum: Object.values(STATUS_ORDER),
       default: STATUS_ORDER.INITIAL,
     },
+    statusPay: {
+      type: String,
+      enum: Object.values(STATUS_PAY),
+      default: STATUS_PAY.PAY_SUCCESS,
+    },
     deleted: {
       type: Boolean,
       default: false,
@@ -47,6 +52,13 @@ const orderSchema = new mongoose.Schema(
       type: Date,
       expires: 0,
     },
+    method: String,
+    inforTransfer: {
+      time: Date,
+      receive: Number,
+      price: Number,
+      transactionCode: Number
+    }
   },
   {
     timestamps: true,

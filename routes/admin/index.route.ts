@@ -8,6 +8,7 @@ import auth from "./auth.route";
 import productsCategories from "./productsCategory.route";
 import customers from "./customer.route";
 import orders from "./orders.route";
+import review from "./review.route";
 import path from "./path.route";
 import infoWebsite from "./inforWebsite.route";
 import ROUTERS from "../../constants/routes/index.routes";
@@ -61,6 +62,7 @@ const index = async (app: Application) => {
     checkLogin,
     orders
   );
+  app.use(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.REVIEW.PATH}`, checkLogin, review);
   app.use(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.PATH.PATH}`, checkLogin, path);
   app.use(`/${ROUTERS.ADMIN.AUTH}${ROUTERS.ADMIN.LOGIN}`, auth);
 };
