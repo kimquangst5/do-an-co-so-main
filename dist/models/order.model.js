@@ -55,12 +55,6 @@ const orderSchema = new mongoose_1.default.Schema({
         expires: 0,
     },
     method: String,
-    inforTransfer: {
-        time: Date,
-        receive: Number,
-        price: Number,
-        transactionCode: Number
-    }
 }, {
     timestamps: true,
     autoCreate: true,

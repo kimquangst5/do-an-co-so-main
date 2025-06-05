@@ -19,11 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-exports.changeStatusBank = exports.methodPay = exports.success = exports.create = exports.index = void 0;
-=======
 exports.changeStatusPolimeSuccess = exports.changeStatusBankSuccess = exports.methodPay = exports.success = exports.create = exports.index = void 0;
->>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
 const products_model_1 = __importDefault(require("../../models/products.model"));
 const productAssets_model_1 = __importDefault(require("../../models/productAssets.model"));
 const assets_model_1 = __importDefault(require("../../models/assets.model"));
@@ -271,7 +267,6 @@ const methodPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.methodPay = methodPay;
-<<<<<<< HEAD
 const changeStatusBank = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { orderId } = req.params;
     const order = yield order_model_1.default.findOne({
@@ -290,8 +285,6 @@ const changeStatusBank = (req, res) => __awaiter(void 0, void 0, void 0, functio
         code: 200,
     });
 });
-exports.changeStatusBank = changeStatusBank;
-=======
 const changeStatusBankSuccess = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { orderId } = req.params;
     const order = yield order_model_1.default.findOne({
@@ -333,4 +326,3 @@ const changeStatusPolimeSuccess = (req, res) => __awaiter(void 0, void 0, void 0
     });
 });
 exports.changeStatusPolimeSuccess = changeStatusPolimeSuccess;
->>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424

@@ -22,13 +22,10 @@ const info_website_model_1 = __importDefault(require("../../models/info-website.
 const enum_1 = require("../../constants/enum");
 const checkLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-<<<<<<< HEAD
         console_1.default.log(req.cookies["alert-success"]);
-=======
         res.locals.STATUS_ORDER = enum_1.STATUS_ORDER;
         res.locals.STATUS = enum_1.STATUS;
         res.locals.STATUS_PAY = enum_1.STATUS_PAY;
->>>>>>> a10ef2a3f66e1d3c97ac8c1d9f6f1e03292d5424
         if (req.cookies["alert-success"] == "xoa-cookie") {
             res.clearCookie("alert-success");
         }
